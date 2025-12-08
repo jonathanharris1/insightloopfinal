@@ -1,0 +1,17 @@
+<h1>Classifications#index</h1>
+<p>Find me in app/views/classifications/index.html.erb</p>
+
+
+<h1>Classifications</h1>
+
+<%= link_to "New Classification", new_classification_path %>
+
+<ul>
+  <% @classifications.each do |classification| %>
+    <li>
+      <%= link_to classification.name, classification_path(classification) %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "⬅ Back to Conversations", root_path %>
