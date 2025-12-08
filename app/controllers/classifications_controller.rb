@@ -1,5 +1,4 @@
 class ClassificationsController < ApplicationController
-  belongs_to :conversations
 
   def index
     @classifications = Classification.all
