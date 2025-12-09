@@ -8,14 +8,18 @@ class Conversation < ApplicationRecord
 
   def generate_classification
     # call ruby llm to tag
-    tags = Classification.all.pluck(:name).join(", ")
+    tags = Classification.all.pluck(:tag).join(", ")
+
     ruby_llm_chat = RubyLLM.chat
-    system_prompt = "based on the context of the conversation, please label the topic of the conversation with one of the following label
-    #{tags}"
+
+    system_prompt = "You are a strict classifier of customer support conversations\n\nYour task: Read the conversation content.\n\nChoose ONLY ONE tag on the list below that best represents the MAIN issue of the conversation.\n\nAnswer the exactly one tag, with no extra words.\n\nAvalaible tags: #{tags}."
     ruby_llm_chat.with_instructions(system_prompt)
-    response = ruby_llm_chat.ask("Help me label this conversation: #{self.content}")
-    name = response.content
-    classification = Classification.find_by(name: name)
-    self.update(classification: classification)
+
+    response = ruby_llm_chat.ask(self.content)
+
+    tag = response.content.to_s.strip
+    classification = Classification.find_by(tag: tag)
+
+    self.update(classification: classification) if classification.present?
   end
 end

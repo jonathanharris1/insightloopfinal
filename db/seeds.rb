@@ -4,17 +4,35 @@ Classification.destroy_all
 
 user = User.create!(email: "saunier2@gmail.com", password: "123456")
 
-classification_1 = "atraso na entrega"
-Classification.create!(name: classification_1)
+Classification.create!(
+  tag: "Atraso na Entrega",
+  tag_description: "Use esta tag quando o cliente relata atraso no pedido ou que ainda não recebeu a encomenda."
+)
 
-classification_2 = "pedido errado"
-Classification.create!(name: classification_2)
+Classification.create!(
+  tag: "Troca de Tamanho",
+  tag_description: "Use esta tag quando o cliente deseja trocar o tamanho de um produto ou recebeu um tamanho incorreto."
+)
 
-classification_3 = "produto com defeito"
-Classification.create!(name: classification_3)
+Classification.create!(
+  tag: "Erro no Cupom",
+  tag_description: "Use esta tag quando o cupom não funciona, dá inválido ou o desconto não é aplicado."
+)
 
-classification_4 = "problemas com coupon"
-Classification.create!(name: classification_4)
+Classification.create!(
+  tag: "Solicitação de NF",
+  tag_description: "Use esta tag quando o cliente pede nota fiscal ou tem dúvidas relacionadas à emissão da NF."
+)
+
+Classification.create!(
+  tag: "Dúvida de Produto",
+  tag_description: "Use esta tag quando o cliente tem perguntas sobre características, uso, material ou detalhes do produto."
+)
+
+Classification.create!(
+  tag: "Rastreamento",
+  tag_description: "Use esta tag quando o cliente solicita código de rastreio, status do envio, localização do pedido ou problemas para visualizar rastreamento."
+)
 
   conversas = <<~CHAT
     [Customer]: Olá, bom dia. Preciso falar com um atendente urgente. O robô não tá entendendo meu problema.
@@ -33,7 +51,7 @@ Classification.create!(name: classification_4)
     [Support Agent]: Combinado! O novo código de rastreio vai chegar no seu e-mail em até 2 horas. Qualquer coisa, é só me chamar. Desculpe novamente pelo susto e espero que arrase no casamento com a Beautiful Feet!
 CHAT
 
-Conversation.create!(channel: "Whatsapp", content: conversas, user: )
+Conversation.create!(channel: "Whatsapp", content: conversas, user: user)
 
 conversas_2 = <<~CHAT2
   [Customer]: Olá, boa tarde. Recebi meu pedido #BF59321 hoje cedo, o tênis Urban Flex Branco – tamanho 39, mas ele veio com um risco enorme na lateral :confused: Isso não é normal, né?
@@ -52,7 +70,7 @@ conversas_2 = <<~CHAT2
   [Support Agent]: Pode deixar, vou acompanhar pessoalmente para garantir que saia tudo certo :blush: Qualquer coisa, é só chamar!
 CHAT2
 
-Conversation.create!(channel: "Instagram", content: conversas_2, user_id: user.id)
+Conversation.create!(channel: "Instagram", content: conversas_2, user: user)
 
 conversas_3 = <<~CHAT3
   [Customer]: Oi, boa tarde. Tô tentando fechar uma compra aqui no site de vocês mas tá difícil. O cupom de primeira compra não tá entrando de jeito nenhum.
@@ -73,7 +91,7 @@ conversas_3 = <<~CHAT3
   [Support Agent]: Imagina, eu que agradeço a paciência! Já estamos separando seu par 36 com todo carinho. Qualquer dúvida sobre o rastreio, é só chamar aqui. Tenha uma semana incrível com seus sapatos novos! :sparkles:
 CHAT3
 
-Conversation.create!(channel: "RA", content: conversas_3, user_id: user.id)
+Conversation.create!(channel: "RA", content: conversas_3, user: user)
 
 conversas_4 = <<~CHAT4
   [Customer]: Oi, boa tarde. Preciso falar com alguém sobre uma troca por defeito, mas é urgente.
@@ -91,7 +109,7 @@ conversas_4 = <<~CHAT4
   [Support Agent]: Perfeito! Já volto com as fotos do seu "Classic Nude" impecável. Obrigada por nos dar uma segunda chance de acertar! :high_heel::sparkles:
 CHAT4
 
-Conversation.create!(channel: "Whatsapp", content: conversas_4, user_id: user.id)
+Conversation.create!(channel: "Whatsapp", content: conversas_4, user: user)
 
 conversas_5 = <<~CHAT5
   [Customer]: Bom dia. Estou tentando rastrear meu pedido há 3 dias e o site da transportadora não atualiza. O prazo de entrega era para ontem, dia 01/12, e até agora nada.
@@ -110,4 +128,4 @@ conversas_5 = <<~CHAT5
   [Support Agent]: Eu que agradeço a compreensão. Vai dar certo! Tenha um ótimo dia e até breve. :athletic_shoe::airplane:
 CHAT5
 
-Conversation.create!(channel: "Instagram", content: conversas_5, user_id: user.id)
+Conversation.create!(channel: "Instagram", content: conversas_5, user: user)
