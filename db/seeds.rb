@@ -780,3 +780,106 @@ conversas_56 = <<~CHAT56
 CHAT56
 
 Conversation.create!(channel: "RA", content: conversas_56, user_id: user.id)
+
+#puts "A criar Improvements de exemplo..."
+#
+#user = User.first
+#
+## 1️⃣ ATRASO NA ENTREGA
+#classification_atraso = Classification.find_by(tag: "Atraso na Entrega")
+#conversation_atraso = Conversation.where(channel: "Instagram").first
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_atraso,
+#  content: <<~TEXT
+#    Curto Prazo: Acionar a transportadora com prioridade máxima e atualizar o cliente em tempo real.
+#
+#    Médio Prazo: Criar um protocolo automático de alerta quando pedidos ficarem mais de 48h sem atualização no rastreio.
+#
+#    Longo Prazo: Substituir transportadoras com alto índice de atrasos e integrar rastreio em tempo real no sistema.
+#  TEXT
+#)
+#
+## 2️⃣ TROCA DE TAMANHO
+#classification_troca = Classification.find_by(tag: "Troca de Tamanho")
+#conversation_troca = Conversation.where(channel: "Whatsapp").last
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_troca,
+#  content: <<~TEXT
+#    Curto Prazo: Enviar imediatamente o tamanho correcto via envio expresso.
+#
+#    Médio Prazo: Implementar dupla conferência no momento da separação do pedido.
+#
+#    Longo Prazo: Automatizar a separação com leitura por código de barras no estoque.
+#  TEXT
+#)
+#
+## 3️⃣ ERRO NO CUPOM
+#classification_cupom = Classification.find_by(tag: "Erro no Cupom")
+#conversation_cupom = Conversation.where(channel: "RA").last
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_cupom,
+#  content: <<~TEXT
+#    Curto Prazo: Aplicar o desconto manualmente no pedido do cliente.
+#
+#    Médio Prazo: Criar um validador automático de regras de cupom no checkout.
+#
+#    Longo Prazo: Unificar sistema de campanhas e cupons com marketing e e-commerce.
+#  TEXT
+#)
+#
+## 4️⃣ SOLICITAÇÃO DE NF
+#classification_nf = Classification.find_by(tag: "Solicitação de NF")
+#conversation_nf = Conversation.where(channel: "RA").where("content ILIKE ?", "%nota fiscal%").first
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_nf,
+#  content: <<~TEXT
+#    Curto Prazo: Enviar a nota fiscal manualmente ao cliente por e-mail.
+#
+#    Médio Prazo: Criar validação automática de CPF/CNPJ no checkout.
+#
+#    Longo Prazo: Implementar emissão automática de NF integrada ao ERP.
+#  TEXT
+#)
+#
+## 5️⃣ DÚVIDA DE PRODUTO
+#classification_produto = Classification.find_by(tag: "Dúvida de Produto")
+#conversation_produto = Conversation.where(channel: "Whatsapp").where("content ILIKE ?", "%sandália%").first
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_produto,
+#  content: <<~TEXT
+#    Curto Prazo: Responder rapidamente com detalhes técnicos do produto.
+#
+#    Médio Prazo: Criar uma base de conhecimento com perguntas frequentes.
+#
+#    Longo Prazo: Implementar assistente virtual de pré-venda com IA.
+#  TEXT
+#)
+#
+## 6️⃣ RASTREAMENTO
+#classification_rastreio = Classification.find_by(tag: "Rastreamento")
+#conversation_rastreio = Conversation.where(channel: "Whatsapp").where("content ILIKE ?", "%rastre%").first
+#
+#Improvement.create!(
+#  user: user,
+#  classification: classification_rastreio,
+#  content: <<~TEXT
+#    Curto Prazo: Abrir chamado imediato na transportadora e informar o cliente.
+#
+#    Médio Prazo: Criar monitoramento automático de pedidos parados no rastreio.
+#
+#    Longo Prazo: Integrar API de rastreamento em tempo real no sistema.
+#  TEXT
+#)
+#
+#puts "✅ Improvements criados com sucesso!"
+#
