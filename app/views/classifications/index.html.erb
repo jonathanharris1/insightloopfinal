@@ -4,12 +4,23 @@
 
 <h1>Classifications</h1>
 
-<%= link_to "New Classification", new_classification_path %>
+<%#= link_to "New Classification", new_classification_path %>
 
 <ul>
   <% @classifications.each do |classification| %>
     <li>
-      <%= link_to classification.name, classification_path(classification) %>
+      <%= link_to "#{classification.tag}", classification_path(classifications_show) %>
+    </li>
+  <% end %>
+</ul>
+
+<h2>Top Pareto Classifications (80%)</h2>
+
+<ul>
+  <% @pareto.each do |item| %>
+    <li>
+      <strong><%= item.tag %></strong>
+      — <%= item.cum_pct.to_i %>% cumulative
     </li>
   <% end %>
 </ul>
