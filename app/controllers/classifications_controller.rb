@@ -6,9 +6,10 @@ class ClassificationsController < ApplicationController
   end
 
   def show
-  @classification = Classification.find(params[:id])
+    @classification = Classification.find(params[:id])
+    @conversations = @classification.conversations.order("RANDOM()")
 
-  
+
   if @classification.improvements.empty?
     llm = RubyLLM.chat
 
