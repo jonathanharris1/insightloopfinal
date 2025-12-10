@@ -6,33 +6,39 @@ user = User.create!(email: "saunier2@gmail.com", password: "123456")
 
 Classification.create!(
   tag: "Atraso na Entrega",
-  tag_description: "Use esta tag quando o cliente relata atraso no pedido ou que ainda não recebeu a encomenda."
+  tag_description: "Use esta tag somente quando o foco principal do cliente for o atraso — ou seja, quando ele reclama que o pedido não chegou no prazo, está demorando mais que o esperado, vai perder uma viagem/evento, ou se mostra irritado porque a entrega está demorada, travada, sem previsão. Mesmo que o cliente mencione rastreio parado, se a reclamação central for sobre o atraso, esta é a tag correta. Exemplos: 'meu pedido está parado' 'já era pra ter chegado' 'dias de atraso'"
 )
 
 Classification.create!(
-  tag: "Troca de Tamanho",
-  tag_description: "Use esta tag quando o cliente deseja trocar o tamanho de um produto ou recebeu um tamanho incorreto."
+  tag: "Pedido Errado",
+  tag_description: "Use esta tag quando o cliente recebeu um item diferente do que pediu — seja modelo, cor, tamanho ou produto completamente errado."
+)
+
+Classification.create!(
+  tag: "Produto Danificado",
+  tag_description: "Use esta tag quando o cliente recebe um produto com defeito, risco, dano, falha na qualidade ou avaria durante o transporte."
 )
 
 Classification.create!(
   tag: "Erro no Cupom",
-  tag_description: "Use esta tag quando o cupom não funciona, dá inválido ou o desconto não é aplicado."
-)
-
-Classification.create!(
-  tag: "Solicitação de NF",
-  tag_description: "Use esta tag quando o cliente pede nota fiscal ou tem dúvidas relacionadas à emissão da NF."
-)
-
-Classification.create!(
-  tag: "Dúvida de Produto",
-  tag_description: "Use esta tag quando o cliente tem perguntas sobre características, uso, material ou detalhes do produto."
+  tag_description: "Use esta tag quando o cupom não aplica, aparece como inválido, não funciona para os itens ou gera mensagens de erro."
 )
 
 Classification.create!(
   tag: "Rastreamento",
-  tag_description: "Use esta tag quando o cliente solicita código de rastreio, status do envio, localização do pedido ou problemas para visualizar rastreamento."
+  tag_description: "Use esta tag somente quando o foco principal do cliente solicitar o código de rastreio, link ou atualização de tracking, mas sem enfatizar atraso e sem manifestar urgência sobre prazo. Se a queixa central for “vai atrasar / já atrasou / estou preocupada com o prazo” → NÃO é Rastreamento, é Atraso na Entrega."
 )
+
+Classification.create!(
+  tag: "Dúvida de Produto",
+  tag_description: "Use esta tag quando o cliente faz perguntas sobre tamanho, forma, características, uso, material ou detalhes técnicos do produto."
+)
+
+Classification.create!(
+  tag: "Solicitação de NF",
+  tag_description: "Use esta tag quando o cliente pede nota fiscal, segunda via, correção ou informações sobre emissão da NF."
+)
+
 
   conversas = <<~CHAT
     [Customer]: Olá, bom dia. Preciso falar com um atendente urgente. O robô não tá entendendo meu problema.
@@ -112,7 +118,7 @@ CHAT4
 Conversation.create!(channel: "Whatsapp", content: conversas_4, user: user)
 
 conversas_5 = <<~CHAT5
-  [Customer]: Bom dia. Estou tentando rastrear meu pedido há 3 dias e o site da transportadora não atualiza. O prazo de entrega era para ontem, dia 01/12, e até agora nada.
+  [Customer]: Bom dia. O prazo de entrega era para ontem, dia 01/12, e até agora nada. Meu pedido está atrasado!
   [Support Agent]: Olá, bom dia! Aqui é a Júlia, do atendimento da Beautiful Feet. Peço mil desculpas pelo atraso e pela falta de atualização no rastreio. Sei o quanto é frustrante esperar uma encomenda que não chega na data combinada. :confused: Você pode me informar o número do seu pedido para eu verificar o que houve com a transportadora agora mesmo?
   [Customer]: O pedido é o #BF-50588. Comprei o Tênis "Cloud Running" Branco, tamanho 35. Eu comprei com antecedência justamente porque vou viajar na sexta-feira agora e queria levar ele. Se não chegar, vou ter um problema sério.
   [Support Agent]: Entendi perfeitamente a urgência, obrigada pelos dados. Estou acessando o sistema da transportadora "FlashLog" aqui. Só um minuto... Realmente, consta que o pacote saiu do nosso centro de distribuição no dia 25/11, mas travou no status "Em transferência entre unidades" em Barueri desde o dia 28/11. Isso não é comum.
@@ -148,8 +154,8 @@ CHAT6
 Conversation.create!(channel: "Whatsapp", content: conversas_6, user_id: user.id)
 
 conversas_7 = <<~CHAT7
-[Customer]: Oi, boa tarde. Fiz o pedido #BF-10291 no dia 03/02, um Sneaker BreezeLite – tamanho 38, e a previsão era 06/02. Hoje já é 10/02 e nada. O tracking não muda há 3 dias. Vou mandar o print aqui — imagina screenshot —.
-[Support Agent]: Boa tarde! Sinto muito mesmo pelo transtorno. Obrigada por enviar o print, ele ajuda bastante. Vou verificar o que ocorreu com a transportadora. Só um instante, por favor.
+[Customer]: Oi, boa tarde. Fiz o pedido #BF-10291 no dia 03/02, um Sneaker BreezeLite – tamanho 38, e meu pedido está atrasado!
+[Support Agent]: Boa tarde! Sinto muito mesmo pelo transtorno. Vou verificar o que ocorreu com a transportadora. Só um instante, por favor.
 [Customer]: Claro… mas já estou bem chateada. Preciso desse tênis para treinar porque o meu atual está com a sola abrindo. E o status só aparece “em transferência”.
 [Support Agent]: Entendo totalmente sua frustração. Verifiquei aqui e identifiquei um atraso no centro de distribuição de Guarulhos devido a readequação de rotas. Já abri um chamado solicitando urgência na liberação.
 [Customer]: Isso significa que ainda vai demorar? Porque já passou muito do prazo...
@@ -173,7 +179,7 @@ CHAT8
 Conversation.create!(channel: "Instagram", content: conversas_8, user_id: user.id)
 
 conversas_9 = <<~CHAT9
-[Customer]: Oi! O meu pedido #BF-77201 com o Tênis AirFlex Motion – 37 deveria ter sido entregue no dia 02/02. Já estamos no dia 08/02 e nem sinal. O app dos Correios mostra “ processamento interno”.
+[Customer]: Oi! O meu pedido #BF-77201 com o Tênis AirFlex Motion – 37 deveria ter sido entregue no dia 02/02. Já estamos no dia 08/02 e nem sinal.
 [Support Agent]: Oi! Lamento demais pelo atraso. Esse status realmente indica retenção no centro logístico. Vou verificar o motivo.
 [Customer]: Tá bom, mas eu precisava dele para uma viagem… e vou amanhã. Acho que não vai chegar a tempo né?
 [Support Agent]: Olhei aqui: a transportadora informou uma fila de liberação aduaneira, mas o item já está liberado desde hoje cedo. Previsão de entrega: 09 ou 10/02.
@@ -185,7 +191,7 @@ CHAT9
 Conversation.create!(channel: "RA", content: conversas_9, user_id: user.id)
 
 conversas_10 = <<~CHAT10
-[Customer]: Boa noite. O pedido #BF-42109 era para chegar hoje cedo. Um Slingback ElegantSoft – 35. No tracking está: “falha na tentativa de entrega — cliente ausente”. Eu estava em casa o dia todo!
+[Customer]: Boa noite. O pedido #BF-42109 era para chegar hoje cedo. Um Slingback ElegantSoft – 35. Eu estava em casa o dia todo e não chegou. Meu pedido está atrasado!
 [Support Agent]: Boa noite! Sinto muito por essa informação incorreta. Isso acontece quando a rota está atrasada e o entregador não consegue finalizar todas as entregas.
 [Customer]: Mas por que marcaram como “ausente”? Isso atrapalha totalmente.
 [Support Agent]: Concordo. Já solicitei nova tentativa para amanhã até 18h. Vou pedir para não depender de confirmação manual do entregador.
@@ -208,7 +214,7 @@ Conversation.create!(channel: "RA", content: conversas_11, user_id: user.id)
 
 
 conversas_12 = <<~CHAT12
-Customer: Oi, boa tarde. Meu pedido #BF-66721 do Tênis Running AirMesh – 40 está atrasado. Comprei dia 28/01, previsão 31/01. Hoje é 06/02 e não chegou. O tracking não atualiza desde 02/02.
+Customer: Oi, boa tarde. Meu pedido #BF-66721 do Tênis Running AirMesh – 40 e meu pedido está atrasado. Comprei dia 28/01, previsão 31/01. Hoje é 06/02 e não chegou.
 Support Agent: Boa tarde! Sinto muito pelo transtorno. Deixa eu verificar diretamente com a transportadora o que aconteceu.
 Customer: Obrigado. Eu comprei para começar fisioterapia e estou tendo que adiar por causa disso. 😕
 Support Agent: Entendo completamente. Aqui aparece que o pacote está em processo de reencaminhamento de rota, o que acontece quando há excesso de carga no caminhão.
@@ -232,7 +238,7 @@ CHAT13
 Conversation.create!(channel: "RA", content: conversas_13, user_id: user.id)
 
 conversas_14 = <<~CHAT14
-Customer: Oi! Pedido #BF-51022, Coturno TrailUrban – 39. Tava previsto para ontem, 05/02. Recebi notificação dizendo “destinatário ausente”, mas eu estava literalmente na porta de casa na hora do suposto horário da tentativa.
+Customer: Oi! Pedido #BF-51022 está atrasado! Tava previsto para ontem, 05/02. Recebi notificação dizendo “destinatário ausente”, mas eu estava literalmente na porta de casa na hora do suposto horário da tentativa.
 Support Agent: Oi! Sinto muito por isso. Esse registro costuma aparecer quando a rota do entregador está incompleta e ele não consegue finalizar as entregas.
 Customer: Mas isso é muito chato… já aconteceu com outra compra de vocês. 😤
 Support Agent: Imagino a frustração. Já solicitei nova tentativa para hoje até 20h e deixei observação de que o cliente está disponível.
@@ -244,7 +250,7 @@ CHAT14
 Conversation.create!(channel: "Whatsapp", content: conversas_14, user_id: user.id)
 
 conversas_15 = <<~CHAT15
-Customer: Oi, tudo bem? Meu pedido #BF-20118, o Slip On CloudStep – 37, já está há 4 dias parado como “objeto não localizado no fluxo”. Isso quer dizer que sumiu?
+Customer: Oi, tudo bem? Meu pedido #BF-20118, o Slip On CloudStep – 37 está atrasado há 4 dias e como “objeto não localizado no fluxo”. Isso quer dizer que sumiu?
 Support Agent: Oi! Obrigada por avisar. Esse status indica que o pacote não foi escaneado corretamente na última movimentação. Vou confirmar se está em processo de busca.
 Customer: Porque estou preocupada… é presente de aniversário e já está super atrasado.
 Support Agent: Verifiquei aqui e sim, ele entrou em procedimento de varredura interna na transportadora. Eles costumam localizar em até 48h.
@@ -282,7 +288,7 @@ CHAT17
 Conversation.create!(channel: "RA", content: conversas_17, user_id: user.id)
 
 conversas_18 = <<~CHAT18
-Customer: Oi, boa tarde. Pedido #BF-21881, Scarpin SoftTouch – 34. O entregador marcou que “não conseguiu acesso ao condomínio”. Mas não é verdade — portaria funciona 24h.
+Customer: Oi, boa tarde. Pedido #BF-21881, Scarpin SoftTouch – 34 que está atrasado! O entregador marcou que “não conseguiu acesso ao condomínio”. Mas não é verdade — portaria funciona 24h.
 Support Agent: Boa tarde! Isso realmente não faz sentido. Sinto muito por esse registro incorreto. Vou abrir reclamação com a rota.
 Customer: Aconteceu às 10h da manhã e eu estava até na portaria!
 Support Agent: Falei com a transportadora: foi erro de registro automático. Nova tentativa agendada para hoje até 21h.
@@ -293,7 +299,7 @@ CHAT18
 Conversation.create!(channel: "Whatsapp", content: conversas_18, user_id: user.id)
 
 conversas_19 = <<~CHAT19
-Customer: Oi! Pedi o Mocassim UrbanComfort – 39, pedido #BF-51004. Era pra chegar ontem, mas agora o status diz: “pedido retido para inspeção manual”. Isso é preocupante?
+Customer: Oi! Pedi o Mocassim UrbanComfort – 39, pedido #BF-51004 está atrasado! Era pra chegar ontem, mas agora o status diz: “pedido retido para inspeção manual”. Isso é preocupante?
 Support Agent: Oi! Obrigada por chamar. Esse status significa apenas uma análise extra por parte da transportadora. Vou descobrir o motivo específico.
 Customer: Fiquei assustada, nunca vi isso.
 Support Agent: Eles informaram que houve uma divergência de peso na triagem, então abriram para conferir. Produto sem dano.
@@ -341,7 +347,7 @@ CHAT22
 Conversation.create!(channel: "Instagram", content: conversas_22, user_id: user.id)
 
 conversas_23 = <<~CHAT23
-[Customer]: Olá, tudo certo? Fiz o pedido #BF-88117, o Tênis CloudGrip – 38. O status fica alternando entre “em trânsito” e “aguardando fiscalização”. É normal isso?
+[Customer]: Olá, tudo certo? Fiz o pedido #BF-88117, o Tênis CloudGrip – 38. O status fica alternando entre “em trânsito” e “aguardando fiscalização”. É normal isso? E reforço: meu pedido está atrasado!
 [Support Agent]: Olá! Obrigada por avisar. Não, essa alternância não deveria acontecer. Vou checar com a transportadora.
 [Customer]: Porque já está com 3 dias de atraso… achei estranho demais.
 [Support Agent]: Recebi retorno: houve uma falha no sistema de atualização deles, mas o pacote está liberado.
@@ -353,8 +359,8 @@ CHAT23
 Conversation.create!(channel: "RA", content: conversas_23, user_id: user.id)
 
 conversas_24 = <<~CHAT24
-[Customer]: Boa noite. Pedido #BF-41222, Bota WinterSoft – 37. Está parado há 6 dias com status “roteirização pendente”. Isso é o quê?
-[Support Agent]: Boa noite! Esse status significa que o pacote chegou na unidade, mas não entrou na rota de entrega. Vou confirmar por quê.
+[Customer]: Boa noite. Pedido #BF-41222, Bota WinterSoft – 37. Está parado há 6 dias e já está atrasado!
+[Support Agent]: Boa noite! Vou confirmar por quê.
 [Customer]: Porque comprei para viajar sábado, e acho que não vai chegar mais…
 [Support Agent]: Falei com o centro de distribuição: houve atraso no processamento manual. Eles garantiram inclusão na rota de amanhã.
 [Customer]: Amanhã mesmo?
@@ -377,7 +383,7 @@ CHAT25
 Conversation.create!(channel: "Whatsapp", content: conversas_25, user_id: user.id)
 
 conversas_26 = <<~CHAT26
-[Customer]: Boa tarde! O pedido #BF-10007, Sandália SoftChic – 35, está parado desde 01/02 com o status “falha na triagem”. A entrega era para 03/02.
+[Customer]: Boa tarde! O pedido #BF-10007, Sandália SoftChic – 35 está atrasado! A entrega era para 03/02.
 [Support Agent]: Boa tarde! Obrigada por relatar. Vou verificar o que ocorreu na triagem.
 [Customer]: Eu nunca vi esse tipo de status. Achei que o pacote tivesse quebrado ou algo assim.
 [Support Agent]: Não, fique tranquila. “Falha na triagem” geralmente é erro de leitura no sistema. Pedi que o item seja reprocessado.
@@ -506,9 +512,9 @@ CHAT35
 Conversation.create!(channel: "RA", content: conversas_35, user_id: user.id)
 
 conversas_36 = <<~CHAT36
- [Customer]: E se o correio perder meu produto na devolução?
+ [Customer]: E se o correio perder meu produto na devolução? Meu pedido estava errado.
  [Support Agent]: Fique tranquila, o envio é segurado e rastreado.
- [Customer]: Porque é a primeira vez que eu troco online.
+ [Customer]: Porque é a primeira vez que eu troco online. Pois meu pedido estava errado.
  [Support Agent]: Entendo o medo, mas você estará protegida do início ao fim.
 
 CHAT36
@@ -780,3 +786,12 @@ conversas_56 = <<~CHAT56
 CHAT56
 
 Conversation.create!(channel: "RA", content: conversas_56, user_id: user.id)
+
+# Mapear as classificações por tag
+classifications = Classification.all.index_by(&:tag)
+
+# Contagem por tag
+raw_counts = Conversation
+  .joins(:classification)
+  .group("classifications.tag")
+  .count

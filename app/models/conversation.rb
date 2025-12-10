@@ -4,8 +4,6 @@ class Conversation < ApplicationRecord
 
   after_create :generate_classification
 
-  private
-
   def generate_classification
     # call ruby llm to tag
     tags = Classification.all.pluck(:tag).join(", ")
