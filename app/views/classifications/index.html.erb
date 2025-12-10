@@ -1,3 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<!-- Basic document metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>InsightLoop — Customer Success Intelligence</title>
+<meta name="description" content="Plataforma B2B SaaS para E-commerce Customer Success — Análise de tickets e automação com IA" />
+
+
+<!-- Fonts / CSS (replace with your toolchain or Tailwind build) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!-- TODO: replace with your app.css or Tailwind output -->
+<link rel="stylesheet" href="/assets/styles.css" />
+
+
+<!-- Open Graph (kept minimal) -->
+<meta property="og:title" content="InsightLoop - Customer Success Intelligence" />
+<meta property="og:description" content="Análises e automação para atendimento ao cliente de e-commerce" />
+
+
+<!-- JS entry (defer) -->
+<script defer src="/assets/app.js"></script>
+
+
+<style>
+/* Minimal layout helpers for a quick local preview. Remove when using Tailwind / design system. */
+:root{--sidebar-width:16rem;--gap:16px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;color:#0f172a;background:#f8fafc}
+.app{display:flex;min-height:100vh}
+.sidebar{width:var(--sidebar-width);background:#0b1220;color:#fff;padding:20px}
+.sidebar h2{margin:0 0 8px}
+.main{flex:1;display:flex;flex-direction:column}
+header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:white}
+.content{padding:24px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.card{background:white;border:1px solid #e6e9ee;border-radius:8px;padding:20px}
+.cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.chart{height:420px;min-height:240px}
+.list{display:flex;flex-direction:column;gap:8px}
+@media (max-width:900px){.cards-row,.grid{grid-template-columns:repeat(1,1fr)}}
+</style>
+</head>
+
+<!-- BODY STARTS -->
+<body>
 <h1>Classifications#index</h1>
 <p>Find me in app/views/classifications/index.html.erb</p>
 
@@ -18,7 +67,7 @@
 
 <div id="classificationChart" style="width:100%; max-width:1000px; height:500px;"></div>
 
-
+<!-- CODE FOR THE GRAPHIC - START -->
 <script>
 document.addEventListener("turbo:load", function() {
   var el = document.getElementById("classificationChart");
@@ -118,14 +167,154 @@ document.addEventListener("turbo:load", function() {
   window.addEventListener('resize', function() { chart.resize(); });
 });
 </script>
+<!-- CODE FOR THE GRAPHIC - END -->
 
 
 
 
+<div id="app" class="app">
 
 
+<!-- SIDEBAR: navigation (kept minimal and accessible)
+<aside class="sidebar" aria-label="Main navigation">
+<div class="brand">
+<div aria-hidden="true" style="width:48px;height:48px;border-radius:8px;background:#0ea5a4;display:flex;align-items:center;justify-content:center;font-weight:700">IL</div>
+<h2>InsightLoop</h2>
+<p style="margin:0;font-size:12px;opacity:0.8">Customer Success</p>
+</div>
 
 
+<nav aria-label="Primary">
+<ul style="list-style:none;padding:12px 0;margin:0;display:flex;flex-direction:column;gap:6px">
+<li><a href="/" data-nav="dashboard">Dashboard</a></li>
+<li><a href="/conversations" data-nav="conversations">Conversas</a></li>
+<li><a href="/analytics" data-nav="analytics">Análises</a></li>
+<li><a href="/intelligence/questions" data-nav="faq">Perguntas & FAQ</a></li>
+<li><a href="/settings" data-nav="settings">Configurações</a></li>
+</ul>
+</nav>
+
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:16px 0" />
+
+
+<section aria-labelledby="intelligence-title">
+<h3 id="intelligence-title" style="font-size:12px;color:#cbd5e1;margin:0 0 8px">Intelligence</h3>
+<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;font-size:14px">
+<li><a href="/intelligence/complaints">Reclamações</a></li>
+<li><a href="/intelligence/product">Insights de Produto</a></li>
+<li><a href="/analysis/conversations">Voice of Customer</a></li>
+</ul>
+</section>
+</aside>-->
+
+
+<!-- MAIN: header + content
+<div class="main">
+<header>
+<div style="display:flex;align-items:center;gap:12px">
+<button aria-label="Toggle sidebar" id="sidebarToggle">☰</button>
+<div>
+<h1 style="margin:0;font-size:16px">Bom dia, Ana</h1>
+<p style="margin:0;font-size:12px;color:#6b7280">quarta-feira, 10 de dezembro de 2025</p>
+</div>
+</div>
+
+
+<div>
+<button id="dateRangeBtn" aria-haspopup="menu">Últimos 7 dias ▾</button>
+</div>
+</header>
+
+
+<main class="content" id="main-content"> -->
+
+<!-- KPI Cards -->
+</div>
+</section>
+
+
+<!-- Pareto / 80-20 analysis -->
+<section class="card" aria-labelledby="pareto-title">
+<h2 id="pareto-title" style="margin:0 0 8px">Análise de Foco 80/20 (Princípio de Pareto)</h2>
+<p style="margin:0 0 12px;color:#6b7280">Identifique os poucos problemas (20%) que geram a maior parte do volume (80%)</p>
+
+
+<div style="margin-bottom:12px;padding:12px;border-radius:6px;background:#ecfeff;border:1px solid #99f6e4">
+<strong>💡 Insight:</strong>
+<span>Focar nos 3 primeiros problemas ('Atraso na Entrega', 'Troca de Tamanho', 'Erro no Cupom') resolverá <strong>80.9%</strong> do volume total.</span>
+</div>
+
+
+<!-- Placeholder chart: replace with Recharts/Chart.js integration -->
+<div class="chart" role="img" aria-label="Gráfico Pareto — barras de volume e linha acumulada">
+<!-- Minimal accessible SVG placeholder, keep for static export or use a canvas/chart lib -->
+<svg width="100%" height="100%" viewBox="0 0 1000 320" preserveAspectRatio="none" aria-hidden="true">
+<rect x="0" y="0" width="100%" height="100%" fill="#fff" />
+<!-- simple bars for the first 6 categories (demo) -->
+<rect x="60" y="40" width="70" height="220" fill="#0ea5a4" rx="4"></rect>
+<rect x="150" y="90" width="70" height="170" fill="#0ea5a4" rx="4"></rect>
+<rect x="240" y="140" width="70" height="120" fill="#0ea5a4" rx="4"></rect>
+<rect x="330" y="200" width="70" height="60" fill="#0ea5a4" rx="4"></rect>
+<!-- cumulative line (visual) -->
+<polyline points="95,280 185,220 275,180 365,150" fill="none" stroke="#ef4444" stroke-width="3" />
+
+
+<!-- X labels (kept short) -->
+<text x="95" y="305" text-anchor="middle" font-size="11">Atraso</text>
+<text x="185" y="305" text-anchor="middle" font-size="11">Tamanho</text>
+<text x="275" y="305" text-anchor="middle" font-size="11">Cupom</text>
+<text x="365" y="305" text-anchor="middle" font-size="11">NF</text>
+</svg>
+</div>
+</section>
+
+
+<!-- Top issues list (interactive items) -->
+<section class="card" aria-labelledby="top-issues-title">
+<h3 id="top-issues-title">Principais Problemas</h3>
+<p style="margin:6px 0 12px;color:#6b7280">Tópicos em alta que precisam de atenção</p>
+
+
+<div class="list" role="list">
+<!-- Use data attributes to attach click handlers and IDs -->
+<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
+<div>
+<strong>Atraso na Entrega</strong>
+<div style="font-size:12px;color:#6b7280">456 ocorrências</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:12px;color:#ef4444;font-weight:600">+23%</div>
+</div>
+</div>
+
+
+<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
+<div>
+<strong>Troca de Tamanho</strong>
+<div style="font-size:12px;color:#6b7280">312 ocorrências</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:12px;color:#ef4444;font-weight:600">+18%</div>
+</div>
+</div>
+
+
+<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
+<div>
+<strong>Erro no Cupom</strong>
+<div style="font-size:12px;color:#6b7280">198 ocorrências</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:12px;color:#ef4444;font-weight:600">+40%</div>
+</div>
+</div>
+
+
+</div>
+</section>
+
+</html>
 
 
 
