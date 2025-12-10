@@ -2,33 +2,26 @@ class Improvement < ApplicationRecord
   belongs_to :user
   belongs_to :classification
 
-  IMPROVEMENT_PROMPT =   <<~PROMPT
-Recebes um conjunto de conversas de suporte ao cliente que já foram previamente classificadas como o MESMO tipo de problema.
 
-Todas as conversas abaixo representam variações do mesmo erro recorrente.
+IMPROVEMENT_PROMPT = <<~PROMPT
+As conversas abaixo são do mesmo problema.
 
-O teu objetivo é:
-- Analisar o conjunto completo das conversas.
-- Identificar padrões, causas prováveis e falhas de processo.
-- Gerar um plano de melhorias estratégico e realista para a empresa.
+Gere apenas títulos curtos (máx. 10 palavras) para ações de melhoria.
+Não explique nada. Não escreva frases longas. Apenas títulos.
 
-Deves criar exatamente:
-- 2 ações de Curto Prazo (ações imediatas para resolver os problemas atuais dos clientes).
-- 2 ações de Médio Prazo (melhorias de processo para evitar que os problemas voltem a acontecer).
-- 2 ações de Longo Prazo (melhorias estruturais, tecnológicas ou estratégicas para reduzir esse tipo de falha no futuro).
-
-Responde obrigatoriamente neste formato, sem texto adicional fora dele:
+Formato obrigatório:
 
 Curto Prazo:
-- <ação 1>
-- <ação 2>
+- <título>
+- <título>
 
 Médio Prazo:
-- <ação 1>
-- <ação 2>
+- <título>
+- <título>
 
 Longo Prazo:
-- <ação 1>
-- <ação 2>
+- <título>
+- <título>
 PROMPT
+
 end

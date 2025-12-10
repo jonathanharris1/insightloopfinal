@@ -1,14 +1,93 @@
-<h1>Classifications#show</h1>
-<p>Find me in app/views/classifications/show.html.erb</p>
 
-<h1><%= @classification.tag %></h1>
 
-<p>Detalhes da classificação.</p>
+<h1 class="text-center mb-3"><%= @classification.tag %></h1>
 
-<h2>Roadmap Estratégico </h2>
+<!-- ✅ BLOCO SUPERIOR: GRÁFICO + CARROSSEL (VAZIOS POR ENQUANTO) -->
+<div class="container mt-4 mb-5">
+  <div class="row">
 
-<div class="card p-3 mb-4">
-  <pre><%= @improvement.content %></pre>
+    <!-- ESQUERDA: GRÁFICO (VAZIO POR ENQUANTO) -->
+    <div class="col-md-6">
+      <div class="card p-4 shadow-sm text-center" style="min-height: 280px;">
+        <h5 class="text-muted">📈 Tendência de Volume</h5>
+      </div>
+    </div>
+
+    <!-- DIREITA: CARROSSEL (VAZIO POR ENQUANTO) -->
+    <div class="col-md-6">
+      <div class="card p-4 shadow-sm text-center" style="min-height: 280px;">
+        <h5 class="text-muted">🗣️ Voz do Cliente</h5>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<h2 class="text-center fw-bold mt-5">Roadmap Estratégico</h2>
+<p class="text-center text-muted mb-4">
+  Ações priorizadas por IA para resolver esse problema
+</p>
+
+<% texto = @improvement.content.to_s %>
+
+<% curto = texto.split("Curto Prazo:").last&.split("Médio Prazo:")&.first %>
+<% medio = texto.split("Médio Prazo:").last&.split("Longo Prazo:")&.first %>
+<% longo = texto.split("Longo Prazo:").last %>
+
+<!-- 3 COLUNAS -->
+<div class="row mt-4 mb-5 d-flex align-items-stretch">
+
+  <!-- CURTO PRAZO -->
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm h-100">
+      <h5 class="fw-bold">⚡ Curto Prazo</h5>
+      <small class="text-muted">1–2 semanas</small>
+      <hr>
+      <% curto.to_s.lines.each do |linha| %>
+        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
+        <div class="d-flex align-items-center mb-2">
+          <span class="me-2">📄</span>
+          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
+          <span class="badge bg-success ms-auto">Fácil</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- MÉDIO PRAZO -->
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm h-100">
+      <h5 class="fw-bold">🎯 Médio Prazo</h5>
+      <small class="text-muted">1–3 meses</small>
+      <hr>
+      <% medio.to_s.lines.each do |linha| %>
+        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
+        <div class="d-flex align-items-center mb-2">
+          <span class="me-2">📄</span>
+          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
+          <span class="badge bg-warning ms-auto">Médio</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- LONGO PRAZO -->
+  <div class="col-md-4">
+    <div class="card p-3 shadow-sm h-100">
+      <h5 class="fw-bold">🏗️ Longo Prazo</h5>
+      <small class="text-muted">3–12 meses</small>
+      <hr>
+      <% longo.to_s.lines.each do |linha| %>
+        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
+        <div class="d-flex align-items-center mb-2">
+          <span class="me-2">📄</span>
+          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
+          <span class="badge bg-danger ms-auto">Complexo</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
 </div>
 
 <%= link_to "⬅ Back", classifications_path %>
