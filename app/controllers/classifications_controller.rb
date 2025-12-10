@@ -17,7 +17,6 @@ class ClassificationsController < ApplicationController
     @labels = trend[:labels]
     @values = trend[:values]
 
-    # Só queremos mostrar: Dia 1, 5, 10, 15, 20, 25, 30
     days_to_show = [1, 5, 10, 15, 20, 25, 30]
 
     @volume_points = []
@@ -62,14 +61,15 @@ class ClassificationsController < ApplicationController
   def conversation_trends_for(tags, days: 30)
     return {} if tags.blank?
 
-    start_date = days.days.ago.to_date
+    start_date = (days - 1).days.ago.to_date
+    end_date   = Date.current
 
     raw_counts = Conversation
       .joins(:classification)
       .where(classifications: { tag: tags })
-      .where("conversations.created_at >= ?", start_date)
-      .group("classifications.tag", "DATE(conversations.created_at)")
-      .order("classifications.tag", "DATE(conversations.created_at)")
+      .where(occurred_on: start_date..end_date)
+      .group("classifications.tag", "conversations.occurred_on")
+      .order("classifications.tag", "conversations.occurred_on")
       .count
 
     trends = Hash.new { |h, k| h[k] = Hash.new(0) }
@@ -79,13 +79,12 @@ class ClassificationsController < ApplicationController
     end
 
     trends.transform_values do |per_day_hash|
-    all_dates = (start_date..Date.today).to_a
+    all_dates = (start_date..end_date).to_a
 
     {
       labels: all_dates.each_with_index.map { |_, idx| "Dia #{idx + 1}" },
-      values: all_dates.map { |d| per_day_hash[d] || per_day_hash[d.to_s] || 0 }
+      values: all_dates.map { |d| per_day_hash[d] || 0 }
     }
-end
+    end
   end
-
 end

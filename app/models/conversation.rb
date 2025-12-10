@@ -2,7 +2,14 @@ class Conversation < ApplicationRecord
   belongs_to :user
   belongs_to :classification, optional: true
 
+  before_validation :set_default_occurred_on, on: :create
   after_create :generate_classification
+
+  private
+
+  def set_default_occurred_on
+    self.occurred_on ||= Date.current
+  end
 
   def generate_classification
     # call ruby llm to tag
