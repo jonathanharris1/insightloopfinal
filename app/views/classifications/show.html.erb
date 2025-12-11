@@ -46,7 +46,6 @@
     const canvas   = document.getElementById(canvasId);
     if (!canvas) return;
 
-    // se já existir um chart neste canvas, destrói antes
     if (canvas._chartInstance) {
       canvas._chartInstance.destroy();
     }
@@ -72,16 +71,14 @@
         responsive: true,
         maintainAspectRatio: false,
 
-        // 👇 ANIMAÇÃO FORÇADA NO EIXO Y
         animations: {
           y: {
-            // começa “vindo” da linha do zero
             from: (ctx) => {
               const scale = ctx.chart.scales.y;
               return scale.getPixelForValue(0);
             },
-            duration: 1000,        // 1 segundo
-            easing: "easeOutQuad"  // entra rápido, desacelera suave
+            duration: 1000,
+            easing: "easeOutQuad"
           }
         },
 
