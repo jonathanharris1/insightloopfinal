@@ -8,28 +8,45 @@ class ClassificationsController < ApplicationController
     @trend_series = conversation_trends_for(pareto_tags)
   end
 
-  def show
+   def show
     @classification = Classification.find(params[:id])
 
     trend_hash = conversation_trends_for([@classification.tag])
     trend      = trend_hash[@classification.tag] || { labels: [], values: [] }
 
     @labels = trend[:labels]
-    @values = trend[:values]
+    raw_values = trend[:values]
+    @values = smooth_values(raw_values)
 
-    days_to_show = [1, 5, 10, 15, 20, 25, 30]
+        if @values.present?
+      (1...@values.size).each do |i|
+        prev = @values[i - 1]
+        curr = @values[i]
 
-    @volume_points = []
-
-    @labels.each_with_index do |label, idx|
-      day_number = idx + 1
-      next unless days_to_show.include?(day_number)
-
-      @volume_points << {
-        label: label,          # "Dia 1", "Dia 5" e por aí vai....
-        count: @values[idx]    # volume de conversas daquele dia
-      }
+        if curr == 0 && prev > 0
+          @values[i] = (prev * 0.7).round
+        end
+      end
     end
+
+
+  bucket_definitions = {
+    "Dia 1"  => (0..3),   # índices 0,1,2,3
+    "Dia 5"  => (4..8),
+    "Dia 10" => (9..13),
+    "Dia 15" => (14..18),
+    "Dia 20" => (19..23),
+    "Dia 25" => (24..28),
+    "Dia 30" => (29..29)
+  }
+
+  @volume_points = bucket_definitions.map do |label, range|
+    {
+      label: label,
+      count: raw_values[range].compact.sum
+    }
+  end
+
     @conversations = @classification.conversations.order("RANDOM()")
 
 
@@ -75,6 +92,23 @@ end
 
 
   private
+
+  def smooth_values(values)
+    return values if values.blank?
+
+    smoothed = values.dup
+
+    (1...smoothed.size).each do |i|
+      prev = smoothed[i - 1]
+      curr = smoothed[i]
+
+      if curr == 0 && prev > 0
+        smoothed[i] = (prev * 0.7).round
+      end
+    end
+
+    smoothed
+  end
 
   def conversation_trends_for(tags, days: 30)
     return {} if tags.blank?
