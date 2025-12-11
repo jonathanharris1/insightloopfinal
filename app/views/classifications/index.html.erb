@@ -47,25 +47,8 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 <!-- BODY STARTS -->
 <body>
-<h1>Classifications#index</h1>
-<p>Find me in app/views/classifications/index.html.erb</p>
-
-
-<h1>Classifications</h1>
-
-<%#= link_to "New Classification", new_classification_path %>
-
-<ul>
-  <% @classifications.each do |classification| %>
-    <li>
-      <%= link_to classification.tag, classification_path(classification) %>
-    </li>
-  <% end %>
-</ul>
-
 
 <div id="app" class="app">
-
 
 <!-- SIDEBAR: navigation (kept minimal and accessible)
 <aside class="sidebar" aria-label="Main navigation">
@@ -121,11 +104,16 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 <main class="content" id="main-content">
 
+
+<h1><strong>Análises</strong></h1>
+<p>Visualize métricas e tendências do atendimento ao cliente</p>
+
+
 <!-- KPI Cards -->
 <section aria-label="KPIs" class="cards-row" role="region">
 <div class="card" aria-hidden="false">
 <p style="margin:0;font-size:12px;color:#6b7280">Volume Total</p>
-<p style="margin:8px 0;font-size:28px;font-weight:700">2,412</p>
+<p style="margin:8px 0;font-size:28px;font-weight:700"><%= Conversation.count %></p>
 <p style="margin:0;font-size:13px;color:green">+12% vs. semana anterior</p>
 </div>
 
@@ -160,7 +148,18 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 <div style="margin-bottom:12px;padding:12px;border-radius:6px;background:#ecfeff;border:1px solid #99f6e4">
 <strong>💡 Insight:</strong>
-<span>Focar nos 3 primeiros problemas ('Atraso na Entrega', 'Troca de Tamanho', 'Erro no Cupom') resolverá <strong>80.9%</strong> do volume total.</span>
+<span>Focar nos seguintes problemas resolverá <strong><%= @pareto.last.cum_pct.to_i%>%</strong> do volume total</span>
+<!-- HERE -->
+<p>
+<ul>
+  <% @pareto.each do |item| %>
+    <li>
+      <strong><%= item.tag %></strong>: <%= item.pct.to_i %>% do volume total (<%= item.cum_pct.to_i %>% cumulative)
+    </li>
+  <% end %>
+</ul>
+
+
 </div>
 
 
@@ -171,7 +170,7 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 </div>
 </section>
 
-
+<p>
 <!-- Top issues list (interactive items) -->
 <section class="card" aria-labelledby="top-issues-title">
 <h3 id="top-issues-title">Principais Problemas</h3>
@@ -180,38 +179,15 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 <div class="list" role="list">
 <!-- Use data attributes to attach click handlers and IDs -->
-<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
-<div>
-<strong>Atraso na Entrega</strong>
-<div style="font-size:12px;color:#6b7280">456 ocorrências</div>
-</div>
-<div style="text-align:right">
-<div style="font-size:12px;color:#ef4444;font-weight:600">+23%</div>
-</div>
-</div>
 
 
-<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
-<div>
-<strong>Troca de Tamanho</strong>
-<div style="font-size:12px;color:#6b7280">312 ocorrências</div>
-</div>
-<div style="text-align:right">
-<div style="font-size:12px;color:#ef4444;font-weight:600">+18%</div>
-</div>
-</div>
 
+<% @pareto.each_with_index do |item, i| %>
+  <%= render partial: "shared/trend_card", locals: { item: item, index: i + 1 } %>
+<% end %>
 
-<div role="listitem" class="card" style="display:flex;justify-content:space-between;align-items:center">
-<div>
-<strong>Erro no Cupom</strong>
-<div style="font-size:12px;color:#6b7280">198 ocorrências</div>
-</div>
-<div style="text-align:right">
-<div style="font-size:12px;color:#ef4444;font-weight:600">+40%</div>
-</div>
-</div>
-
+<%#= link_to classifications_show_path(item.id),
+<%#= link_to "New Classification", new_classification_path %>
 
 </div>
 </section>
@@ -224,16 +200,6 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 
 
-<h2>Top Pareto Classifications (80%)</h2>
-
-<ul>
-  <% @pareto.each do |item| %>
-    <li>
-      <strong><%= item.tag %></strong>
-      — <%= item.cum_pct.to_i %>% cumulative
-    </li>
-  <% end %>
-</ul>
 
 <%= link_to "⬅ Back to Conversations", root_path %>
 
