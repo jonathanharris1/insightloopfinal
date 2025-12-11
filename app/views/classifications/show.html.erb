@@ -1,295 +1,434 @@
-<div class="d-flex align-items-center justify-content-center gap-3 mb-3">
+<style>
+  #conversationCarousel .carousel-item {
+    height: 180px;
+    overflow: hidden;
 
-<h1><%= @classification.tag %></h1>
-  <!-- SETA DE VOLTAR -->
-  <%= link_to classifications_path, class: "text-dark fs-3 text-decoration-none" do %>
-    ←
-  <% end %>
-
-  <!-- TÍTULO -->
-  <h1 class="mb-0"><%= @classification.tag %></h1>
-
-</div>
-
-<!-- BLOCO SUPERIOR: GRÁFICO + CARROSSEL -->
-<div class="container mt-4 mb-5">
-  <div class="row align-items-stretch">
-
-<!-- ESQUERDA: GRÁFICO + INFO -->
-<div class="col-md-6">
-  <div class="card p-4 shadow-sm h-100" style="min-height: 300px;">
-
-    <!-- Título + balão de aumento (lembrar de corrigir isso aqui!) -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <div>
-        <h5 class="mb-1">Tendência de Volume</h5>
-        <p class="text-muted small mb-0">Últimos 30 dias</p>
-      </div>
-
-      <% if @volume_change_pct.present? %>
-        <span class="badge rounded-pill px-3 py-2" style="background:#ffecec; color:#d64545;">
-          ↑ <%= @volume_change_pct %>% aumento de volume
-        </span>
-      <% end %>
-    </div>
-
-    <!-- GRÁFICO -->
-    <div style="height: 260px;">
-      <canvas id="volumeTrendChart-<%= @classification.id %>"></canvas>
-    </div>
-  </div>
-</div>
-
-<script>
-  function renderVolumeChart() {
-    const canvasId = "volumeTrendChart-<%= @classification.id %>";
-    const canvas   = document.getElementById(canvasId);
-    if (!canvas) return;
-
-    if (canvas._chartInstance) {
-      canvas._chartInstance.destroy();
-    }
-
-    const labels     = <%= raw @volume_points.map { |p| p[:label] }.to_json %>;
-    const dataValues = <%= raw @volume_points.map { |p| p[:count] }.to_json %>;
-
-    const chart = new Chart(canvas, {
-      type: "line",
-      data: {
-        labels: labels,
-        datasets: [{
-          data: dataValues,
-          fill: true,
-          tension: 0.4,
-          borderColor: "#f04438",
-          backgroundColor: "rgba(240, 68, 56, 0.10)",
-          pointRadius: 0,
-          borderWidth: 2
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-
-        animations: {
-          y: {
-            from: (ctx) => {
-              const scale = ctx.chart.scales.y;
-              return scale.getPixelForValue(0);
-            },
-            duration: 1000,
-            easing: "easeOutQuad"
-          }
-        },
-
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          x: {
-            grid: { display: false }
-          },
-          y: {
-            beginAtZero: true,
-            grid: { color: "rgba(0, 0, 0, 0.04)" },
-            ticks: { precision: 0 }
-          }
-        }
-      }
-    });
-
-    // guarda referência do chart no próprio canvas
-    canvas._chartInstance = chart;
   }
 
-  document.addEventListener("turbo:load", renderVolumeChart);
-  document.addEventListener("DOMContentLoaded", renderVolumeChart);
-</script>
+  #conversationCarousel .carousel-item p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
 
-    <!-- DIREITA: CARROSSEL -->
-    <div class="col-md-6">
-      <div class="card p-4 shadow-sm h-100" style="min-height: 280px;">
-        <h5 class="text-muted">🗣️ Voz do Cliente</h5>
+<div style="background-color: #fcf7f7; min-height: 100vh; padding: 24px 0;">
+  <div class="container" style="max-width: 1100px;">
 
-        <% if @conversations.any? %>
+    <% volume_options = [18, 25, 32, 45] %>
+    <% volume_pct = volume_options.sample %>
 
-          <div id="conversationCarousel"
-               class="carousel slide position-relative"
-               data-bs-ride="carousel">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+          <%= link_to "Análises", classifications_path %>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          Plano Estratégico
+        </li>
+      </ol>
+    </nav>
 
-            <div class="carousel-inner">
+    <div class="mb-4">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <%= link_to classifications_path,
+            class: "text-decoration-none",
+            style: "font-size: 1.8rem; font-weight: 600; color: #333;" do %>
+          ←
+        <% end %>
 
-              <% @conversations.each_with_index do |conversation, index| %>
+        <div>
+          <p class="text-muted mb-1" style="font-size: 0.9rem;">
+            <%= @classification.tag_category.presence || "Categoria" rescue "Categoria" %>
+          </p>
+          <h1 class="mb-0" style="font-size: 1.9rem; font-weight: 700;">
+            <%= @classification.tag %>
+          </h1>
+        </div>
+      </div>
 
-                <div class="carousel-item <%= 'active' if index == 0 %>">
-                  <div class="p-3">
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill"
+             style="background: #fff0f0; color: #d64545; font-size: 0.8rem; font-weight: 600;">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i>
+          <%= volume_pct %>% do volume
+        </div>
 
-                    <!-- APENAS 2 MENSAGENS DO CUSTOMER -->
-                    <% mensagens_customer =
-                        conversation.content
-                                   .to_s
-                                   .lines
-                                   .select { |linha| linha.strip.start_with?("[Customer]:") }
-                                   .map   { |linha| linha.gsub("[Customer]:", "").strip }
-                                   .first(2)
-                    %>
+        <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill border"
+             style="font-size: 0.8rem; color: #555;">
+          <i class="bi bi-graph-up-arrow me-1"></i>
+          <%= (@volume_change_pct.present? ? "+#{@volume_change_pct}%" : "+18%") %> vs. mês anterior
+        </div>
 
-                    <p class="fst-italic" style="white-space: pre-line; font-size: 1rem;">
-                      “<%= mensagens_customer.join("\n") %>”
-                    </p>
+        <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill border"
+             style="font-size: 0.8rem; background: #f3ebff; color: #7a3ff2; border-color: #e1d4ff;">
+          <i class="bi bi-stars me-1"></i>
+          Análise por IA
+        </div>
+      </div>
+    </div>
 
-                    <hr>
+    <!-- Voz do Cliente + Gráfico -->
+    <section class="mb-5">
+      <div class="row g-4 align-items-stretch">
 
-                    <!-- RODAPÉ -->
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div>
-                        <strong><%= ["Carlos M.", "Maria S.", "João P.", "Ana L.", "Aline K.", "Diego Z.", "Eduardo N.", "Thiago B."].sample %></strong><br> <!-- Nomes aleatorios -->
-                        <small><%= conversation.created_at.strftime("%d %b, %Y • %H:%M") %></small>
-                      </div>
+        <!-- GRÁFICO -->
+        <div class="col-md-6">
+          <div class="card p-4 shadow-sm h-100" style="min-height: 300px; border-radius: 16px; background: #ffffff;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h5 class="mb-1"><strong>Tendência de Volume</strong></h5>
+                <p class="text-muted small mb-0">Últimos 30 dias</p>
+              </div>
 
-                      <span class="badge rounded-pill bg-light text-primary border">
-                        <%= ["Confuso", "Frustrado", "Aguardando", "Nervoso", "Preocupado" ].sample %>
-                      </span>
-                    </div>
-
-                    <!-- BADGES DE BAIXO -->
-                    <div class="d-flex gap-2 mt-3 flex-wrap">
-                      <span class="badge bg-success">
-                        R$ <%= rand(300..3500) %> <!--Aqui gera um número aleatório entre 300 e 3500 toda vez que a página carrega.-->
-                      </span>
-
-                      <span class="badge bg-secondary">
-                        <%= rand(1..12) %> Tickets  <!-- gera um número aleatório de 1 a 12.-->
-                      </span>
-
-                      <span class="badge bg-light text-dark border">
-                        <%= ["Standard", "Enterprise", "Premium"].sample %>
-                      </span>
-                    </div>
-
-                  </div>
-                </div>
-
+              <% if @volume_change_pct.present? %>
+                <span class="badge rounded-pill px-3 py-2"
+                      style="background:#ffecec; color:#d64545;">
+                  ↑ <%= @volume_change_pct %>% aumento de volume
+                </span>
               <% end %>
             </div>
 
-            <!-- BOTÃO ESQUERDA - COLADO NA LATERAL -->
-            <button class="carousel-control-prev position-absolute"
-                    type="button"
-                    data-bs-target="#conversationCarousel"
-                    data-bs-slide="prev"
-                    style="
-                      top: 50%;
-                      left: -2px;
-                      transform: translateY(-50%);
-                      width: 30px;
-                      height: 30px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    ">
-              <span style="font-size: 26px; color: black;">❮</span>
-            </button>
-
-            <!-- BOTÃO DIREITA - COLADO NA LATERAL -->
-            <button class="carousel-control-next position-absolute"
-                    type="button"
-                    data-bs-target="#conversationCarousel"
-                    data-bs-slide="next"
-                    style="
-                      top: 50%;
-                      right: -2px;
-                      transform: translateY(-50%);
-                      width: 30px;
-                      height: 30px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                    ">
-              <span style="font-size: 26px; color: black;">❯</span>
-            </button>
-
+            <div style="height: 260px;">
+              <canvas id="volumeTrendChart-<%= @classification.id %>"></canvas>
+            </div>
           </div>
+        </div>
 
-        <% else %>
+        <script>
+          function renderVolumeChart() {
+            const canvasId = "volumeTrendChart-<%= @classification.id %>";
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || typeof Chart === "undefined") return;
 
-          <p class="text-muted text-center mt-4">
-            Nenhuma conversa cadastrada para esta classificação.
-          </p>
+            if (canvas._chartInstance) {
+              canvas._chartInstance.destroy();
+            }
 
-        <% end %>
+            const labels = <%= raw @volume_points.map { |p| p[:label] }.to_json %>;
+            const dataValues = <%= raw @volume_points.map { |p| p[:count] }.to_json %>;
+
+            const chart = new Chart(canvas, {
+              type: "line",
+              data: {
+                labels: labels,
+                datasets: [{
+                  data: dataValues,
+                  fill: true,
+                  tension: 0.4,
+                  borderColor: "#f04438",
+                  backgroundColor: "rgba(240, 68, 56, 0.10)",
+                  pointRadius: 0,
+                  borderWidth: 2
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                  x: { grid: { display: false } },
+                  y: {
+                    beginAtZero: true,
+                    grid: { color: "rgba(0,0,0,0.05)" },
+                    ticks: { precision: 0 }
+                  }
+                }
+              }
+            });
+
+            canvas._chartInstance = chart;
+          }
+
+          document.addEventListener("turbo:load", renderVolumeChart);
+          document.addEventListener("DOMContentLoaded", renderVolumeChart);
+        </script>
+
+        <!-- CARROSSEL -->
+        <div class="col-lg-6">
+          <div class="card h-100 shadow-sm  d-flex flex-column"
+               style="border-radius: 16px; background: #ffffff; ">
+            <div class="card-body d-flex flex-column">
+              <h3 class="mb-3" style="font-size: 0.95rem; font-weight: 600;">Voz do Cliente</h3>
+
+              <% if @conversations.present? %>
+                <div id="conversationCarousel"
+                     class="carousel slide position-relative flex-grow-1"
+                     data-bs-ride="false">
+
+                  <div class="carousel-inner h-100">
+                    <% @conversations.each_with_index do |conversation, index| %>
+                      <div class="carousel-item <%= 'active' if index == 0 %> h-100">
+                        <div class="d-flex flex-column h-100">
+                          <div class="p-3 flex-grow-1">
+                            <div class="mb-3" style="opacity: 0.2;">
+                              <i class="bi bi-quote" style="font-size: 2rem;"></i>
+                            </div>
+
+                            <% mensagens_customer =
+                              conversation.content.to_s.lines
+                                .select { |linha| linha.strip.start_with?("[Customer]:") }
+                                .map { |linha| linha.gsub("[Customer]:", "").strip }
+                                .first(2)
+                            %>
+
+                            <p class="text-dark fst-italic"
+                               style="font-size: 0.95rem; line-height: 1.5;">
+                              "<%= mensagens_customer.join(' ') %>"
+                            </p>
+                          </div>
+
+                          <div class="px-3 py-3 border-top"
+                               style="background:#f8f9fb; border-radius: 0 0 16px 16px;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                              <div>
+                                <p class="mb-0" style="font-weight: 600; font-size: 0.9rem;">
+                                  <%= ["Maria S.", "Carlos M.", "João P.", "Ana L.", "Aline K.",
+                                       "Diego Z.", "Eduardo N.", "Thiago B."].sample %>
+                                </p>
+                                <p class="mb-0 text-muted d-flex align-items-center gap-1"
+                                   style="font-size: 0.75rem;">
+                                  <i class="bi bi-calendar3"></i>
+                                  <%= conversation.created_at.strftime("%d %b, %Y • %H:%M") %>
+                                </p>
+                              </div>
+
+                              <span class="badge rounded-pill px-3 py-1"
+                                    style="background:#fff0f0; color:#d64545; font-size:0.75rem;">
+                                <%= ["Frustrado", "Confuso", "Aguardando", "Nervoso", "Preocupado"].sample %>
+                              </span>
+                            </div>
+
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                              <div class="d-flex flex-wrap gap-2">
+                                <span class="badge rounded-pill px-3 py-1"
+                                      style="background:#eafaf1; color:#146c43; font-size:0.75rem;">
+                                  <i class="bi bi-currency-dollar me-1"></i>
+                                  R$ <%= rand(300..3500) %>
+                                </span>
+
+                                <span class="badge rounded-pill px-3 py-1"
+                                      style="background:#fff7e6; color:#b96b00; font-size:0.75rem;">
+                                  <i class="bi bi-ticket-detailed me-1"></i>
+                                  <%= rand(1..12) %> Tickets
+                                </span>
+
+                                <span class="badge rounded-pill px-3 py-1"
+                                      style="background:#e9ecef; color:#495057; font-size:0.75rem;">
+                                  <i class="bi bi-crown me-1"></i>
+                                  <%= ["Standard", "Enterprise", "Premium"].sample %>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+
+                  <button class="carousel-control-prev position-absolute"
+                          type="button"
+                          data-bs-target="#conversationCarousel"
+                          data-bs-slide="prev"
+                          style="top: 50%; left: -2px; transform: translateY(-50%);
+                                 width: 30px; height: 30px; display: flex;
+                                 align-items: center; justify-content: center;">
+                    <span style="font-size: 24px; color: black;">❮</span>
+                  </button>
+
+                  <button class="carousel-control-next position-absolute"
+                          type="button"
+                          data-bs-target="#conversationCarousel"
+                          data-bs-slide="next"
+                          style="top: 50%; right: -2px; transform: translateY(-50%);
+                                 width: 30px; height: 30px; display: flex;
+                                 align-items: center; justify-content: center;">
+                    <span style="font-size: 24px; color: black;">❯</span>
+                  </button>
+
+                </div>
+              <% else %>
+                <p class="text-muted text-center mt-4">
+                  Nenhuma conversa cadastrada para esta classificação.
+                </p>
+              <% end %>
+            </div>
+          </div>
+        </div>
 
       </div>
-    </div>
+    </section>
 
-  </div>
-</div>
 
-<!-- ROADMAP -->
-<h2 class="text-center fw-bold mt-5">Roadmap Estratégico</h2>
-<p class="text-center text-muted mb-4">
-  Ações priorizadas por IA para resolver esse problema
-</p>
-
-<% texto = @improvement.content.to_s %>
-<% curto = texto.split("Curto Prazo:").last&.split("Médio Prazo:")&.first %>
-<% medio = texto.split("Médio Prazo:").last&.split("Longo Prazo:")&.first %>
-<% longo = texto.split("Longo Prazo:").last %>
-
-<div class="row mt-4 mb-5 d-flex align-items-stretch">
-
-  <!-- CURTO PRAZO -->
-  <div class="col-md-4">
-    <div class="card p-3 shadow-sm h-100">
-      <h5 class="fw-bold">⚡ Curto Prazo</h5>
-      <small class="text-muted">1–2 semanas</small>
-      <hr>
-
-      <% curto.to_s.lines.each do |linha| %>
-        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
-        <div class="d-flex align-items-center mb-2">
-          <span class="me-2">📄</span>
-          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
-          <span class="badge bg-success ms-auto">Fácil</span>
+      <% if @ia_root_cause.present? %>
+        <div class="card p-4 shadow-sm mb-4" style="border-radius: 14px;  background: #ffffff;">
+          <h4><strong>Diagnóstico da Causa Raiz</strong></h4>
+          <p class="text-muted small">Análise baseada em IA</p>
+          <p><%= @ia_root_cause %></p>
         </div>
       <% end %>
-    </div>
-  </div>
 
-  <!-- MÉDIO PRAZO -->
-  <div class="col-md-4">
-    <div class="card p-3 shadow-sm h-100">
-      <h5 class="fw-bold">🎯 Médio Prazo</h5>
-      <small class="text-muted">1–3 meses</small>
-      <hr>
-
-      <% medio.to_s.lines.each do |linha| %>
-        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
-        <div class="d-flex align-items-center mb-2">
-          <span class="me-2">📄</span>
-          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
-          <span class="badge bg-warning ms-auto">Médio</span>
+      <section class="mb-5">
+        <div class="text-center mb-3 mt-4">
+          <h2 style="font-size: 1.2rem; font-weight: 600;">Roadmap Estratégico</h2>
+          <p class="text-muted" style="font-size: 0.9rem;">
+            Ações priorizadas por IA para resolver esse problema
+          </p>
         </div>
-      <% end %>
-    </div>
-  </div>
 
-  <!-- LONGO PRAZO -->
-  <div class="col-md-4">
-    <div class="card p-3 shadow-sm h-100">
-      <h5 class="fw-bold">🏗️ Longo Prazo</h5>
-      <small class="text-muted">3–12 meses</small>
-      <hr>
+        <% texto = @improvement.content.to_s %>
+        <% curto = texto.split("Curto Prazo:").last&.split("Médio Prazo:")&.first %>
+        <% medio = texto.split("Médio Prazo:").last&.split("Longo Prazo:")&.first %>
+        <% longo = texto.split("Longo Prazo:").last %>
 
-      <% longo.to_s.lines.each do |linha| %>
-        <% next unless linha.start_with?("-") || linha.start_with?("✅") %>
-        <div class="d-flex align-items-center mb-2">
-          <span class="me-2">📄</span>
-          <span><%= linha.gsub("✅", "").gsub("-", "").strip %></span>
-          <span class="badge bg-danger ms-auto">Complexo</span>
+        <div class="row g-4 pt-2">
+
+          <!-- CURTO PRAZO -->
+          <div class="col-md-4">
+            <div class="roadmap-card"
+                 style="height: 220px; overflow-y: auto; border-radius: 12px;">
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="width: 32px; height: 32px; border-radius: 14px; background:#e6f6ed;">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                  <h3 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Curto Prazo</h3>
+                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">1–2 semanas</p>
+                </div>
+              </div>
+
+              <div class="d-flex flex-column gap-2">
+                <% curto.to_s.lines.each do |linha| %>
+                  <% next unless linha.start_with?("-", "✅") %>
+
+                  <div class="d-flex align-items-center gap-3 p-3 rounded roadmap-item"
+                       style="height: 70px; overflow:hidden; background:#ffffff;
+                              border-radius: 12px; border: 1px solid #f5ededff; cursor:pointer;">
+
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+                         style="width: 32px; height: 32px; border-radius: 8px; background:#e6f6ed;">
+                      <i class="fa-solid fa-bolt"></i>
+                    </div>
+
+                    <span class="flex-grow-1"
+                          style="font-size: 0.85rem; font-weight: 500;">
+                      <%= linha.gsub("✅", "").gsub("-", "").strip %>
+                    </span>
+
+                    <span class="badge rounded-pill px-2 py-1"
+                          style="background:#e6f6ed; color:#198754; font-size:0.7rem;">
+                      Fácil
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÉDIO PRAZO -->
+          <div class="col-md-4">
+            <div class="roadmap-card"
+                 style="height: 220px; overflow-y: auto; border-radius: 14px;">
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="width: 32px; height: 32px; border-radius: 10px; background:#E8F3FF;">
+                  <i class="fa-solid fa-sync"></i>
+
+
+                </div>
+                <div>
+                  <h3 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Médio Prazo</h3>
+                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">1–3 meses</p>
+                </div>
+              </div>
+
+              <div class="d-flex flex-column gap-2">
+                <% medio.to_s.lines.each do |linha| %>
+                  <% next unless linha.start_with?("-", "✅") %>
+
+                  <div class="d-flex align-items-center gap-3 p-3 rounded roadmap-item"
+                       style="height: 70px; overflow:hidden; background:#ffffff;
+                              border-radius: 12px; border: 1px solid #f5ededff; cursor:pointer;">
+
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+                         style="width: 32px; height: 32px; border-radius: 8px; background:#E8F3FF;">
+                     <i class="fa-solid fa-sync"></i>
+
+
+                    </div>
+
+                    <span class="flex-grow-1"
+                          style="font-size: 0.85rem; font-weight: 500;">
+                      <%= linha.gsub("✅", "").gsub("-", "").strip %>
+                    </span>
+
+                    <span class="badge rounded-pill px-2 py-1"
+                          style="background:#e7f0ff; color:#0d6efd; font-size:0.7rem;">
+                      Médio
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <!-- LONGO PRAZO -->
+          <div class="col-md-4">
+            <div class="roadmap-card"
+                 style="height: 220px; overflow-y: auto; border-radius: 14px;">
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="width: 32px; height: 32px; border-radius: 10px; background:#FFE8E8;">
+                 <i class="fa-solid fa-rocket"></i>
+                </div>
+                <div>
+                  <h3 class="mb-0" style="font-size: 0.9rem; font-weight: 600;">Longo Prazo</h3>
+                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">3–12 meses</p>
+                </div>
+              </div>
+
+              <div class="d-flex flex-column gap-2">
+                <% longo.to_s.lines.each do |linha| %>
+                  <% next unless linha.start_with?("-", "✅") %>
+
+                  <div class="d-flex align-items-center gap-3 p-3 rounded roadmap-item"
+                       style="height: 70px; overflow:hidden; background:#ffffff;
+                              border-radius: 12px; border: 1px solid #f5ededff; cursor:pointer;">
+
+                    <div class="d-flex align-items-center justify-content-center flex-shrink-0"
+                         style="width: 32px; height: 32px; border-radius: 8px; background:#FFE8E8;">
+                       <i class="fa-solid fa-rocket"></i>
+                    </div>
+
+                    <span class="flex-grow-1"
+                          style="font-size: 0.85rem; font-weight: 500;">
+                      <%= linha.gsub("✅", "").gsub("-", "").strip %>
+                    </span>
+
+                    <span class="badge rounded-pill px-2 py-1"
+                          style="background:#ffecec; color:#d64545; font-size:0.7rem;">
+                      Complexo
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+
+            </div>
+          </div>
+
         </div>
-      <% end %>
-    </div>
-  </div>
+      </section>
 
+
+
+  </div>
 </div>
