@@ -85,6 +85,8 @@ class ClassificationsController < ApplicationController
   else
     @improvement = @classification.improvements.last
   end
+  @ia_root_cause = generate_root_cause(@conversations)
+
 end
 
   private
@@ -111,8 +113,36 @@ end
 
   end
 
+  def generate_root_cause(conversations)
+  texto = conversations.map { |c| c.content }.join("\n")
 
-  private
+  prompt = <<~PROMPT
+   Você é um analista sênior especializado em diagnóstico de causa raiz.
+  Analise as conversas abaixo e gere um diagnóstico extremamente curto, direto e técnico.
+
+  O resultado deve ter:
+  • no máximo 2 frases
+  • foco total na causa raiz
+  • linguagem objetiva, sem floreios
+  • mencionar de forma clara o mecanismo do erro (ex: falha de processo, atraso logístico, erro de sistema, política inadequada, comunicação incorreta etc.)
+
+  NÃO retorne lista, bullet points ou textos longos.
+  NÃO explique o que está fazendo.
+
+  Exemplo do estilo desejado:
+  "Usuários com Android 14 estão enfrentando freeze no pagamento via PIX devido a incompatibilidade entre o WebView atualizado e a biblioteca de pagamentos atual."
+
+  Agora gere UM diagnóstico nesse mesmo estilo:
+
+  Conversas analisadas:
+  #{texto}
+  PROMPT
+
+  llm = RubyLLM.chat
+  resposta = llm.ask(prompt)
+
+  resposta.content
+end
 
   def smooth_values(values)
     return values if values.blank?
