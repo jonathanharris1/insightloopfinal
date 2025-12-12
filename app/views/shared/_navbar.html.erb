@@ -1,38 +1,40 @@
 <nav class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <div class="container-fluid">
-    <%= link_to "#", class: "navbar-brand" do %>
-      <%= image_tag "https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/logo.png" %>
+  <div class="container-fluid d-flex align-items-center">
+
+    <!-- LEFT: Logo -->
+    <div class="navbar-left">
+      <%= link_to image_tag("insight_loop_logo_reduzido.png", alt: "InsightLoop"), root_path, class: "navbar-brand" %>
+    </div>
+
+    <!-- CENTER: Greeting + Date -->
+    <% if user_signed_in? %>
+      <div class="mx-auto text-center">
+        <div class="fw-bold" style="font-size: 1.1rem;">
+          Bom dia, <%= current_user.name.presence || current_user.email.split("@").first.titleize %>
+        </div>
+        <div class="text-muted" style="font-size: 0.9rem;">
+          <%= l(Date.today, format: :long).capitalize %>
+        </div>
+      </div>
     <% end %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <!-- RIGHT: Home + Avatar -->
+    <div class="navbar-right d-flex align-items-center">
+      <% if user_signed_in? %>
+        <%= link_to "Home", root_path, class: "nav-link me-2" %>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
-        <% if user_signed_in? %>
-          <li class="nav-item active">
-            <%= link_to "Home", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <li class="nav-item dropdown">
+        <div class="nav-item dropdown">
           <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
           </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
-              <%= link_to "Log out", destroy_user_session_path, data: {turbo_method: :delete}, class: "dropdown-item" %>
-            </div>
-          </li>
-        <% else %>
-          <li class="nav-item">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </li>
-        <% end %>
-      </ul>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
+          </div>
+        </div>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+      <% end %>
     </div>
+
   </div>
 </nav>

@@ -10,10 +10,19 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
+<body>
+  <%= render "shared/navbar" %>
+  <%= render "shared/flashes" %>
 
-    <%= yield %>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </body>
+  <div class="app-layout">
+    <%= render "shared/sidebar" %>
+
+    <main class="app-main" id="main-content" role="main" tabindex="-1">
+      <%= yield %>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+
 </html>
