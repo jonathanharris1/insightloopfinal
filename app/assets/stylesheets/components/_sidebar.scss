@@ -1,8 +1,12 @@
 .sidebar {
   width: 260px !important;
+  min-width: 260px;
+  flex: 0 0 260px;
+  box-sizing: border-box;
+
   padding: 16px;
   background: #0f172a;
-  color: white;
+  color: #fff;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -90,6 +94,12 @@
 .sidebar a:hover i,
 .sidebar a:hover svg {
   color: #3b82f6 !important;              /* blue icon */
+}
+
+/* Title/brand always white (Bootstrap costuma sobrescrever) */
+.sidebar .brand,
+.sidebar .brand * {
+  color: #ffffff !important;
 }
 
 /* Active state (optional) — looks like your reference */
