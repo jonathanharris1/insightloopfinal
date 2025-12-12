@@ -1,0 +1,284 @@
+.conversations-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.conversations-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.conversations-count {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #6b7280;   /* cinza elegante */
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+
+.conversation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f2f2f2;
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+
+.conversation-left {
+  display: flex;
+  gap: 16px;
+}
+
+.conversation-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e8e9ff;
+  color: #4b5cff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.conversation-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.conversation-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.conversation-subtitle {
+  font-size: 0.85rem;
+  color: #444;
+  margin: 0;
+  font-weight: 600;
+
+}
+
+.conversation-preview {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+}
+
+.conversation-mood {
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 4px;
+}
+
+.conversation-right {
+  display: flex;
+  align-items: center;
+}
+
+.conversation-arrow {
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #999;
+}
+
+.conversation-arrow:hover {
+  color: #333;
+}
+
+/* BADGES GERAIS */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* STATUS */
+.badge.status.ativa {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.badge.status.pendente {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.status.resolvida {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+/* PRIORIDADE */
+.badge.priority.alta {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.priority.media {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.priority.baixa {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+//* HUMOR / FRUSTRAÇÃO (BADGE) */
+.badge.mood {
+  max-width: 120px;   /* aumenta aqui */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Confuso → roxo */
+.badge.mood.confuso {
+  background: #ede9fe;
+  color: #6b21a8;
+}
+
+/* Frustrado → vermelho */
+.badge.mood.frustrado {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Aguardando → amarelo */
+.badge.mood.aguardando {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Nervoso → laranja */
+.badge.mood.nervoso {
+  background: #ffedd5;
+  color: #c2410c;
+}
+
+/* Preocupado → azul */
+.badge.mood.preocupado {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+/* =========================
+   SHOW DE CONVERSATION
+========================= */
+
+.conversation-show {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* HEADER */
+.conversation-show__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.conversation-show__title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* META INFO */
+.conversation-show__meta {
+  display: flex;
+  gap: 24px;
+  font-size: 1.1rem;
+  color: #000000;
+  margin-bottom: 24px;
+}
+
+.conversation-show__meta .meta-item strong {
+  color: #374151;
+  font-weight: 600;
+}
+
+/* CONTENT */
+.conversation-show__content h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.conversation-show__message {
+  background: #f7f7f8;
+  border-radius: 14px;
+  padding: 20px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #374151;
+  white-space: pre-wrap;
+}
+
+/* BACK LINK (reaproveita padrão) */
+.back-link {
+  font-size: 0.85rem;
+  color: #474849;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.back-link:hover {
+  color: #111827;
+}
+
+/* THREAD */
+.conversation-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #e5e7eb;   /* cinza bem leve */
+  border-radius: 14px;
+  padding: 16px;
+  background: #f4f4f4;
+}
+
+
+/* MESSAGE BASE */
+.message {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  background: #f2f2f2;
+  color: #374151;
+}
+
+/* AUTOR */
+.message__author {
+  display: block;
+  font-size: 1.0rem;
+  font-weight: 600;
+  color: #4b4c4f;
+  margin-bottom: 4px;
+}
+
+/* CUSTOMER */
+.message--customer {
+  align-self: flex-start;
+  background: #e0eefc;   /* cinza frio */
+}
+
+/* SUPPORT */
+.message--support {
+  align-self: flex-end;
+  background: #f5ffeb;   /* quase branco */
+}

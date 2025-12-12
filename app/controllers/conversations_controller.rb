@@ -5,7 +5,21 @@ class ConversationsController < ApplicationController
   end
 
   def index
-    @conversations = Conversation.all
+  conversations = Conversation
+                    .includes(:classification)
+                    .order(created_at: :desc)
+                    .to_a
+
+  grouped = conversations.group_by(&:classification_id)
+
+  @conversations = []
+
+  # enquanto ainda houver conversas em algum grupo
+  while grouped.values.any?(&:any?)
+    grouped.each_value do |list|
+      @conversations << list.shift if list.any?
+      end
+    end
   end
 
   def edit
@@ -15,6 +29,4 @@ class ConversationsController < ApplicationController
   def update
 
   end
-
-
 end

@@ -34,9 +34,9 @@
           <p class="kpi-card__section-value">How to reset password</p>
         </div>
 
-        <button class="kpi-card__button kpi-card__button--questions">
-          View FAQ Conversations
-        </button>
+        <%= link_to "View FAQ Conversations",
+            conversations_path,
+            class: "kpi-card__button kpi-card__button--questions" %>
       </div>
     </article>
 
@@ -61,9 +61,10 @@
           <p class="kpi-card__section-value">Late Delivery</p>
         </div>
 
-        <button class="kpi-card__button kpi-card__button--complaints">
-          Open 80/20 Analysis
-        </button>
+        <%= link_to "Open 80/20 Analysis",
+            classifications_path,
+            class: "kpi-card__button kpi-card__button--complaints" %>
+
       </div>
     </article>
 

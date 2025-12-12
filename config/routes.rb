@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'classifications/index'
   get 'classifications/show'
-
+  get "dashboard", to: "pages#dashboard"
   devise_for :users
   root to: "pages#dashboard"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
