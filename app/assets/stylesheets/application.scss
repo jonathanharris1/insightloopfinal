@@ -9,6 +9,8 @@
 
 // Your CSS partials
 @import "components/index";
+@import "components/sidebar";
+
 @import "pages/index";
 
 @import "dashboard";
@@ -28,12 +30,20 @@ a {
   text-decoration: none;
 }
 
-/* ===========================
-   CORES DO DASHBOARD INICIAL
-   =========================== */
-
+/* Dashboard colors */
 :root {
   --questions: #2563eb;
   --complaints: #f97316;
   --product: #8b5cf6;
+}
+
+
+.app-layout {
+  display: flex;
+}
+
+
+.app-main {
+  flex: 1;
+  padding: 24px;
 }

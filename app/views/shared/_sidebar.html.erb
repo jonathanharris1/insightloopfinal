@@ -1,0 +1,84 @@
+<!-- app/views/shared/_sidebar.html.erb -->
+<aside class="sidebar" aria-label="Main navigation" role="navigation">
+  <div class="brand">
+    <div class="brand-text">
+      <h2>InsightLoop</h2>
+      <!-- <p class="brand-subtitle">Customer Success</p>-->
+    </div>
+  </div>
+
+  <div class="section">
+    <h4 class="section-title">Menu Principal</h4>
+
+    <ul class="nav-list">
+      <li class="nav-item <%= 'active' if current_page?('/') %>">
+        <%= link_to '/', data: { nav: 'dashboard' }, aria: { current: (current_page?('/') ? 'page' : nil) } do %>
+          <span class="nav-icon"><i class="fa fa-th-large" aria-hidden="true"></i></span>
+          <span class="nav-label">Dashboard</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/smart_trainer') %>">
+        <%= link_to '/smart_trainer' do %>
+          <span class="nav-icon"><i class="fa fa-graduation-cap" aria-hidden="true"></i></span>
+          <span class="nav-label">Smart Trainer</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/conversations') %>">
+        <%= link_to '/conversations' do %>
+          <span class="nav-icon"><i class="fa fa-comments" aria-hidden="true"></i></span>
+          <span class="nav-label">Conversas</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/analytics') %>">
+        <%= link_to classifications_index_path do %>
+          <span class="nav-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></span>
+          <span class="nav-label">Análises</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/settings') %>">
+        <%= link_to '/settings' do %>
+          <span class="nav-icon"><i class="fa fa-cog" aria-hidden="true"></i></span>
+          <span class="nav-label">Configurações</span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h4 class="section-title">Intelligence</h4>
+
+    <ul class="nav-list">
+      <li class="nav-item <%= 'active' if current_page?('/intelligence/questions') %>">
+        <%= link_to '/intelligence/questions' do %>
+          <span class="nav-icon"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
+          <span class="nav-label">Perguntas & FAQ</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/intelligence/complaints') %>">
+        <%= link_to '/intelligence/complaints' do %>
+          <span class="nav-icon"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+          <span class="nav-label">Reclamações</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/intelligence/product') %>">
+        <%= link_to '/intelligence/product' do %>
+          <span class="nav-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
+          <span class="nav-label">Insights de Produto</span>
+        <% end %>
+      </li>
+
+      <li class="nav-item <%= 'active' if current_page?('/analysis/conversations') %>">
+        <%= link_to '/analysis/conversations' do %>
+          <span class="nav-icon"><i class="fa fa-wifi" aria-hidden="true"></i></span>
+          <span class="nav-label">Voice of Customer</span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</aside>

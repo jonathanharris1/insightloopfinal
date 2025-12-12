@@ -1,0 +1,105 @@
+.sidebar {
+  width: 260px !important;
+  padding: 16px;
+  background: #0f172a;
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #0ea5a4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.brand-subtitle {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nav-list.small {
+  padding: 0;
+  font-size: 14px;
+}
+
+.section-title {
+  font-size: 16px;
+  color: #cbd5e1;
+  margin: 0 0 8px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin: 16px 0;
+}
+
+
+
+
+/* Default link + icon color = white */
+.sidebar a {
+  color: #ffffff !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Force icon to follow text color */
+.sidebar a i,
+.sidebar a svg {
+  color: #ffffff !important;
+}
+
+/* Hover = blue text + blue icon + soft background */
+.sidebar a:hover {
+  color: #3b82f6 !important;              /* blue text */
+  background: rgba(255,255,255,0.06);     /* subtle rounded highlight */
+}
+
+.sidebar a:hover i,
+.sidebar a:hover svg {
+  color: #3b82f6 !important;              /* blue icon */
+}
+
+/* Active state (optional) — looks like your reference */
+/*.sidebar a.active,
+.sidebar .nav-item.active a {
+  background: rgba(255,255,255,0.10);
+  color: #3b82f6 !important;
+}
+
+.sidebar a.active i,
+.sidebar .nav-item.active a i {
+  color: #3b82f6 !important;
+}*/
