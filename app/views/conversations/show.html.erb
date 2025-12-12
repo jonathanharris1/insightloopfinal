@@ -20,10 +20,9 @@
   </div>
 
   <!-- Conteúdo da conversa -->
-  <div class="conversation-show__content">
-  <h2>Conversa</h2>
 
   <div class="conversation-thread">
+    <h2>Conversa</h2>
     <% @conversation.content.to_s.lines.each do |line| %>
       <% if line.start_with?("[Customer]:") %>
         <div class="message message--customer">

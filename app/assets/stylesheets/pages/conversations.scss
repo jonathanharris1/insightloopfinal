@@ -244,7 +244,12 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  border: 1px solid #e5e7eb;   /* cinza bem leve */
+  border-radius: 14px;
+  padding: 16px;
+  background: #f4f4f4;
 }
+
 
 /* MESSAGE BASE */
 .message {
@@ -253,7 +258,7 @@
   border-radius: 14px;
   font-size: 0.9rem;
   line-height: 1.5;
-  background: #f3f4f6;
+  background: #f2f2f2;
   color: #374151;
 }
 
