@@ -7,7 +7,6 @@
     </div>
 
     <button class="dashboard-header__filter-button">
-      <!-- ícone só se quiser, senão pode tirar o svg -->
       Últimos 7 dias
     </button>
   </header>
@@ -18,6 +17,7 @@
     <article class="kpi-card kpi-card--questions">
       <div class="kpi-card__header">
         <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-solid fa-question"></i>
           Questions &amp; FAQ
         </div>
         <span class="kpi-card__pill kpi-card__pill--questions">42%</span>
@@ -44,6 +44,7 @@
     <article class="kpi-card kpi-card--complaints">
       <div class="kpi-card__header">
         <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-solid fa-circle-exclamation"></i>
           Complaints &amp; Frictions
         </div>
         <span class="kpi-card__pill kpi-card__pill--complaints">31%</span>
@@ -70,6 +71,7 @@
     <article class="kpi-card kpi-card--product">
       <div class="kpi-card__header">
         <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-regular fa-lightbulb"></i>
           Product Insights
         </div>
         <span class="kpi-card__pill kpi-card__pill--product">27%</span>
@@ -93,18 +95,19 @@
     </article>
   </section>
 
-  <!-- GRÁFICO (placeholder por enquanto) -->
+  <!-- GRÁFICO -->
   <section class="panel">
     <div class="panel__header">
       <h2 class="panel__title">Weekly Conversation Trend</h2>
       <p class="panel__subtitle">Distribution by type over the last 7 days</p>
     </div>
 
-    <div class="panel__body">
-      <!-- aqui depois entra o gráfico com Stimulus -->
-      <div class="panel__chart-placeholder">
-        <!-- se já tiver Stimulus/Chart.js podemos trocar por um <canvas> -->
-      </div>
+    <div
+      class="panel__body"
+      data-controller="weekly-conversation-chart"
+      data-weekly-conversation-chart-series-value='{"labels":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"datasets":[{"label":"Questions","data":[120,130,118,140,128,90,110],"color":"--questions"},{"label":"Complaints","data":[82,86,79,90,84,60,120],"color":"--complaints"},{"label":"Product","data":[75,72,80,78,82,65,95],"color":"--product"}]}'
+    >
+      <canvas data-weekly-conversation-chart-target="canvas"></canvas>
     </div>
   </section>
 </div>

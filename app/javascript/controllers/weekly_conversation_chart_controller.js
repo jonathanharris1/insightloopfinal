@@ -1,22 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import {
-  Chart,
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend
-} from "chart.js"
-
-Chart.register(
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend
-)
+//import Chart from "chart.js/auto"
 
 // data-controller="weekly-conversation-chart"
 export default class extends Controller {
