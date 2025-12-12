@@ -11,8 +11,10 @@
   conversation_priorities = ["Alta", "Média", "Baixa"]
 %>
 
-<div class="conversations-page">
-
+      <div class="conversations-page">
+      <%= link_to dashboard_path, class: "back-link" do %>
+      <i class="fa-solid fa-arrow-left-long"></i>
+      <% end %>
   <h1 class="conversations-title">Todas as Conversas</h1>
   <h2 class="conversations-count">56 Conversas no Total</h2>
 

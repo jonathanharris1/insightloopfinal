@@ -1,19 +1,48 @@
 
+<div class="conversation-show">
 
-<h1>Atendimento</h1>
+  <!-- Header -->
+  <div class="conversation-show__header">
+    <h1 class="conversation-show__title">Atendimento</h1>
 
-<p>
-  <strong>User_id:</strong> <%= @conversation.user_id %>
-</p>
 
-<p>
-  <strong>Canal:</strong> <%= @conversation.channel %>
-</p>
+  </div>
 
-<p>
-  <strong>Content:</strong> <%= @conversation.content %>
-</p>
+  <!-- Meta informações -->
+  <div class="conversation-show__meta">
+    <span class="meta-item">
+      <strong>Canal:</strong> <%= @conversation.channel %>
+    </span>
 
-<hr>
+    <span class="meta-item">
+      <strong>ID do Usuário:</strong> <%= @conversation.user_id %>
+    </span>
+  </div>
 
-<%= link_to "⬅ Voltar para lista", root_path %>
+  <!-- Conteúdo da conversa -->
+  <div class="conversation-show__content">
+  <h2>Conversa</h2>
+
+  <div class="conversation-thread">
+    <% @conversation.content.to_s.lines.each do |line| %>
+      <% if line.start_with?("[Customer]:") %>
+        <div class="message message--customer">
+          <span class="message__author">Cliente</span>
+          <p><%= line.gsub("[Customer]:", "").strip %></p>
+        </div>
+
+      <% elsif line.start_with?("[Support Agent]:") %>
+        <div class="message message--support">
+          <span class="message__author">Suporte</span>
+          <p><%= line.gsub("[Support Agent]:", "").strip %></p>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+ <%= link_to conversations_path, class: "back-link" do %>
+      <i class="fa-solid fa-arrow-left-long"></i>
+      Voltar para lista
+    <% end %>
+</div>
