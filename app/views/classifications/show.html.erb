@@ -2,7 +2,6 @@
   #conversationCarousel .carousel-item {
     height: 180px;
     overflow: hidden;
-
   }
 
   #conversationCarousel .carousel-item p {
@@ -13,6 +12,8 @@
     text-overflow: ellipsis;
   }
 </style>
+
+
 
 <div style="background-color: #fcf7f7; min-height: 100vh; padding: 24px 0;">
   <div class="container" style="max-width: 1100px;">
@@ -93,61 +94,20 @@
                 </span>
               <% end %>
             </div>
-
-            <div style="height: 260px;">
-              <canvas id="volumeTrendChart-<%= @classification.id %>"></canvas>
-            </div>
+    <!-- Stimulus aqui -->
+    <div
+      style="height: 220px;"
+      data-controller="volume-chart"
+      data-volume-chart-labels-value="<%= @volume_points.map { |p| p[:label] }.to_json %>"
+      data-volume-chart-values-value="<%= @volume_points.map { |p| p[:count] }.to_json %>"
+    >
+      <canvas data-volume-chart-target="canvas"></canvas>
+    </div>
+            <%# <div style="height: 260px;">
+              <canvas id="volumeTrendChart-<%= @classification.id %>
+            <%# </div> %>
           </div>
         </div>
-
-        <script>
-          function renderVolumeChart() {
-            const canvasId = "volumeTrendChart-<%= @classification.id %>";
-            const canvas = document.getElementById(canvasId);
-            if (!canvas || typeof Chart === "undefined") return;
-
-            if (canvas._chartInstance) {
-              canvas._chartInstance.destroy();
-            }
-
-            const labels = <%= raw @volume_points.map { |p| p[:label] }.to_json %>;
-            const dataValues = <%= raw @volume_points.map { |p| p[:count] }.to_json %>;
-
-            const chart = new Chart(canvas, {
-              type: "line",
-              data: {
-                labels: labels,
-                datasets: [{
-                  data: dataValues,
-                  fill: true,
-                  tension: 0.4,
-                  borderColor: "#f04438",
-                  backgroundColor: "rgba(240, 68, 56, 0.10)",
-                  pointRadius: 0,
-                  borderWidth: 2
-                }]
-              },
-              options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                  x: { grid: { display: false } },
-                  y: {
-                    beginAtZero: true,
-                    grid: { color: "rgba(0,0,0,0.05)" },
-                    ticks: { precision: 0 }
-                  }
-                }
-              }
-            });
-
-            canvas._chartInstance = chart;
-          }
-
-          document.addEventListener("turbo:load", renderVolumeChart);
-          document.addEventListener("DOMContentLoaded", renderVolumeChart);
-        </script>
 
         <!-- CARROSSEL -->
         <div class="col-lg-6">

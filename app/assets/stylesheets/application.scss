@@ -11,6 +11,8 @@
 @import "components/index";
 @import "pages/index";
 
+@import "dashboard";
+
 .main {
   max-width: 1200px;
   margin: 0 auto;
@@ -23,4 +25,14 @@ body {
 
 a {
   text-decoration: none;
+}
+
+/* ===========================
+   CORES DO DASHBOARD INICIAL
+   =========================== */
+
+:root {
+  --questions: #2563eb;
+  --complaints: #f97316;
+  --product: #8b5cf6;
 }

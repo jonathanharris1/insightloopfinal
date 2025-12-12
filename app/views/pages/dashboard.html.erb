@@ -1,0 +1,113 @@
+<div class="dashboard-page">
+  <!-- Header simples do dashboard -->
+  <header class="dashboard-header">
+    <div>
+      <h1 class="dashboard-header__title">Bom dia, Ana</h1>
+      <p class="dashboard-header__subtitle">quinta-feira, 11 de dezembro de 2025</p>
+    </div>
+
+    <button class="dashboard-header__filter-button">
+      Últimos 7 dias
+    </button>
+  </header>
+
+  <!-- CARDS KPI -->
+  <section class="dashboard-kpi-grid">
+    <!-- Questions & FAQ -->
+    <article class="kpi-card kpi-card--questions">
+      <div class="kpi-card__header">
+        <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-solid fa-question"></i>
+          Questions &amp; FAQ
+        </div>
+        <span class="kpi-card__pill kpi-card__pill--questions">42%</span>
+      </div>
+
+      <div class="kpi-card__body">
+        <div>
+          <p class="kpi-card__value">847</p>
+          <p class="kpi-card__hint">conversations this period</p>
+        </div>
+
+        <div class="kpi-card__divider">
+          <p class="kpi-card__section-label">Most common</p>
+          <p class="kpi-card__section-value">How to reset password</p>
+        </div>
+
+        <button class="kpi-card__button kpi-card__button--questions">
+          View FAQ Conversations
+        </button>
+      </div>
+    </article>
+
+    <!-- Complaints & Frictions -->
+    <article class="kpi-card kpi-card--complaints">
+      <div class="kpi-card__header">
+        <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-solid fa-circle-exclamation"></i>
+          Complaints &amp; Frictions
+        </div>
+        <span class="kpi-card__pill kpi-card__pill--complaints">31%</span>
+      </div>
+
+      <div class="kpi-card__body">
+        <div>
+          <p class="kpi-card__value">623</p>
+          <p class="kpi-card__hint">conversations this period</p>
+        </div>
+
+        <div class="kpi-card__divider">
+          <p class="kpi-card__section-label">Top recurring</p>
+          <p class="kpi-card__section-value">Late Delivery</p>
+        </div>
+
+        <button class="kpi-card__button kpi-card__button--complaints">
+          Open 80/20 Analysis
+        </button>
+      </div>
+    </article>
+
+    <!-- Product Insights -->
+    <article class="kpi-card kpi-card--product">
+      <div class="kpi-card__header">
+        <div class="kpi-card__title">
+          <i class="kpi-card__icon fa-regular fa-lightbulb"></i>
+          Product Insights
+        </div>
+        <span class="kpi-card__pill kpi-card__pill--product">27%</span>
+      </div>
+
+      <div class="kpi-card__body">
+        <div>
+          <p class="kpi-card__value">542</p>
+          <p class="kpi-card__hint">conversations this period</p>
+        </div>
+
+        <div class="kpi-card__divider">
+          <p class="kpi-card__section-label">Top feature request</p>
+          <p class="kpi-card__section-value">Dark mode request</p>
+        </div>
+
+        <button class="kpi-card__button kpi-card__button--product">
+          View Product Insights
+        </button>
+      </div>
+    </article>
+  </section>
+
+  <!-- GRÁFICO -->
+  <section class="panel">
+    <div class="panel__header">
+      <h2 class="panel__title">Weekly Conversation Trend</h2>
+      <p class="panel__subtitle">Distribution by type over the last 7 days</p>
+    </div>
+
+    <div
+      class="panel__body"
+      data-controller="weekly-conversation-chart"
+      data-weekly-conversation-chart-series-value='{"labels":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"datasets":[{"label":"Questions","data":[120,130,118,140,128,90,110],"color":"--questions"},{"label":"Complaints","data":[82,86,79,90,84,60,120],"color":"--complaints"},{"label":"Product","data":[75,72,80,78,82,65,95],"color":"--product"}]}'
+    >
+      <canvas data-weekly-conversation-chart-target="canvas"></canvas>
+    </div>
+  </section>
+</div>
