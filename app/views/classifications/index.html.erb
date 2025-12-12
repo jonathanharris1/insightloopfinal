@@ -11,7 +11,7 @@
 <!-- Fonts / CSS (replace with your toolchain or Tailwind build) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <!-- TODO: replace with your app.css or Tailwind output -->
 <link rel="stylesheet" href="/assets/styles.css" />
 
@@ -20,29 +20,9 @@
 <meta property="og:title" content="InsightLoop - Customer Success Intelligence" />
 <meta property="og:description" content="Análises e automação para atendimento ao cliente de e-commerce" />
 
-
 <!-- JS entry (defer) -->
 <script defer src="/assets/app.js"></script>
 
-
-<style>
-/* Minimal layout helpers for a quick local preview. Remove when using Tailwind / design system. */
-:root{--sidebar-width:16rem;--gap:16px;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,'Noto Sans',sans-serif}
-*{box-sizing:border-box}
-body{margin:0;color:#0f172a;background:#f8fafc}
-.app{display:flex;min-height:100vh}
-.sidebar{width:var(--sidebar-width);background:#0b1220;color:#fff;padding:20px}
-.sidebar h2{margin:0 0 8px}
-.main{flex:1;display:flex;flex-direction:column}
-header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:white}
-.content{padding:24px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.card{background:white;border:1px solid #e6e9ee;border-radius:8px;padding:20px}
-.cards-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
-.chart{height:420px;min-height:240px}
-.list{display:flex;flex-direction:column;gap:8px}
-@media (max-width:900px){.cards-row,.grid{grid-template-columns:repeat(1,1fr)}}
-</style>
 </head>
 
 <!-- BODY STARTS -->
@@ -50,158 +30,86 @@ header{height:64px;border-bottom:1px solid #e6e9ee;display:flex;align-items:cent
 
 <div id="app" class="app">
 
-<!-- SIDEBAR: navigation (kept minimal and accessible)
-<aside class="sidebar" aria-label="Main navigation">
-<div class="brand">
-<div aria-hidden="true" style="width:48px;height:48px;border-radius:8px;background:#0ea5a4;display:flex;align-items:center;justify-content:center;font-weight:700">IL</div>
-<h2>InsightLoop</h2>
-<p style="margin:0;font-size:12px;opacity:0.8">Customer Success</p>
-</div>
-
-
-<nav aria-label="Primary">
-<ul style="list-style:none;padding:12px 0;margin:0;display:flex;flex-direction:column;gap:6px">
-<li><a href="/" data-nav="dashboard">Dashboard</a></li>
-<li><a href="/conversations" data-nav="conversations">Conversas</a></li>
-<li><a href="/analytics" data-nav="analytics">Análises</a></li>
-<li><a href="/intelligence/questions" data-nav="faq">Perguntas & FAQ</a></li>
-<li><a href="/settings" data-nav="settings">Configurações</a></li>
-</ul>
-</nav>
-
-
-<hr style="border:none;border-top:1px solid rgba(255,255,255,0.06);margin:16px 0" />
-
-
-<section aria-labelledby="intelligence-title">
-<h3 id="intelligence-title" style="font-size:12px;color:#cbd5e1;margin:0 0 8px">Intelligence</h3>
-<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;font-size:14px">
-<li><a href="/intelligence/complaints">Reclamações</a></li>
-<li><a href="/intelligence/product">Insights de Produto</a></li>
-<li><a href="/analysis/conversations">Voice of Customer</a></li>
-</ul>
-</section>
-</aside>-->
-
-
 <!-- MAIN: header + content -->
-<div class="main">
-<!-- <header>
-<div style="display:flex;align-items:center;gap:12px">
-<button aria-label="Toggle sidebar" id="sidebarToggle">☰</button>
-<div>
-<h1 style="margin:0;font-size:16px">Bom dia, Ana</h1>
-<p style="margin:0;font-size:12px;color:#6b7280">quarta-feira, 10 de dezembro de 2025</p>
-</div>
-</div>
-
-
-<div>
-<button id="dateRangeBtn" aria-haspopup="menu">Últimos 7 dias ▾</button>
-</div>
-</header> -->
-
-
 <main class="content" id="main-content">
+  <div class="page-container">
+  <h1 class="page-title">Análises</h1>
+  <p class="page-subtitle">Visualize métricas e tendências do atendimento ao cliente</p>
 
+  <!-- KPI Cards -->
+  <section aria-label="KPIs" class="kpi-grid" role="region">
+    <div class="kpi-card">
+      <p class="kpi-label">Volume Total</p>
+      <p class="kpi-value"><%= Conversation.count %></p>
+      <p class="kpi-delta kpi-delta--up">+12% vs. semana anterior</p>
+    </div>
 
-<h1><strong>Análises</strong></h1>
-<p>Visualize métricas e tendências do atendimento ao cliente</p>
+    <div class="kpi-card">
+      <p class="kpi-label">Taxa de Resolução</p>
+      <p class="kpi-value">88.5%</p>
+      <p class="kpi-delta kpi-delta--up">+3.2% vs. semana anterior</p>
+    </div>
 
+    <div class="kpi-card">
+      <p class="kpi-label">Tempo Médio</p>
+      <p class="kpi-value">8.2 min</p>
+      <p class="kpi-delta kpi-delta--down">+1.5 min vs. semana anterior</p>
+    </div>
 
-<!-- KPI Cards -->
-<section aria-label="KPIs" class="cards-row" role="region">
-<div class="card" aria-hidden="false">
-<p style="margin:0;font-size:12px;color:#6b7280">Volume Total</p>
-<p style="margin:8px 0;font-size:28px;font-weight:700"><%= Conversation.count %></p>
-<p style="margin:0;font-size:13px;color:green">+12% vs. semana anterior</p>
-</div>
+    <div class="kpi-card">
+      <p class="kpi-label">Satisfação</p>
+      <p class="kpi-value">4.6 / 5.0</p>
+      <p class="kpi-delta kpi-delta--up">+0.2 vs. semana anterior</p>
+    </div>
+  </section>
 
+  <!-- Pareto / 80-20 analysis -->
+  <section class="section-card" aria-labelledby="pareto-title">
+    <h2 id="pareto-title">Análise de Foco 80/20 (Princípio de Pareto)</h2>
+    <p class="muted">Identifique os poucos problemas (20%) que geram a maior parte do volume (80%)</p>
 
-<div class="card">
-<p style="margin:0;font-size:12px;color:#6b7280">Taxa de Resolução</p>
-<p style="margin:8px 0;font-size:28px;font-weight:700">88.5%</p>
-<p style="margin:0;font-size:13px;color:green">+3.2% vs. semana anterior</p>
-</div>
+    <div class="pareto-callout">
+      <p class="pareto-callout__title">
+        <strong>💡 Insight:</strong>
+        Focar nos seguintes problemas resolverá
+        <strong><%= @pareto.last.cum_pct.to_i %>%</strong> do volume total
+      </p>
 
+      <ul class="pareto-list">
+        <% @pareto.each do |item| %>
+          <li class="pareto-list__item">
+            <strong><%= item.tag %></strong>:
+            <%= item.pct.to_i %>% do volume total
+            <span class="muted">(<%= item.cum_pct.to_i %>% cumulativo)</span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
 
-<div class="card">
-<p style="margin:0;font-size:12px;color:#6b7280">Tempo Médio</p>
-<p style="margin:8px 0;font-size:28px;font-weight:700">8.2 min</p>
-<p style="margin:0;font-size:13px;color:#bb1f1f">+1.5 min vs. semana anterior</p>
-</div>
+    <div id="classificationChart" class="chart-wrap">
+      <%= render "shared/charts_paretto" %>
+    </div>
+  </section>
 
+  <!-- Top issues list -->
+  <section class="section-card problems-section" aria-labelledby="top-issues-title">
+    <h3 id="top-issues-title" class="problems-section__title">Principais Problemas</h3>
+    <p class="problems-section__subtitle">Tópicos em alta que precisam de atenção</p>
 
-<div class="card">
-<p style="margin:0;font-size:12px;color:#6b7280">Satisfação</p>
-<p style="margin:8px 0;font-size:28px;font-weight:700">4.6 / 5.0</p>
-<p style="margin:0;font-size:13px;color:green">+0.2 vs. semana anterior</p>
-</div>
-</section>
+    <div class="problems-list" role="list">
+      <% @pareto.each_with_index do |item, i| %>
+        <%= render partial: "shared/trend_card", locals: { item: item, index: i + 1 } %>
+      <% end %>
+    </div>
+  </section>
 
-
-<!-- Pareto / 80-20 analysis -->
-<section class="card" aria-labelledby="pareto-title">
-<h2 id="pareto-title" style="margin:0 0 8px">Análise de Foco 80/20 (Princípio de Pareto)</h2>
-<p style="margin:0 0 12px;color:#6b7280">Identifique os poucos problemas (20%) que geram a maior parte do volume (80%)</p>
-
-
-<div style="margin-bottom:12px;padding:12px;border-radius:6px;background:#ecfeff;border:1px solid #99f6e4">
-<strong>💡 Insight:</strong>
-<span>Focar nos seguintes problemas resolverá <strong><%= @pareto.last.cum_pct.to_i%>%</strong> do volume total</span>
-<!-- HERE -->
-<p>
-<ul>
-  <% @pareto.each do |item| %>
-    <li>
-      <strong><%= item.tag %></strong>: <%= item.pct.to_i %>% do volume total (<%= item.cum_pct.to_i %>% cumulative)
-    </li>
-  <% end %>
-</ul>
-
-
-</div>
-
-
-<!-- Placeholder chart: replace with Recharts/Chart.js integration -->
-<div id="classificationChart" style="width:100%; max-width:1000px; height:500px;">
-<%= render "shared/charts_paretto" %>
-
-</div>
-</section>
-
-<p>
-<!-- Top issues list (interactive items) -->
-<section class="card" aria-labelledby="top-issues-title">
-<h3 id="top-issues-title">Principais Problemas</h3>
-<p style="margin:6px 0 12px;color:#6b7280">Tópicos em alta que precisam de atenção</p>
-
-
-<div class="list" role="list">
-<!-- Use data attributes to attach click handlers and IDs -->
-
-
-
-<% @pareto.each_with_index do |item, i| %>
-  <%= render partial: "shared/trend_card", locals: { item: item, index: i + 1 } %>
-<% end %>
-
-<%#= link_to classifications_show_path(item.id),
-<%#= link_to "New Classification", new_classification_path %>
-
-</div>
-</section>
-
+  <div class="page-footer">
+    <%= link_to "⬅ Back to Conversations", root_path, class: "back-link" %>
+  </div>
+  </div>
 </main>
 </div>
 </div>
-
-
-
-
-
-
-<%= link_to "⬅ Back to Conversations", root_path %>
 
 
 </body>

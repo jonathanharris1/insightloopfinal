@@ -36,7 +36,7 @@
         }
       },
 
-      legend: { data: ['Count','Cumulative %'], top: 6 },
+      legend: { data: ['Count','Cumulative %'], top: 10 },
 
       grid: { left:'6%', right:'6%', bottom:'18%', containLabel:true },
 
@@ -63,7 +63,8 @@
           name: 'Count',
           type: 'bar',
           data: countsPercent,
-          barWidth: Math.min(60, Math.max(24, Math.floor((el.clientWidth||800)/labels.length) - 4)),
+          barWidth: 56,
+          barMaxWidth: 56,
           itemStyle: { borderRadius: [6, 6, 0, 0] },
           label: {
             show: true,

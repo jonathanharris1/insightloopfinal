@@ -61,9 +61,10 @@
           <p class="kpi-card__section-value">Late Delivery</p>
         </div>
 
-        <button class="kpi-card__button kpi-card__button--complaints">
+        <%= link_to classifications_path,
+            class: "kpi-card__button kpi-card__button--complaints" do %>
           Open 80/20 Analysis
-        </button>
+        <% end %>
       </div>
     </article>
 

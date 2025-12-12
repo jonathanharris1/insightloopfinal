@@ -1,0 +1,278 @@
+/* Page header */
+.page-title {
+  font-size: 2.8rem;        /* grande de verdade */
+  font-weight: 900;         /* BEM gordinho */
+  letter-spacing: -0.035em; /* cara de produto premium */
+  margin: 0 0 10px;
+  line-height: 1.05;
+}
+
+.page-subtitle {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #64748b;           /* cinza elegante */
+  margin: 0 0 28px;
+}
+
+/* Layout grids */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+/* Cards */
+.section-card {
+  background: #fff;
+  border: 1px solid #e6e9ee;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: #fff;
+  border: 1px solid #e6e9ee;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.chart-wrap {
+  width: 100%;
+  height: 420px;
+  margin: 24px auto 0;
+}
+
+.kpi-label { margin: 0; font-size: 12px; color: #6b7280; }
+.kpi-value { margin: 8px 0; font-size: 28px; font-weight: 700; }
+.kpi-delta { margin: 0; font-size: 13px; }
+.kpi-delta--up { color: #16a34a; }
+.kpi-delta--down { color: #bb1f1f; }
+
+/* Pareto callout */
+.pareto-callout {
+  margin: 16px 0 24px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-left: 4px solid #e5e7eb;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.pareto-callout__title {
+  margin: 0 0 14px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.pareto-list { margin: 0; padding-left: 18px; }
+
+.pareto-list__item {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.muted { color: #6b7280; }
+
+
+.page-container {
+  max-width: 1280px;   /* pode ser 1200px se quiser mais “dashboard” */
+  margin: 0 auto;      /* ISSO centraliza */
+  width: 100%;
+  padding: 1.5rem 2.5rem 2.5rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ===========================
+   PRINCIPAIS PROBLEMAS (LISTA)
+   =========================== */
+
+.problems-section {
+  margin-top: 32px;
+}
+
+.problems-section__title {
+  font-size: 1.6rem;       /* MAIS GRANDE */
+  font-weight: 900;        /* BEM GORDO */
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.problems-section__subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 20px;     /* <-- AFASTA DOS CARDS */
+}
+
+/* lista */
+.problems-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;               /* espaço ENTRE os cards */
+}
+
+/* card individual */
+.problem-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(15,23,42,0.04);
+}
+
+/* lado esquerdo */
+.problem-item__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* bolinha do ranking */
+.problem-item__index {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3b5bfd;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* textos */
+.problem-item__texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.problem-item__title {
+  font-size: 1.05rem;      /* MAIS DESTAQUE */
+  font-weight: 800;
+  color: var(--text);
+}
+
+.problem-item__meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* lado direito */
+.problem-item__trend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.problem-item__pill {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ===== Trend Card (Principais Problemas) ===== */
+.trend-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
+  text-decoration: none;
+
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.trend-card:hover {
+  background: #f3f4f6; /* cinza claro */
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.trend-card__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.trend-card__index {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #eef2ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 800;
+  color: #3b82f6;
+  flex: 0 0 auto;
+}
+
+.trend-card__texts { min-width: 0; }
+
+.trend-card__title {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trend-card__subtitle {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.trend-card__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-left: 16px;
+}
+
+.trend-card__delta {
+  background: #fecaca;
+  color: #b91c1c;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trend-card__arrow {
+  color: #9ca3af;
+  font-size: 18px;
+  line-height: 1;
+}
