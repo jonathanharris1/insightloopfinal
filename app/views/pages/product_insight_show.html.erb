@@ -1,0 +1,11 @@
+<h1 class="mb-3">Product Insight</h1>
+
+<div class="card p-3">
+  <pre style="white-space: pre-wrap; font-family: inherit;">
+<%= @conversation.content %>
+  </pre>
+</div>
+
+<%= link_to "← Voltar",
+  product_insights_path,
+  class: "btn btn-secondary mt-3" %>

@@ -6,4 +6,14 @@ class PagesController < ApplicationController
 
   def home
   end
+
+  def product_insights
+    @conversations = Conversation
+      .order(occurred_on: :desc)
+  end
+
+  def product_insight
+    @conversation = Conversation.find(params[:id])
+  end
+
 end

@@ -1,0 +1,57 @@
+<h1 class="mb-1">Todas as Conversas</h1>
+<p class="text-muted mb-4">
+  <%= @conversations.count %> Conversas no Total
+</p>
+
+<div class="conversation-list">
+
+  <% @conversations.each do |conversation| %>
+    <div class="conversation-item d-flex align-items-center justify-content-between">
+
+      <!-- LADO ESQUERDO -->
+      <div class="d-flex align-items-start gap-3">
+
+        <!-- Avatar -->
+        <div class="avatar-circle">
+          C
+        </div>
+
+        <!-- Conteúdo -->
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <strong>Cliente</strong>
+
+            <span class="badge bg-success-subtle text-success">
+              Ativa
+            </span>
+
+            <span class="badge bg-secondary-subtle text-secondary">
+              Baixa
+            </span>
+          </div>
+
+          <div class="fw-semibold">
+            Product Insight
+          </div>
+
+          <div class="text-muted small">
+            <%= truncate(conversation.content, length: 90) %>
+          </div>
+
+          <span class="emotion-tag">
+            Confuso
+          </span>
+        </div>
+
+      </div>
+
+      <!-- SETA -->
+      <%= link_to product_insight_path(conversation),
+          class: "arrow-link" do %>
+        →
+      <% end %>
+
+    </div>
+  <% end %>
+
+</div>

@@ -811,3 +811,582 @@ conversas_56 = <<~CHAT56
 CHAT56
 
 Conversation.create!(channel: "RA", content: conversas_56, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+product_insights = [
+<<~CHAT,
+[Customer]: Oi, tudo bem? Eu gosto muito dos modelos de vocês, mas sempre fico insegura com o tamanho.
+[Support Agent]: Oi! Tudo bem sim 😊 Fico feliz que goste dos nossos modelos. Pode me contar melhor o que gera essa insegurança?
+[Customer]: Então, cada marca parece ter um padrão diferente. Acho que o guia de tamanhos poderia ser mais detalhado.
+[Support Agent]: Entendo perfeitamente. Você sente falta de mais informações como comprimento do pé em cm?
+[Customer]: Sim, exatamente. E talvez uma comparação tipo “calça justo”, “forma grande”.
+[Support Agent]: Ótima sugestão! Vou registrar esse feedback e encaminhar para o time de produto.
+[Customer]: Acho que ajudaria muita gente a comprar com mais segurança.
+[Support Agent]: Com certeza. Obrigada por compartilhar, isso é muito valioso pra gente.
+CHAT
+
+<<~CHAT,
+[Customer]: Olá! Estava olhando uma sandália linda no site.
+[Support Agent]: Oi! Que bom 😊 Qual modelo você estava vendo?
+[Customer]: A Sandália Aurora. Mas senti falta de fotos nos pés, em pessoas reais.
+[Support Agent]: Entendo. Você acha que ajudaria a ter uma noção melhor do caimento?
+[Customer]: Sim, totalmente. Foto em estúdio é bonita, mas no dia a dia é diferente.
+[Support Agent]: Faz todo sentido. Vou anotar essa sugestão para nosso time de marketing.
+[Customer]: Acho que aumentaria a confiança na compra.
+[Support Agent]: Concordo com você. Muito obrigada pelo insight!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi, posso dar uma sugestão?
+[Support Agent]: Claro! Adoramos receber sugestões 😊
+[Customer]: Seria legal permitir avaliações com fotos dos clientes.
+[Support Agent]: Que ótima ideia! Isso ajudaria outros clientes na decisão?
+[Customer]: Muito! Dá mais confiança ver como ficou em alguém real.
+[Support Agent]: Perfeito. Vou registrar isso como feedback de melhoria.
+[Customer]: Obrigada por ouvir.
+[Support Agent]: Nós que agradecemos! Isso ajuda muito nosso crescimento.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi, tudo bem?
+[Support Agent]: Oi! Tudo ótimo 😊 Em que posso ajudar?
+[Customer]: Eu tenho pé largo e sempre sofro pra escolher sapato.
+[Support Agent]: Entendo bem. Você sente falta dessa informação no site?
+[Customer]: Sim, seria ótimo um filtro tipo “pé largo” ou “pé fino”.
+[Support Agent]: Excelente ponto. Vou anotar essa sugestão agora.
+[Customer]: Facilitaria muito a vida.
+[Support Agent]: Com certeza. Obrigada por compartilhar essa experiência.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Tudo bem?
+[Support Agent]: Oi! Tudo sim 😊
+[Customer]: Acho que o prazo de entrega podia aparecer antes de finalizar a compra.
+[Support Agent]: Entendo. Você só consegue ver isso no final hoje?
+[Customer]: Sim, e às vezes isso muda minha decisão.
+[Support Agent]: Faz total sentido. Vou registrar como sugestão de melhoria.
+[Customer]: Obrigada, acho importante.
+[Support Agent]: Concordo com você. Obrigada pelo feedback!
+CHAT
+
+<<~CHAT,
+[Customer]: Olá! Estava comparando dois modelos parecidos.
+[Support Agent]: Oi! Posso te ajudar nisso 😊
+[Customer]: Seria legal ter uma função de comparar produtos no site.
+[Support Agent]: Ótima ideia! Comparar material, salto, conforto…
+[Customer]: Exato, tudo lado a lado.
+[Support Agent]: Vou anotar e repassar para o time técnico.
+[Customer]: Obrigada!
+[Support Agent]: Nós que agradecemos o insight.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Posso dar um feedback?
+[Support Agent]: Claro, pode sim 😊
+[Customer]: Eu sinto falta de mais detalhes sobre conforto nas descrições.
+[Support Agent]: Tipo palmilha, maciez, uso prolongado?
+[Customer]: Isso! Principalmente pra quem passa o dia em pé.
+[Support Agent]: Excelente ponto. Vou registrar isso agora.
+[Customer]: Obrigada por considerar.
+[Support Agent]: A gente agradece muito!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi, um modelo que eu queria está esgotado.
+[Support Agent]: Oi! Que pena 😕 Qual modelo?
+[Customer]: Pensei que seria legal ter aviso quando voltar ao estoque.
+[Support Agent]: Ótima sugestão! Um alerta por e-mail, por exemplo?
+[Customer]: Sim, exatamente.
+[Support Agent]: Vou encaminhar essa ideia ao time.
+[Customer]: Obrigada!
+[Support Agent]: Nós que agradecemos o insight.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Demorei pra achar o chat no site.
+[Support Agent]: Oi! Obrigada por avisar 😊
+[Customer]: Talvez um botão mais visível ajudasse.
+[Support Agent]: Entendi. Você estava no celular ou computador?
+[Customer]: No celular.
+[Support Agent]: Ótimo ponto, vou anotar isso como melhoria mobile.
+[Customer]: Obrigada.
+[Support Agent]: Feedback super importante!
+CHAT
+
+<<~CHAT,
+[Customer]: Olá!
+[Support Agent]: Oi 😊
+[Customer]: Amo um modelo de vocês, mas só tem duas cores.
+[Support Agent]: Entendo. Você gostaria de mais opções?
+[Customer]: Sim! Preto, nude, talvez tons claros.
+[Support Agent]: Ótimo insight. Vou repassar ao time de produto.
+[Customer]: Que bom!
+[Support Agent]: Obrigada pela sugestão!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Posso sugerir algo?
+[Support Agent]: Claro 😊
+[Customer]: Vídeos curtos mostrando o sapato em movimento.
+[Support Agent]: Excelente ideia! Ajuda muito a ver o caimento.
+[Customer]: Sim, principalmente andando.
+[Support Agent]: Vou registrar isso agora.
+[Customer]: Obrigada!
+[Support Agent]: Nós que agradecemos.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi!
+[Support Agent]: Oi 😊
+[Customer]: Já pensaram em embalagens mais sustentáveis?
+[Support Agent]: Ótima pergunta. Isso é importante pra você?
+[Customer]: Muito. Influencia até na escolha da marca.
+[Support Agent]: Vou registrar esse feedback ambiental.
+[Customer]: Obrigada por ouvir.
+[Support Agent]: Muito relevante mesmo!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Estava procurando meus pedidos antigos.
+[Support Agent]: Oi! Conseguiu encontrar?
+[Customer]: Sim, mas acho que podia ser mais organizado.
+[Support Agent]: Tipo com status e datas mais visíveis?
+[Customer]: Isso!
+[Support Agent]: Excelente sugestão. Vou anotar.
+[Customer]: Obrigada.
+[Support Agent]: Agradecemos muito!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi!
+[Support Agent]: Oi 😊
+[Customer]: Seria legal filtrar sapatos por ocasião: trabalho, festa…
+[Support Agent]: Que ótima ideia!
+[Customer]: Facilita muito pra escolher.
+[Support Agent]: Vou registrar essa sugestão agora.
+[Customer]: Obrigada.
+[Support Agent]: Nós que agradecemos!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi, tudo bem?
+[Support Agent]: Oi! Tudo sim 😊
+[Customer]: Vocês já pensaram em programa de pontos?
+[Support Agent]: Ótima sugestão! Isso te incentivaria a comprar mais?
+[Customer]: Com certeza.
+[Support Agent]: Vou encaminhar essa ideia.
+[Customer]: Obrigada!
+[Support Agent]: Feedback excelente.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi!
+[Support Agent]: Oi 😊
+[Customer]: A busca podia entender melhor quando a gente digita algo.
+[Support Agent]: Tipo sinônimos?
+[Customer]: Isso!
+[Support Agent]: Ótimo ponto. Vou registrar.
+[Customer]: Obrigada.
+[Support Agent]: Muito válido!
+CHAT
+
+<<~CHAT,
+[Customer]: Olá!
+[Support Agent]: Oi 😊
+[Customer]: Senti falta de info sobre durabilidade dos produtos.
+[Support Agent]: Tipo uso diário, material?
+[Customer]: Sim.
+[Support Agent]: Excelente insight. Vou anotar.
+[Customer]: Obrigada!
+[Support Agent]: Agradecemos muito.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi!
+[Support Agent]: Oi 😊
+[Customer]: Seria legal ter uma lista de desejos.
+[Support Agent]: Pra salvar produtos?
+[Customer]: Sim!
+[Support Agent]: Ótima sugestão. Vou registrar.
+[Customer]: Obrigada.
+[Support Agent]: Feedback anotado!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi!
+[Support Agent]: Oi 😊
+[Customer]: Promoções baseadas no que já comprei seriam legais.
+[Support Agent]: Personalizadas, né?
+[Customer]: Exatamente.
+[Support Agent]: Excelente ideia. Vou repassar.
+[Customer]: Obrigada!
+[Support Agent]: Agradecemos o insight.
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Uso muito o site no celular.
+[Support Agent]: Oi 😊
+[Customer]: Acho que algumas páginas podiam ser mais rápidas.
+[Support Agent]: Entendo. Isso atrapalha a compra?
+[Customer]: Um pouco, sim.
+[Support Agent]: Obrigada por avisar. Vou registrar essa melhoria.
+[Customer]: Que bom!
+[Support Agent]: Feedback super importante.
+CHAT
+]
+product_insights.each do |conversation|
+  Conversation.create!(
+    channel: "Whatsapp",
+    content: conversation,
+    user: user,
+    occurred_on: random_date(start_date, end_date)
+  )
+end
+
+questions = [
+
+<<~CHAT,
+[Customer]: Oi! Tudo bem?
+[Support Agent]: Oi! Tudo sim 😊 Como posso ajudar?
+[Customer]: Estou interessada num tênis, mas fiquei na dúvida sobre a forma.
+[Support Agent]: Claro! Qual modelo você está vendo?
+[Customer]: O Urban Flex. Ele tem forma normal?
+[Support Agent]: Sim, forma padrão. Se ficar entre dois números, indicamos o maior.
+[Customer]: Ele aperta nos lados?
+[Support Agent]: Não costuma apertar, é bem confortável.
+[Customer]: Ótimo, obrigada!
+[Support Agent]: Por nada! Qualquer dúvida, estou aqui 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Oi, posso tirar uma dúvida?
+[Support Agent]: Claro! Fique à vontade 😊
+[Customer]: A sandália Aurora é de couro?
+[Support Agent]: Sim, ela é confeccionada em couro legítimo.
+[Customer]: E a palmilha também?
+[Support Agent]: A palmilha é sintética, macia e confortável.
+[Customer]: Ela esquenta muito?
+[Support Agent]: Não, o material permite boa ventilação.
+[Customer]: Perfeito!
+[Support Agent]: Fico feliz em ajudar 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Se eu errar o tamanho, posso trocar?
+[Support Agent]: Pode sim 😊
+[Customer]: Tem custo?
+[Support Agent]: A primeira troca por tamanho é gratuita.
+[Customer]: Existe prazo?
+[Support Agent]: Sim, até 7 dias após o recebimento.
+[Customer]: Precisa estar sem uso?
+[Support Agent]: Sim, com etiqueta e embalagem original.
+[Customer]: Entendi.
+[Support Agent]: Qualquer coisa, estamos aqui!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Qual o prazo de entrega?
+[Support Agent]: Oi 😊 Para qual CEP?
+[Customer]: 13045-900.
+[Support Agent]: Para esse CEP, o prazo é de 5 a 7 dias úteis.
+[Customer]: Dá pra chegar antes?
+[Support Agent]: Depende da transportadora, não conseguimos garantir.
+[Customer]: Entendi.
+[Support Agent]: Qualquer outra dúvida, é só chamar!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Os produtos têm garantia?
+[Support Agent]: Sim 😊
+[Customer]: Por quanto tempo?
+[Support Agent]: 90 dias contra defeito de fabricação.
+[Customer]: E se descolar a sola?
+[Support Agent]: Aí a garantia cobre, sim.
+[Customer]: Que bom.
+[Support Agent]: Prezamos muito pela qualidade!
+CHAT
+
+<<~CHAT,
+[Customer]: Oi! Tem alguma promoção agora?
+[Support Agent]: Oi 😊 Temos 10% OFF na primeira compra.
+[Customer]: Como uso?
+[Support Agent]: Basta se cadastrar e aplicar o cupom no checkout.
+[Customer]: Funciona pra tudo?
+[Support Agent]: Exceto produtos já remarcados.
+[Customer]: Perfeito.
+[Support Agent]: Aproveite 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Posso parcelar a compra?
+[Support Agent]: Pode sim 😊
+[Customer]: Em quantas vezes?
+[Support Agent]: Até 6x sem juros no cartão.
+[Customer]: Tem valor mínimo?
+[Support Agent]: Não, qualquer valor.
+[Customer]: Ótimo.
+[Support Agent]: Qualquer dúvida, estou aqui!
+CHAT
+
+<<~CHAT,
+[Customer]: Esse modelo é confortável pra usar o dia todo?
+[Support Agent]: Sim 😊
+[Customer]: Mesmo ficando muito tempo em pé?
+[Support Agent]: Sim, ele tem palmilha acolchoada.
+[Customer]: Ele machuca?
+[Support Agent]: Não costuma machucar.
+[Customer]: Que bom.
+[Support Agent]: Vai amar!
+CHAT
+
+<<~CHAT,
+[Customer]: Qual a altura do salto?
+[Support Agent]: Esse modelo tem 6 cm.
+[Customer]: É estável?
+[Support Agent]: Sim, é salto bloco.
+[Customer]: Dá pra usar bastante tempo?
+[Support Agent]: Dá sim, é bem firme.
+[Customer]: Ótimo.
+[Support Agent]: Fico feliz em ajudar!
+CHAT
+
+<<~CHAT,
+[Customer]: Esse sapato é impermeável?
+[Support Agent]: Ele é resistente à água.
+[Customer]: Dá pra usar na chuva?
+[Support Agent]: Em chuva leve, sim.
+[Customer]: Encharca fácil?
+[Support Agent]: Não, mas não é totalmente impermeável.
+[Customer]: Entendi.
+[Support Agent]: Qualquer dúvida, só chamar.
+CHAT
+
+<<~CHAT,
+[Customer]: O tênis é pesado?
+[Support Agent]: Não, é bem leve.
+[Customer]: Dá pra caminhar bastante?
+[Support Agent]: Sim, foi pensado para isso.
+[Customer]: Ótimo.
+[Support Agent]: Vai servir muito bem!
+[Customer]: Obrigada.
+[Support Agent]: De nada 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Vocês enviam nota fiscal?
+[Support Agent]: Sim 😊
+[Customer]: Vai por e-mail?
+[Support Agent]: Sim, automaticamente.
+[Customer]: E junto com o pedido?
+[Support Agent]: Também vai na embalagem.
+[Customer]: Perfeito.
+[Support Agent]: Qualquer coisa, estamos aqui.
+CHAT
+
+<<~CHAT,
+[Customer]: Posso cancelar um pedido?
+[Support Agent]: Pode sim.
+[Customer]: Mesmo depois de pagar?
+[Support Agent]: Sim, se ainda não foi enviado.
+[Customer]: Como faço?
+[Support Agent]: É só informar o número do pedido.
+[Customer]: Entendi.
+[Support Agent]: Ficamos à disposição.
+CHAT
+
+<<~CHAT,
+[Customer]: O número 39 está esgotado?
+[Support Agent]: No momento, sim.
+[Customer]: Vai voltar?
+[Support Agent]: Temos reposição prevista.
+[Customer]: Vocês avisam?
+[Support Agent]: Sim, posso te cadastrar.
+[Customer]: Quero sim.
+[Support Agent]: Perfeito!
+CHAT
+
+<<~CHAT,
+[Customer]: Qual a diferença entre Luna e Bella?
+[Support Agent]: O Luna é mais casual.
+[Customer]: E o Bella?
+[Support Agent]: Mais social.
+[Customer]: Conforto muda?
+[Support Agent]: Não, é o mesmo.
+[Customer]: Entendi.
+[Support Agent]: Qualquer dúvida, me chama.
+CHAT
+
+<<~CHAT,
+[Customer]: Os sapatos são nacionais?
+[Support Agent]: Sim 😊
+[Customer]: Fabricados onde?
+[Support Agent]: No Brasil.
+[Customer]: Que legal.
+[Support Agent]: Prezamos muito por isso.
+[Customer]: Gostei.
+[Support Agent]: Ficamos felizes!
+CHAT
+
+<<~CHAT,
+[Customer]: Tem ajuste no tornozelo?
+[Support Agent]: Sim.
+[Customer]: Dá pra regular bem?
+[Support Agent]: Sim, com fivela.
+[Customer]: Não fica largo?
+[Support Agent]: Não costuma.
+[Customer]: Ótimo.
+[Support Agent]: Qualquer dúvida, estou aqui.
+CHAT
+
+<<~CHAT,
+[Customer]: Vocês têm frete grátis?
+[Support Agent]: Sim 😊
+[Customer]: A partir de quanto?
+[Support Agent]: Compras acima de R$299.
+[Customer]: Para todo o Brasil?
+[Support Agent]: Sim.
+[Customer]: Perfeito.
+[Support Agent]: Aproveite!
+CHAT
+
+<<~CHAT,
+[Customer]: E se vier com defeito?
+[Support Agent]: Fazemos a troca.
+[Customer]: Sem custo?
+[Support Agent]: Sim.
+[Customer]: Mesmo depois de usar?
+[Support Agent]: Se for defeito de fabricação, sim.
+[Customer]: Entendi.
+[Support Agent]: Qualquer problema, nos chame.
+CHAT
+
+<<~CHAT,
+[Customer]: Vocês têm modelo pra pés sensíveis?
+[Support Agent]: Temos sim.
+[Customer]: Qual indica?
+[Support Agent]: Modelos com palmilha anatômica.
+[Customer]: Algum específico?
+[Support Agent]: Comfort Soft.
+[Customer]: Obrigada.
+[Support Agent]: De nada 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Dá pra usar no trabalho?
+[Support Agent]: Sim.
+[Customer]: Mesmo o dia inteiro?
+[Support Agent]: Sim, é bem confortável.
+[Customer]: Não machuca?
+[Support Agent]: Não costuma.
+[Customer]: Ótimo.
+[Support Agent]: Vai atender bem!
+CHAT
+
+<<~CHAT,
+[Customer]: Posso trocar por outra cor?
+[Support Agent]: Pode sim.
+[Customer]: Mesmo tamanho?
+[Support Agent]: Sim.
+[Customer]: Tem custo?
+[Support Agent]: A primeira troca é gratuita.
+[Customer]: Que bom.
+[Support Agent]: Ficamos à disposição.
+CHAT
+
+<<~CHAT,
+[Customer]: Tenho cupom de primeira compra?
+[Support Agent]: Sim 😊
+[Customer]: Como recebo?
+[Support Agent]: Após se cadastrar no site.
+[Customer]: É automático?
+[Support Agent]: Sim.
+[Customer]: Perfeito.
+[Support Agent]: Aproveite!
+CHAT
+
+<<~CHAT,
+[Customer]: Demora pra separar o pedido?
+[Support Agent]: Não.
+[Customer]: Quanto tempo?
+[Support Agent]: Até 24h úteis.
+[Customer]: Depois vai pra envio?
+[Support Agent]: Isso mesmo.
+[Customer]: Entendi.
+[Support Agent]: Qualquer dúvida, só chamar.
+CHAT
+
+<<~CHAT,
+[Customer]: A embalagem é discreta?
+[Support Agent]: Sim.
+[Customer]: Dá pra enviar como presente?
+[Support Agent]: Sim 😊
+[Customer]: Vai nota junto?
+[Support Agent]: Não aparece valor externo.
+[Customer]: Ótimo.
+[Support Agent]: Vai ficar perfeito!
+CHAT
+
+<<~CHAT,
+[Customer]: Vocês têm numeração grande?
+[Support Agent]: Temos até 42.
+[Customer]: E pequena?
+[Support Agent]: A partir do 33.
+[Customer]: Que bom.
+[Support Agent]: Atendemos vários perfis.
+[Customer]: Gostei.
+[Support Agent]: Fico feliz!
+CHAT
+
+<<~CHAT,
+[Customer]: Material sintético dura?
+[Support Agent]: Sim.
+[Customer]: Não descasca?
+[Support Agent]: Com uso normal, não.
+[Customer]: Precisa de cuidado?
+[Support Agent]: Apenas limpeza básica.
+[Customer]: Ok.
+[Support Agent]: Qualquer dúvida, estou aqui.
+CHAT
+
+<<~CHAT,
+[Customer]: Precisa lacear?
+[Support Agent]: Um pouco.
+[Customer]: Machuca no começo?
+[Support Agent]: Normalmente não.
+[Customer]: Recomenda usar em casa?
+[Support Agent]: Sim, ajuda a adaptar.
+[Customer]: Entendi.
+[Support Agent]: Boa escolha!
+CHAT
+
+<<~CHAT,
+[Customer]: Vocês trabalham com estoque próprio?
+[Support Agent]: Sim.
+[Customer]: Não é marketplace?
+[Support Agent]: Não.
+[Customer]: Então enviam direto?
+[Support Agent]: Isso mesmo.
+[Customer]: Ótimo.
+[Support Agent]: Mais segurança 😊
+CHAT
+
+<<~CHAT,
+[Customer]: Posso tirar dúvidas depois da compra?
+[Support Agent]: Claro!
+[Customer]: Por onde?
+[Support Agent]: WhatsApp, Instagram ou e-mail.
+[Customer]: Horário comercial?
+[Support Agent]: Sim.
+[Customer]: Perfeito.
+[Support Agent]: Sempre à disposição 💛
+CHAT
+]
+
+questions.each do |conversation|
+  Conversation.create!(
+    channel: "Whatsapp",
+    content: conversation,
+    user: user,
+    occurred_on: random_date(start_date, end_date)
+  )
+end
