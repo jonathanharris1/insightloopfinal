@@ -8,7 +8,7 @@
 
     <!-- CENTER: Greeting + Date -->
     <% if user_signed_in? %>
-      <div class="me-auto text-start">
+      <div class="navbar-greeting">
         <div class="fw-bold" style="font-size: 1.1rem;">
           Bom dia, <%= current_user.name.presence || current_user.email.split("@").first.titleize %>
         </div>

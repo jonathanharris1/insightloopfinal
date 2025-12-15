@@ -45,6 +45,157 @@
   }
 }
 
+
+
+
+
+.dashboard-header__date-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.date-filter__dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.date-filter__dropdown button[data-range] {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  &.active {
+    background: #2563eb;
+    color: white;
+  }
+}
+
+.date-filter__divider {
+  width: 1px;
+  height: 24px;
+  background: #e5e7eb;
+  margin: 0 0.5rem;
+}
+
+.date-filter__custom .apply-btn {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  background: hsl(202, 83%, 44%);
+  color: white;
+
+  border: none;
+  border-radius: 999px; // pill shape
+  cursor: pointer;
+
+  padding: 0.3rem 0.7rem;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+
+ &.active {
+    background: #1d4ed8; // darker blue to indicate active state
+  }
+}
+
+.apply-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
+/*1 .dashboard-header__date-filter {
+  position: relative;
+}
+
+.date-filter__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 220px;
+  display: none;
+  z-index: 10;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.08);
+
+  button {
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+    background: transparent;
+    border: none;
+    text-align: left;
+    border-radius: 0.3rem;
+    cursor: pointer;
+
+    &:hover {
+      background: #f3f4f6;
+    }
+  }
+}
+
+.date-filter__custom {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.7rem;
+    color: #6b7280;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  input {
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    border-radius: 0.3rem;
+    border: 1px solid #d1d5db;
+  }
+
+  .apply-btn {
+    margin-top: 0.3rem;
+    background: #2563eb;
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.35rem;
+    border-radius: 0.3rem;
+
+    &:hover {
+      background: #1d4ed8;
+    }
+  }
+}  */
+
+/* visible state */
+/*2 .date-filter__dropdown.open {
+  display: block;
+}  */
+
 /* ===========================
    KPI CARDS GRID
    =========================== */

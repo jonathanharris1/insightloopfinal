@@ -10,3 +10,16 @@
 .navbar-lewagon .navbar-brand img {
   width: 40px;
 }
+
+
+.navbar {
+  position: relative;
+}
+
+.navbar-greeting {
+  position: absolute;
+  left: 22%;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: left;
+}

@@ -6,9 +6,64 @@
       <p class="dashboard-header__subtitle"></p>
     </div>
 
-    <button class="dashboard-header__filter-button">
+     <!-- <button class="dashboard-header__filter-button">
       Últimos 7 dias
-    </button>
+    </button> OLD VERSION -->
+
+    <!-- NEW VERSION -->
+    <div class="dashboard-header__date-filter">
+      <!-- <button class="dashboard-header__filter-button" id="dateFilterBtn">
+        Últimos 7 dias
+      </button> -->
+
+      <div class="date-filter__dropdown" id="dateFilterDropdown">
+        <button
+          data-range="7d"
+          class="<%= 'active' if @active_preset == :last_7_days %>">
+          Últimos 7 dias
+        </button>
+
+        <button
+          data-range="1m"
+          class="<%= 'active' if @active_preset == :last_month %>">
+          Último mês
+        </button>
+
+        <button
+          data-range="3m"
+          class="<%= 'active' if @active_preset == :last_quarter %>">
+          Último quarter
+        </button>
+        <div class="date-filter__divider"></div>
+
+        <div class="date-filter__custom">
+          <label>
+            Início
+            <input
+              type="date"
+              id="startDate"
+              value="<%= @start_date&.strftime('%Y-%m-%d') %>">
+          </label>
+          <label>
+            Fim
+            <input
+              type="date"
+              id="endDate"
+              value="<%= @end_date&.strftime('%Y-%m-%d') %>">
+          </label>
+            <button
+              id="applyCustomRange"
+              class="apply-btn <%= 'active' if @custom_range_active %>">
+              Aplicar
+            </button>
+        </div>
+      </div>
+    </div>
+    <!-- NEW VERSION ENDS -->
+    <%= javascript_include_tag "date_range_store", defer: true %>
+    <%= javascript_include_tag "date_filter", defer: true %>
+    <%= javascript_include_tag "dashboard", defer: true %>
+
   </header>
 
   <!-- CARDS KPI -->
@@ -25,7 +80,8 @@
 
       <div class="kpi-card__body">
         <div>
-          <p class="kpi-card__value">847</p>
+          <!-- <p class="kpi-card__value">847</p> -->
+          <p class="kpi-card__value"><%= @conversation_questions_count %></p>
           <p class="kpi-card__hint">conversations this period</p>
         </div>
 
@@ -52,7 +108,8 @@
 
       <div class="kpi-card__body">
         <div>
-          <p class="kpi-card__value">623</p>
+          <!-- <p class="kpi-card__value">623</p> -->
+          <p class="kpi-card__value"><%= @conversation_complaints_count %></p>
           <p class="kpi-card__hint">conversations this period</p>
         </div>
 
@@ -80,7 +137,8 @@
 
       <div class="kpi-card__body">
         <div>
-          <p class="kpi-card__value">542</p>
+          <!-- <p class="kpi-card__value">542</p> -->
+          <p class="kpi-card__value"><%= @conversation_insights_count %></p>
           <p class="kpi-card__hint">conversations this period</p>
         </div>
 
@@ -99,19 +157,34 @@
     </article>
   </section>
 
-  <!-- GRÁFICO -->
-  <section class="panel">
-    <div class="panel__header">
-      <h2 class="panel__title">Weekly Conversation Trend</h2>
-      <p class="panel__subtitle">Distribution by type over the last 7 days</p>
-    </div>
+<!-- GRÁFICO -->
+<section class="panel">
+  <div class="panel__header">
+    <h2 class="panel__title">Conversation Trend</h2>
+    <p class="panel__subtitle">
+      From <%= @start_date.strftime('%d %b %Y') %>
+      to <%= @end_date.strftime('%d %b %Y') %>
+    </p>
+  </div>
 
-    <div
-      class="panel__body"
-      data-controller="weekly-conversation-chart"
-      data-weekly-conversation-chart-series-value='{"labels":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"datasets":[{"label":"Questions","data":[120,130,118,140,128,90,110],"color":"--questions"},{"label":"Complaints","data":[82,86,79,90,84,60,120],"color":"--complaints"},{"label":"Product","data":[75,72,80,78,82,65,95],"color":"--product"}]}'
-    >
-      <canvas data-weekly-conversation-chart-target="canvas"></canvas>
-    </div>
-  </section>
+  <% labels = @chart_series.map { |p| p[:label] } %>
+  <% values = @chart_series.map { |p| p[:value] } %>
+
+  <div
+    class="panel__body"
+    data-controller="weekly-conversation-chart"
+    data-weekly-conversation-chart-series-value='<%= {
+      labels: labels,
+      datasets: [
+        {
+          label: "Conversations",
+          data: values,
+          color: "--questions"
+        }
+      ]
+    }.to_json %>'
+  >
+    <canvas data-weekly-conversation-chart-target="canvas"></canvas>
+  </div>
+</section>
 </div>
