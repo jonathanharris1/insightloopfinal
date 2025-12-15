@@ -14,12 +14,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_162717) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "analyses", force: :cascade do |t|
-    t.bigint "classification_id", null: false
-    t.text "content"
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["classification_id"], name: "index_analyses_on_classification_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -44,6 +43,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_162717) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "occurred_on", null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_conversations_on_category_id"
     t.index ["classification_id"], name: "index_conversations_on_classification_id"
     t.index ["user_id"], name: "index_conversations_on_user_id"
   end
@@ -91,7 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_162717) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "analyses", "classifications"
+  add_foreign_key "conversations", "categories"
   add_foreign_key "conversations", "classifications"
   add_foreign_key "conversations", "users"
   add_foreign_key "improvements", "classifications"

@@ -1,6 +1,7 @@
 Improvement.destroy_all
 Conversation.destroy_all
 Classification.destroy_all
+Category.destroy_all
 User.destroy_all
 
 
@@ -39,6 +40,26 @@ duvida_produto = Classification.create!(
 solicitacao_nf = Classification.create!(
   tag: "Solicitação de NF",
   tag_description: "Use esta tag quando o cliente pede nota fiscal, segunda via, correção ou informações sobre emissão da NF."
+)
+
+outros = Classification.create!(
+  tag: "Outros",
+  tag_description: "Use esta tag quando a conversa não representar um problema ou solicitação clara, mas sim feedbacks, sugestões, elogios, comentários gerais ou mensagens que não se encaixam nas demais classificações/tags."
+)
+
+Category.create!(
+  name: "questions",
+  description: "Utilize esta categoria quando o foco principal do cliente é perguntar, tirar dúvidas sobre algo, solicitando informações, apoio, ou um FAQ-style help. Nenhum incidente relevante, trata-se apenas de dúvidas e instruções sendo solicitadas."
+)
+
+Category.create!(
+  name: "complaints",
+  description: "Utilize esta categoria quando o foco principal do cliente é reportar um problema com insatisfação ou fricção: atrasos, pedido errado, pedido danificado, problemas com cobrança, utilizando um tom irritado/frustrado, ou qualquer incidente que necessite de uma resolução ativa."
+)
+
+Category.create!(
+  name: "product_insights",
+  description: "Utilize esta categoria quando o foco principal do cliente é sugerir melhorias no produto ou site, feedbacks, ideias de UX, ou solicitações como 'adicionem dark mode', 'gostaria que isto tivesse..'. Esta categoria não é um incidente, dúvida ou reclamação. "
 )
 
 # Intervalo de datas para simular os "últimos 30 dias"

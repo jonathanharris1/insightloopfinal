@@ -1,9 +1,10 @@
 class Conversation < ApplicationRecord
   belongs_to :user
   belongs_to :classification, optional: true
+  belongs_to :category, optional: true
 
   before_validation :set_default_occurred_on, on: :create
-  after_create :generate_classification
+  after_create :generate_classification_and_category
 
   private
 
@@ -11,20 +12,55 @@ class Conversation < ApplicationRecord
     self.occurred_on ||= Date.current
   end
 
-  def generate_classification
-    # call ruby llm to tag
-    tags = Classification.all.pluck(:tag).join(", ")
+  def generate_classification_and_category
+    return if self.content.blank?
+
+    tags = Classification.pluck(:tag).join(", ")
+
+    categories_prompt = Category.pluck(:name, :description)
+                                .map { |name, description| "#{name}: #{description}" }
+                                .join("\n")
 
     ruby_llm_chat = RubyLLM.chat
 
-    system_prompt = "You are a strict classifier of customer support conversations\n\nYour task: Read the conversation content.\n\nChoose ONLY ONE tag on the list below that best represents the MAIN issue of the conversation.\n\nAnswer the exactly one tag, with no extra words.\n\nAvalaible tags: #{tags}."
+    system_prompt = <<~PROMPT
+      You are a strict classifier of customer support conversations.
+
+      Task:
+      - Read the conversation content.
+      - Choose ONLY ONE tag that represents the MAIN issue.
+      - Choose ONLY ONE category that represents the TYPE of the conversation.
+      - If the conversation is a suggestion, feedback, compliment, or does NOT clearly fit any problem,
+    choose the tag "Outros".
+
+      Available tags:
+      #{tags}
+
+      Available categories (name: description):
+      #{categories_prompt}
+
+      Output JSON only (no extra text), exactly:
+      {"tag":"<tag>","category":"<category>"}
+    PROMPT
+
     ruby_llm_chat.with_instructions(system_prompt)
 
-    response = ruby_llm_chat.ask(self.content)
+    raw = ruby_llm_chat.ask(self.content.to_s).content.to_s.strip
 
-    tag = response.content.to_s.strip
-    classification = Classification.find_by(tag: tag)
+    data =
+      begin
+        JSON.parse(raw)
+      rescue JSON::ParserError
+        json = raw[/\{.*\}/m]
+        json ? JSON.parse(json) : {}
+      end
 
-    self.update(classification: classification) if classification.present?
+    tag_value      = data["tag"].to_s.strip
+    category_value = data["category"].to_s.strip
+
+    classification = Classification.find_by(tag: tag_value)
+    category       = Category.find_by(name: category_value)
+
+    update(classification: classification, category: category)
   end
 end
