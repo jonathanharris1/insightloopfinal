@@ -14,14 +14,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_10_203239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "analyses", force: :cascade do |t|
-    t.bigint "classification_id", null: false
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["classification_id"], name: "index_analyses_on_classification_id"
-  end
-
   create_table "classifications", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,7 +58,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_10_203239) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "analyses", "classifications"
   add_foreign_key "conversations", "classifications"
   add_foreign_key "conversations", "users"
   add_foreign_key "improvements", "classifications"
