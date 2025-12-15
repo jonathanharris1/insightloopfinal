@@ -6,8 +6,6 @@ class Conversation < ApplicationRecord
   before_validation :set_default_occurred_on, on: :create
   after_create :generate_classification_and_category
 
-  validates :category, inclusion: { in: ->(_) { Category.pluck(:name) } }, allow_nil: true
-
   private
 
   def set_default_occurred_on
@@ -15,28 +13,52 @@ class Conversation < ApplicationRecord
   end
 
   def generate_classification_and_category
-    # call ruby llm to tag and clategories
-    tags = Classification.all.pluck(:tag).join(", ")
-    categories = Category.all.pluck(:name, :description)
-    categories_prompt = categories.map do |name, description|
-      "#{name}: #{description}"
-    end.join("\n")
+    return if self.content.blank?
+
+    tags = Classification.pluck(:tag).join(", ")
+
+    categories_prompt = Category.pluck(:name, :description)
+                                .map { |name, description| "#{name}: #{description}" }
+                                .join("\n")
 
     ruby_llm_chat = RubyLLM.chat
 
     system_prompt = <<~PROMPT
-    "You are a strict classifier of customer support conversations\n\nYour task: Read the conversation content.\n\nChoose ONLY ONE tag on the list below that best represents the MAIN issue of the conversation.\n\nChoode ONLY ONE category that best represents the TYPE of the conversation.\n\nAnswer the exactly one tag, with no extra words.\n\nAvailable tags: #{tags}.\n\nAvailable categories: #{categories_prompt}.\n\nOutput JSON only (no extra text): {"tag":"<tag>","category":"<category>"}
+      You are a strict classifier of customer support conversations.
+
+      Task:
+      - Read the conversation content.
+      - Choose ONLY ONE tag that represents the MAIN issue.
+      - Choose ONLY ONE category that represents the TYPE of the conversation.
+
+      Available tags:
+      #{tags}
+
+      Available categories (name: description):
+      #{categories_prompt}
+
+      Output JSON only (no extra text), exactly:
+      {"tag":"<tag>","category":"<category>"}
     PROMPT
+
     ruby_llm_chat.with_instructions(system_prompt)
 
-    response = ruby_llm_chat.ask(self.content)
-    parsed = JSON.parse(response.content) rescue {}
+    raw = ruby_llm_chat.ask(self.content.to_s).content.to_s.strip
 
-    tag_value = parsed["tag"].to_s.strip
-    category_value = parsed["name"].to_s.strip
+    data =
+      begin
+        JSON.parse(raw)
+      rescue JSON::ParserError
+        json = raw[/\{.*\}/m]
+        json ? JSON.parse(json) : {}
+      end
+
+    tag_value      = data["tag"].to_s.strip
+    category_value = data["category"].to_s.strip
+
     classification = Classification.find_by(tag: tag_value)
-    category = Category.find_by(name: category_value)
+    category       = Category.find_by(name: category_value)
 
-    self.update(classification: classification, category: category_value.presence)
+    update(classification: classification, category: category)
   end
 end
