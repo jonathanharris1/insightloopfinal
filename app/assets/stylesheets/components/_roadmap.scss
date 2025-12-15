@@ -78,7 +78,7 @@
   /* ===== ROADMAP (final polish) ===== */
 
 .roadmap-section {
-  margin-top: 32px; // respiro consistente com outras seções
+  margin-top: 24px; // respiro consistente com outras seções
 }
 
 .roadmap-container {
@@ -86,6 +86,17 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-soft;
   padding: 24px 24px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: #93c5fd; // azul (blue-300)
 }
 
 /* Header */

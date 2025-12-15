@@ -36,7 +36,7 @@
     top: 0;
     bottom: 0;
     width: 4px;
-    background: $gray-200;
+    background: $gray-500;
   }
 
   &__header {
@@ -46,14 +46,14 @@
 
   &__title {
     margin: 0;
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: $gray-700;
   }
 
   &__sub {
     margin: 4px 0 12px 0;
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     color: $gray-500;
   }
 

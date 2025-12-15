@@ -181,11 +181,11 @@
       </div>
     <% end %>
 
-    <!-- ✅ ROADMAP -->
+    <!-- roadmap inicia aqui -->
 <% if @improvement.present? %>
   <section class="mb-5 roadmap-section">
     <div class="roadmap-container">
-
+      <span class="roadmap-accent"></span>
       <header class="roadmap-header">
         <h2>Roadmap Estratégico</h2>
         <p>Ações priorizadas por IA para resolver esse problema</p>
@@ -197,7 +197,7 @@
       <% longo = texto.split("Longo Prazo:").last %>
 
       <div class="row g-4 pt-2">
-        <!-- CURTO -->
+        <!-- curto prazo -->
         <div class="col-md-4">
           <div class="roadmap-card">
             <div class="roadmap-title">
@@ -221,7 +221,7 @@
           </div>
         </div>
 
-        <!-- MÉDIO -->
+        <!-- médio prazo -->
         <div class="col-md-4">
           <div class="roadmap-card">
             <div class="roadmap-title">
@@ -245,7 +245,7 @@
           </div>
         </div>
 
-        <!-- LONGO -->
+        <!-- longo prazo -->
         <div class="col-md-4">
           <div class="roadmap-card">
             <div class="roadmap-title">
