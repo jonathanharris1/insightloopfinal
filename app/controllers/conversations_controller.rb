@@ -7,7 +7,7 @@ class ConversationsController < ApplicationController
   def index
   conversations = Conversation
                     .includes(:classification)
-                    .order(created_at: :desc)
+                    .order(id: :desc)
                     .to_a
 
   grouped = conversations.group_by(&:classification_id)
