@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
-  get 'classifications/index'
-  get 'classifications/show'
+
   get "dashboard", to: "pages#dashboard"
   devise_for :users
   root to: "pages#dashboard"
-  get "product_insights", to: "pages#product_insights"
-get "product_insights/:id", to: "pages#product_insight", as: :product_insight
+
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -13,7 +11,10 @@ get "product_insights/:id", to: "pages#product_insight", as: :product_insight
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  resources :conversations, only: [:index, :show, :edit, :update]
+  resources :conversations, only: [:index, :show, :edit, :update] do
+    get "insight_list", on: :collection
+    get "insight", on: :member
+  end
   resources :classifications, only: [:index, :show]
 
   # Defines the root path route ("/")
