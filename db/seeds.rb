@@ -24,7 +24,7 @@ produto_danificado = Classification.create!(
 
 erro_cupom = Classification.create!(
   tag: "Erro no Cupom",
-  tag_description: "Use esta tag quando o cupom não aplica, aparece como inválido, não funciona para os itens ou gera mensagens de erro."
+  tag_description: "Use esta tag quando o usuário menciona que o cupom não entra, não aplica ou não é aplicável, aparece como inválido, não funciona para os itens ou gera mensagens de erro."
 )
 
 rastreamento = Classification.create!(
@@ -34,7 +34,15 @@ rastreamento = Classification.create!(
 
 duvida_produto = Classification.create!(
   tag: "Dúvida de Produto",
-  tag_description: "Use esta tag quando o cliente faz perguntas sobre tamanho, forma, características, uso, material ou detalhes técnicos do produto."
+  tag_description: <<~TXT
+    Use esta tag SOMENTE quando o cliente quer informação sobre o produto para decidir/comprar/usar AGORA.
+    Exemplos: tamanho, forma, material, durabilidade, conforto, como usar, medidas, troca de tamanho.
+
+    NÃO use esta tag para:
+    - sugestões/melhorias ("seria legal ter...", "já pensaram em...", "poderia melhorar...")
+    - feedback de UX/site/app ("botão mais visível", "site mais rápido", "lista de desejos", "mais cores", "embalagem sustentável")
+    Nesses casos, use a tag "Outros".
+  TXT
 )
 
 solicitacao_nf = Classification.create!(
@@ -44,22 +52,68 @@ solicitacao_nf = Classification.create!(
 
 outros = Classification.create!(
   tag: "Outros",
-  tag_description: "Use esta tag quando a conversa não representar um problema ou solicitação clara, mas sim feedbacks, sugestões, elogios, comentários gerais ou mensagens que não se encaixam nas demais classificações/tags."
+  tag_description: <<~TXT
+    Use esta tag quando a conversa for feedback, sugestão, ideia de melhoria, pedido de feature, comentário geral, elogio,
+    ou qualquer mensagem que NÃO seja um incidente claro (atraso/pedido errado/danificado/etc) nem uma dúvida objetiva de produto para compra/uso imediato.
+
+    Exemplos típicos: "seria legal ter lista de desejos", "poderia ter mais cores", "embalagem sustentável", "site mais rápido", "botão mais visível", "filtro por ocasião".
+  TXT
 )
 
 Category.create!(
   name: "questions",
-  description: "Utilize esta categoria quando o foco principal do cliente é perguntar, tirar dúvidas sobre algo, solicitando informações, apoio, ou um FAQ-style help. Nenhum incidente relevante, trata-se apenas de dúvidas e instruções sendo solicitadas."
+  description: <<~DESC
+    Use "questions" ONLY when the customer is mainly asking for information or guidance
+    and there is NO incident, NO frustration, and NO need for a fix.
+
+    Examples (questions):
+    - "Qual tamanho devo escolher?"
+    - "Esse produto é de couro?"
+    - "Como faço para trocar o tamanho?" (se for dúvida geral, sem problema acontecendo agora)
+
+    NOT questions (choose complaints instead):
+    - Any delay, tracking issue, damaged package, wrong address status, coupon not working, payment issue
+    - Any message showing friction like "vou desistir", "propaganda enganosa", "não funciona", "tá atrasado", "sumiu", "erro"
+  DESC
 )
 
 Category.create!(
   name: "complaints",
-  description: "Utilize esta categoria quando o foco principal do cliente é reportar um problema com insatisfação ou fricção: atrasos, pedido errado, pedido danificado, problemas com cobrança, utilizando um tom irritado/frustrado, ou qualquer incidente que necessite de uma resolução ativa."
+  description: <<~DESC
+    Use "complaints" when the conversation contains ANY incident/friction that requires action to fix.
+    If the customer reports a problem (even if they ask questions about it), it is still complaints.
+
+    PRIORITY RULE (very important):
+    - If there is an incident → complaints beats questions.
+
+    Examples (complaints):
+    - Delay / late delivery / missed ETA / "atrasado"
+    - Tracking abnormal statuses: "objeto não localizado", "área de risco", "endereço inválido", "em devolução"
+    - Coupon not applying / invalid / expired / limit reached / mobile bug
+    - Customer threatens to abandon cart/cancel: "vou cancelar", "vou desistir", "propaganda enganosa"
+
+    NOT complaints (choose product_insights):
+    - Suggestions/improvements with no incident: "seria legal ter filtro", "wishlist", "melhorar performance do site"
+  DESC
 )
 
 Category.create!(
   name: "product_insights",
-  description: "Utilize esta categoria quando o foco principal do cliente é sugerir melhorias no produto ou site, feedbacks, ideias de UX, ou solicitações como 'adicionem dark mode', 'gostaria que isto tivesse..'. Esta categoria não é um incidente, dúvida ou reclamação. "
+  description: <<~DESC
+    Use "product_insights" when the customer is giving feedback, suggestions, or ideas to improve the product/site/UX.
+    There is NO immediate incident needing support resolution.
+
+    Examples (product_insights):
+    - "Seria legal permitir avaliações com fotos"
+    - "Seria legal ter..."
+    - "Senti falta de..."
+    - "Queria filtrar por ocasião"
+    - "Falta info de durabilidade nas descrições" (feedback para melhorar catálogo)
+    - "Poderia ter lista de desejos", "programa de pontos", "site mais rápido"
+
+    NOT product_insights (choose complaints):
+    - Anything broken right now for the customer: coupon error, delivery/tracking issue, damaged product
+  DESC
 )
 
 # Intervalo de datas para simular os "últimos 30 dias"
@@ -277,6 +331,7 @@ Support Agent: Sim, já conversei com o supervisor da rota. Eles se comprometera
 Customer: Então vou aguardar. Obrigado.
 Support Agent: Qualquer atualização, eu te escrevo.
 CHAT14
+
 Conversation.create!(channel: "Whatsapp", content: conversas_14, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_15 = <<~CHAT15
@@ -289,6 +344,7 @@ Support Agent: Concordo totalmente. Se não localizarem até amanhã, envio um n
 Customer: Aí sim, obrigada. Me avisa por favor.
 Support Agent: Pode deixar! Estou acompanhando de perto.
 CHAT15
+
 Conversation.create!(channel: "RA", content: conversas_15, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_16 = <<~CHAT16
@@ -326,6 +382,7 @@ Customer: Tá, vou aguardar. Só não quero ficar esperando à toa.
 Support Agent: Entendo totalmente. Estou monitorando. Assim que o status mudar, te aviso.
 Support Agent: Sempre à disposição.
 CHAT18
+
 Conversation.create!(channel: "Whatsapp", content: conversas_18, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_19 = <<~CHAT19
@@ -337,6 +394,7 @@ Customer: Ufa. Mas e a entrega?
 Support Agent: Reprogramada para 08/02.
 Customer: Certo. Obrigada pela transparência.
 CHAT19
+
 Conversation.create!(channel: "RA", content: conversas_19, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 
@@ -350,6 +408,7 @@ conversas_20 = <<~CHAT20
 [Customer]: Tá bom… por favor me avise qualquer mudança.
 [Support Agent]: Pode deixar! Estarei monitorando de perto.
 CHAT20
+
 Conversation.create!(channel: "RA", content: conversas_20, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_21 = <<~CHAT21
@@ -362,6 +421,7 @@ conversas_21 = <<~CHAT21
 [Customer]: Espero que aconteça, porque comprei para um evento.
 [Support Agent]: Estarei acompanhando e te aviso qualquer atualização.
 CHAT21
+
 Conversation.create!(channel: "Whatsapp", content: conversas_21, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_22 = <<~CHAT22
@@ -374,6 +434,7 @@ conversas_22 = <<~CHAT22
 [Customer]: Tá bom. Qualquer coisa me avise, por favor.
 [Support Agent]: Atualizo você assim que tiver movimentação.
 CHAT22
+
 Conversation.create!(channel: "Instagram", content: conversas_22, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_23 = <<~CHAT23
@@ -386,6 +447,7 @@ conversas_23 = <<~CHAT23
 [Customer]: Ufa. Obrigada pela verificação!
 [Support Agent]: Sempre que precisar, é só me chamar.
 CHAT23
+
 Conversation.create!(channel: "RA", content: conversas_23, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_24 = <<~CHAT24
@@ -398,6 +460,7 @@ conversas_24 = <<~CHAT24
 [Customer]: Tá… vou confiar. Obrigada.
 [Support Agent]: Qualquer mudança te aviso prontamente.
 CHAT24
+
 Conversation.create!(channel: "RA", content: conversas_24, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_25 = <<~CHAT25
@@ -410,6 +473,7 @@ conversas_25 = <<~CHAT25
 [Customer]: Espero que chegue, por favor.
 [Support Agent]: Estou acompanhando em tempo real. Te aviso qualquer novidade.
 CHAT25
+
 Conversation.create!(channel: "Whatsapp", content: conversas_25, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_26 = <<~CHAT26
@@ -422,6 +486,7 @@ conversas_26 = <<~CHAT26
 [Customer]: Ok… vou aguardar então. Obrigada.
 [Support Agent]: Estou acompanhando e te aviso qualquer novidade.
 CHAT26
+
 Conversation.create!(channel: "Instagram", content: conversas_26, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_27 = <<~CHAT27
@@ -434,6 +499,7 @@ conversas_27 = <<~CHAT27
 [Customer]: Obrigado. Espero que resolva.
 [Support Agent]: Qualquer alteração de status te aviso.
 CHAT27
+
 Conversation.create!(channel: "Whatsapp", content: conversas_27, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_28 = <<~CHAT28
@@ -446,20 +512,22 @@ conversas_28 = <<~CHAT28
 [Customer]: Ok. Obrigada pela clareza.
 [Support Agent]: Qualquer novidade, atualizo aqui.
 CHAT28
+
 Conversation.create!(channel: "Whatsapp", content: conversas_28, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_29 = <<~CHAT29
-[Customer]: Boa noite. O pedido #BF-99110, Tênis LightStep – 38, está marcado como “em devolução ao remetente”. Como assim? Eu nem recebi!
-[Support Agent]: Boa noite! Vou verificar isso imediatamente porque realmente não está certo.
-[Customer]: Achei bem estranho… não faz sentido.
-[Support Agent]: Verifiquei com a transportadora. Foi um erro no fechamento da rota — eles não conseguiram entregar ontem e o sistema gerou devolução automática.
-[Customer]: Meu Deus… mas não devolveram de verdade, né?
-[Support Agent]: Não! O pacote ainda está na unidade local. Já solicitei reversão e nova tentativa amanhã.
-[Customer]: Tá… por favor me avise mesmo. Não quero que voltem com o produto.
-[Support Agent]: Pode deixar! Estarei acompanhando para garantir que chegue certinho.
-
+  [Customer]: Boa noite. O pedido #BF-99110, Tênis LightStep – 38, está marcado como “em devolução ao remetente”. Como assim? Eu nem recebi!
+  [Support Agent]: Boa noite! Vou verificar isso imediatamente porque realmente não está certo.
+  [Customer]: Achei bem estranho… não faz sentido.
+  [Support Agent]: Verifiquei com a transportadora. Foi um erro no fechamento da rota — eles não conseguiram entregar ontem e o sistema gerou devolução automática.
+  [Customer]: Meu Deus… mas não devolveram de verdade, né?
+  [Support Agent]: Não! O pacote ainda está na unidade local. Já solicitei reversão e nova tentativa amanhã.
+  [Customer]: Tá… por favor me avise mesmo. Não quero que voltem com o produto.
+  [Support Agent]: Pode deixar! Estarei acompanhando para garantir que chegue certinho.
 CHAT29
+
 Conversation.create!(channel: "Instagram", content: conversas_29, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
 conversas_30 = <<~CHAT30
  [Customer]: Oi, bom dia. Preciso de ajuda urgente
  [Support Agent]: Olá! Aqui é a Ana da Beautiful Feet. Me conta o que aconteceu, por favor.
@@ -474,6 +542,7 @@ conversas_30 = <<~CHAT30
  [Customer]: Sério? Se chegar amanhã cedo, eu choro de alegria.
  [Support Agent]: Vamos fazer o possível. Te envio o novo rastreio ainda hoje.
 CHAT30
+
 Conversation.create!(channel: "Whatsapp", content: conversas_30, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
 conversas_31 = <<~CHAT31
@@ -514,7 +583,6 @@ conversas_33 = <<~CHAT33
  [Support Agent]: Confirmado o erro de tamanho. A troca é autorizada sem custos pra você.
  [Customer]: Ai, ainda bem… achei que ia perder meu dinheiro.
  [Support Agent]: Jamais! Vamos resolver isso direitinho.
-
 CHAT33
 
 Conversation.create!(channel: "Whatsapp", content: conversas_33, user_id: user.id, occurred_on: random_date(start_date, end_date))
@@ -546,7 +614,6 @@ conversas_36 = <<~CHAT36
  [Support Agent]: Fique tranquila, o envio é segurado e rastreado.
  [Customer]: Porque é a primeira vez que eu troco online. Pois meu pedido estava errado.
  [Support Agent]: Entendo o medo, mas você estará protegida do início ao fim.
-
 CHAT36
 
 Conversation.create!(channel: "Instagram", content: conversas_36, user_id: user.id, occurred_on: random_date(start_date, end_date))
@@ -582,7 +649,7 @@ CHAT39
 
 Conversation.create!(channel: "Whatsapp", content: conversas_39, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-#Erro no Cupom (8)
+
 conversas_40 = <<~CHAT40
  [Customer]: Oi, bom dia. Meu cupom não funciona de jeito nenhum.
  [Support Agent]: Bom dia! Aqui é a Beatriz da Beautiful Feet. Qual cupom você está tentando usar?
@@ -637,7 +704,6 @@ conversas_44 = <<~CHAT44
  [Support Agent]: Obrigada! Vamos reportar isso para o marketing agora mesmo.
  [Customer]: Porque assim parece propaganda enganosa.
  [Support Agent]: Você tem razão. Vou garantir o desconto manualmente pra você agora.
-
 CHAT44
 
 Conversation.create!(channel: "Instagram", content: conversas_44, user_id: user.id, occurred_on: random_date(start_date, end_date))
@@ -661,7 +727,6 @@ conversas_46 = <<~CHAT46
  [Support Agent]: Ele atingiu o limite máximo de usos hoje.
  [Customer]: Então por que continua aparecendo no site?
  [Support Agent]: Ótima observação. Vou repassar isso agora para o time responsável.
-
 CHAT46
 
 Conversation.create!(channel: "Instagram", content: conversas_46, user_id: user.id, occurred_on: random_date(start_date, end_date))
@@ -678,7 +743,6 @@ conversas_47 = <<~CHAT47
 CHAT47
 
 Conversation.create!(channel: "RA", content: conversas_47, user_id: user.id, occurred_on: random_date(start_date, end_date))
-#Solicitacao de NF (3)
 
 conversas_48 = <<~CHAT48
  [Customer]: Oi, tudo bem? Eu preciso MUITO da nota fiscal da minha compra.
@@ -722,11 +786,10 @@ conversas_50 = <<~CHAT50
  [Support Agent]: Perfeito! Estou solicitando aqui. Em até 24h você recebe a NF corrigida no e-mail.
  [Customer]: Ótimo. Obrigada pelo atendimento rápido.
  [Support Agent]: Disponha sempre! 😊
-
 CHAT50
 
 Conversation.create!(channel: "Whatsapp", content: conversas_50, user_id: user.id, occurred_on: random_date(start_date, end_date))
-#Duvida de Produto (3)
+
 conversas_51 = <<~CHAT51
  [Customer]: Oi, boa noite. Tô olhando uma sandália de vocês, mas tô com medo de não aguentar usar o dia todo.
  [Support Agent]: Boa noite! Aqui é a Marina da Beautiful Feet 😊 Qual modelo você está vendo?
@@ -767,7 +830,6 @@ conversas_53 = <<~CHAT53
 CHAT53
 
 Conversation.create!(channel: "Instagram", content: conversas_53, user_id: user.id, occurred_on: random_date(start_date, end_date))
-#Rastramento (3)
 
 conversas_54 = <<~CHAT54
  [Customer]: Oi, boa tarde. Meu pedido tá parado no rastreio faz 4 dias, ninguém resolve 😟
@@ -817,9 +879,7 @@ CHAT56
 
 Conversation.create!(channel: "RA", content: conversas_56, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-
-product_insights = [
-<<~CHAT,
+conversas_57 = <<~CHAT57
 [Customer]: Oi, tudo bem? Eu gosto muito dos modelos de vocês, mas sempre fico insegura com o tamanho.
 [Support Agent]: Oi! Tudo bem sim 😊 Fico feliz que goste dos nossos modelos. Pode me contar melhor o que gera essa insegurança?
 [Customer]: Então, cada marca parece ter um padrão diferente. Acho que o guia de tamanhos poderia ser mais detalhado.
@@ -828,9 +888,10 @@ product_insights = [
 [Support Agent]: Ótima sugestão! Vou registrar esse feedback e encaminhar para o time de produto.
 [Customer]: Acho que ajudaria muita gente a comprar com mais segurança.
 [Support Agent]: Com certeza. Obrigada por compartilhar, isso é muito valioso pra gente.
-CHAT
+CHAT57
+Conversation.create!(channel: "Whatsapp", content: conversas_57, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_58 = <<~CHAT58
 [Customer]: Olá! Estava olhando uma sandália linda no site.
 [Support Agent]: Oi! Que bom 😊 Qual modelo você estava vendo?
 [Customer]: A Sandália Aurora. Mas senti falta de fotos nos pés, em pessoas reais.
@@ -839,9 +900,10 @@ CHAT
 [Support Agent]: Faz todo sentido. Vou anotar essa sugestão para nosso time de marketing.
 [Customer]: Acho que aumentaria a confiança na compra.
 [Support Agent]: Concordo com você. Muito obrigada pelo insight!
-CHAT
+CHAT58
+Conversation.create!(channel: "Whatsapp", content: conversas_58, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_59 = <<~CHAT59
 [Customer]: Oi, posso dar uma sugestão?
 [Support Agent]: Claro! Adoramos receber sugestões 😊
 [Customer]: Seria legal permitir avaliações com fotos dos clientes.
@@ -850,9 +912,10 @@ CHAT
 [Support Agent]: Perfeito. Vou registrar isso como feedback de melhoria.
 [Customer]: Obrigada por ouvir.
 [Support Agent]: Nós que agradecemos! Isso ajuda muito nosso crescimento.
-CHAT
+CHAT59
+Conversation.create!(channel: "Whatsapp", content: conversas_59, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_60 = <<~CHAT60
 [Customer]: Oi, tudo bem?
 [Support Agent]: Oi! Tudo ótimo 😊 Em que posso ajudar?
 [Customer]: Eu tenho pé largo e sempre sofro pra escolher sapato.
@@ -861,9 +924,10 @@ CHAT
 [Support Agent]: Excelente ponto. Vou anotar essa sugestão agora.
 [Customer]: Facilitaria muito a vida.
 [Support Agent]: Com certeza. Obrigada por compartilhar essa experiência.
-CHAT
+CHAT60
+Conversation.create!(channel: "Whatsapp", content: conversas_60, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_61 = <<~CHAT61
 [Customer]: Oi! Tudo bem?
 [Support Agent]: Oi! Tudo sim 😊
 [Customer]: Acho que o prazo de entrega podia aparecer antes de finalizar a compra.
@@ -872,9 +936,10 @@ CHAT
 [Support Agent]: Faz total sentido. Vou registrar como sugestão de melhoria.
 [Customer]: Obrigada, acho importante.
 [Support Agent]: Concordo com você. Obrigada pelo feedback!
-CHAT
+CHAT61
+Conversation.create!(channel: "Whatsapp", content: conversas_61, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_62 = <<~CHAT62
 [Customer]: Olá! Estava comparando dois modelos parecidos.
 [Support Agent]: Oi! Posso te ajudar nisso 😊
 [Customer]: Seria legal ter uma função de comparar produtos no site.
@@ -883,9 +948,10 @@ CHAT
 [Support Agent]: Vou anotar e repassar para o time técnico.
 [Customer]: Obrigada!
 [Support Agent]: Nós que agradecemos o insight.
-CHAT
+CHAT62
+Conversation.create!(channel: "Whatsapp", content: conversas_62, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_63 = <<~CHAT63
 [Customer]: Oi! Posso dar um feedback?
 [Support Agent]: Claro, pode sim 😊
 [Customer]: Eu sinto falta de mais detalhes sobre conforto nas descrições.
@@ -894,9 +960,10 @@ CHAT
 [Support Agent]: Excelente ponto. Vou registrar isso agora.
 [Customer]: Obrigada por considerar.
 [Support Agent]: A gente agradece muito!
-CHAT
+CHAT63
+Conversation.create!(channel: "Whatsapp", content: conversas_63, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_64 = <<~CHAT64
 [Customer]: Oi, um modelo que eu queria está esgotado.
 [Support Agent]: Oi! Que pena 😕 Qual modelo?
 [Customer]: Pensei que seria legal ter aviso quando voltar ao estoque.
@@ -905,9 +972,10 @@ CHAT
 [Support Agent]: Vou encaminhar essa ideia ao time.
 [Customer]: Obrigada!
 [Support Agent]: Nós que agradecemos o insight.
-CHAT
+CHAT64
+Conversation.create!(channel: "Whatsapp", content: conversas_64, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_65 = <<~CHAT65
 [Customer]: Oi! Demorei pra achar o chat no site.
 [Support Agent]: Oi! Obrigada por avisar 😊
 [Customer]: Talvez um botão mais visível ajudasse.
@@ -916,9 +984,10 @@ CHAT
 [Support Agent]: Ótimo ponto, vou anotar isso como melhoria mobile.
 [Customer]: Obrigada.
 [Support Agent]: Feedback super importante!
-CHAT
+CHAT65
+Conversation.create!(channel: "Whatsapp", content: conversas_65, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_66 = <<~CHAT66
 [Customer]: Olá!
 [Support Agent]: Oi 😊
 [Customer]: Amo um modelo de vocês, mas só tem duas cores.
@@ -927,9 +996,10 @@ CHAT
 [Support Agent]: Ótimo insight. Vou repassar ao time de produto.
 [Customer]: Que bom!
 [Support Agent]: Obrigada pela sugestão!
-CHAT
+CHAT66
+Conversation.create!(channel: "Whatsapp", content: conversas_66, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_67 = <<~CHAT67
 [Customer]: Oi! Posso sugerir algo?
 [Support Agent]: Claro 😊
 [Customer]: Vídeos curtos mostrando o sapato em movimento.
@@ -938,9 +1008,10 @@ CHAT
 [Support Agent]: Vou registrar isso agora.
 [Customer]: Obrigada!
 [Support Agent]: Nós que agradecemos.
-CHAT
+CHAT67
+Conversation.create!(channel: "Whatsapp", content: conversas_67, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_68 = <<~CHAT68
 [Customer]: Oi!
 [Support Agent]: Oi 😊
 [Customer]: Já pensaram em embalagens mais sustentáveis?
@@ -949,9 +1020,10 @@ CHAT
 [Support Agent]: Vou registrar esse feedback ambiental.
 [Customer]: Obrigada por ouvir.
 [Support Agent]: Muito relevante mesmo!
-CHAT
+CHAT68
+Conversation.create!(channel: "Whatsapp", content: conversas_68, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_69 = <<~CHAT69
 [Customer]: Oi! Estava procurando meus pedidos antigos.
 [Support Agent]: Oi! Conseguiu encontrar?
 [Customer]: Sim, mas acho que podia ser mais organizado.
@@ -960,9 +1032,10 @@ CHAT
 [Support Agent]: Excelente sugestão. Vou anotar.
 [Customer]: Obrigada.
 [Support Agent]: Agradecemos muito!
-CHAT
+CHAT69
+Conversation.create!(channel: "Whatsapp", content: conversas_69, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_70 = <<~CHAT70
 [Customer]: Oi!
 [Support Agent]: Oi 😊
 [Customer]: Seria legal filtrar sapatos por ocasião: trabalho, festa…
@@ -971,9 +1044,10 @@ CHAT
 [Support Agent]: Vou registrar essa sugestão agora.
 [Customer]: Obrigada.
 [Support Agent]: Nós que agradecemos!
-CHAT
+CHAT70
+Conversation.create!(channel: "Whatsapp", content: conversas_70, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_71 = <<~CHAT71
 [Customer]: Oi, tudo bem?
 [Support Agent]: Oi! Tudo sim 😊
 [Customer]: Vocês já pensaram em programa de pontos?
@@ -982,9 +1056,10 @@ CHAT
 [Support Agent]: Vou encaminhar essa ideia.
 [Customer]: Obrigada!
 [Support Agent]: Feedback excelente.
-CHAT
+CHAT71
+Conversation.create!(channel: "Whatsapp", content: conversas_71, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_72 = <<~CHAT72
 [Customer]: Oi!
 [Support Agent]: Oi 😊
 [Customer]: A busca podia entender melhor quando a gente digita algo.
@@ -993,20 +1068,22 @@ CHAT
 [Support Agent]: Ótimo ponto. Vou registrar.
 [Customer]: Obrigada.
 [Support Agent]: Muito válido!
-CHAT
+CHAT72
+Conversation.create!(channel: "Whatsapp", content: conversas_72, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_73 = <<~CHAT73
 [Customer]: Olá!
 [Support Agent]: Oi 😊
-[Customer]: Senti falta de info sobre durabilidade dos produtos.
+[Customer]: Quero dar uma sugestão pra vocês. Senti falta de info sobre durabilidade dos produtos.
 [Support Agent]: Tipo uso diário, material?
 [Customer]: Sim.
 [Support Agent]: Excelente insight. Vou anotar.
 [Customer]: Obrigada!
 [Support Agent]: Agradecemos muito.
-CHAT
+CHAT73
+Conversation.create!(channel: "Whatsapp", content: conversas_73, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_74 = <<~CHAT74
 [Customer]: Oi!
 [Support Agent]: Oi 😊
 [Customer]: Seria legal ter uma lista de desejos.
@@ -1015,9 +1092,10 @@ CHAT
 [Support Agent]: Ótima sugestão. Vou registrar.
 [Customer]: Obrigada.
 [Support Agent]: Feedback anotado!
-CHAT
+CHAT74
+Conversation.create!(channel: "Whatsapp", content: conversas_74, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_75 = <<~CHAT75
 [Customer]: Oi!
 [Support Agent]: Oi 😊
 [Customer]: Promoções baseadas no que já comprei seriam legais.
@@ -1026,9 +1104,10 @@ CHAT
 [Support Agent]: Excelente ideia. Vou repassar.
 [Customer]: Obrigada!
 [Support Agent]: Agradecemos o insight.
-CHAT
+CHAT75
+Conversation.create!(channel: "Whatsapp", content: conversas_75, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_76 = <<~CHAT76
 [Customer]: Oi! Uso muito o site no celular.
 [Support Agent]: Oi 😊
 [Customer]: Acho que algumas páginas podiam ser mais rápidas.
@@ -1037,20 +1116,10 @@ CHAT
 [Support Agent]: Obrigada por avisar. Vou registrar essa melhoria.
 [Customer]: Que bom!
 [Support Agent]: Feedback super importante.
-CHAT
-]
-product_insights.each do |conversation|
-  Conversation.create!(
-    channel: "Whatsapp",
-    content: conversation,
-    user: user,
-    occurred_on: random_date(start_date, end_date)
-  )
-end
+CHAT76
+Conversation.create!(channel: "Whatsapp", content: conversas_76, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-questions = [
-
-<<~CHAT,
+conversas_77 = <<~CHAT77
 [Customer]: Oi! Tudo bem?
 [Support Agent]: Oi! Tudo sim 😊 Como posso ajudar?
 [Customer]: Estou interessada num tênis, mas fiquei na dúvida sobre a forma.
@@ -1061,9 +1130,10 @@ questions = [
 [Support Agent]: Não costuma apertar, é bem confortável.
 [Customer]: Ótimo, obrigada!
 [Support Agent]: Por nada! Qualquer dúvida, estou aqui 😊
-CHAT
+CHAT77
+Conversation.create!(channel: "Whatsapp", content: conversas_77, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_78 = <<~CHAT78
 [Customer]: Oi, posso tirar uma dúvida?
 [Support Agent]: Claro! Fique à vontade 😊
 [Customer]: A sandália Aurora é de couro?
@@ -1074,9 +1144,10 @@ CHAT
 [Support Agent]: Não, o material permite boa ventilação.
 [Customer]: Perfeito!
 [Support Agent]: Fico feliz em ajudar 😊
-CHAT
+CHAT78
+Conversation.create!(channel: "Whatsapp", content: conversas_78, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_79 = <<~CHAT79
 [Customer]: Oi! Se eu errar o tamanho, posso trocar?
 [Support Agent]: Pode sim 😊
 [Customer]: Tem custo?
@@ -1087,9 +1158,10 @@ CHAT
 [Support Agent]: Sim, com etiqueta e embalagem original.
 [Customer]: Entendi.
 [Support Agent]: Qualquer coisa, estamos aqui!
-CHAT
+CHAT79
+Conversation.create!(channel: "Whatsapp", content: conversas_79, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_80 = <<~CHAT80
 [Customer]: Oi! Qual o prazo de entrega?
 [Support Agent]: Oi 😊 Para qual CEP?
 [Customer]: 13045-900.
@@ -1098,9 +1170,10 @@ CHAT
 [Support Agent]: Depende da transportadora, não conseguimos garantir.
 [Customer]: Entendi.
 [Support Agent]: Qualquer outra dúvida, é só chamar!
-CHAT
+CHAT80
+Conversation.create!(channel: "Whatsapp", content: conversas_80, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_81 = <<~CHAT81
 [Customer]: Oi! Os produtos têm garantia?
 [Support Agent]: Sim 😊
 [Customer]: Por quanto tempo?
@@ -1109,9 +1182,10 @@ CHAT
 [Support Agent]: Aí a garantia cobre, sim.
 [Customer]: Que bom.
 [Support Agent]: Prezamos muito pela qualidade!
-CHAT
+CHAT81
+Conversation.create!(channel: "Whatsapp", content: conversas_81, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_82 = <<~CHAT82
 [Customer]: Oi! Tem alguma promoção agora?
 [Support Agent]: Oi 😊 Temos 10% OFF na primeira compra.
 [Customer]: Como uso?
@@ -1120,9 +1194,10 @@ CHAT
 [Support Agent]: Exceto produtos já remarcados.
 [Customer]: Perfeito.
 [Support Agent]: Aproveite 😊
-CHAT
+CHAT82
+Conversation.create!(channel: "Whatsapp", content: conversas_82, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_83 = <<~CHAT83
 [Customer]: Posso parcelar a compra?
 [Support Agent]: Pode sim 😊
 [Customer]: Em quantas vezes?
@@ -1131,9 +1206,10 @@ CHAT
 [Support Agent]: Não, qualquer valor.
 [Customer]: Ótimo.
 [Support Agent]: Qualquer dúvida, estou aqui!
-CHAT
+CHAT83
+Conversation.create!(channel: "Whatsapp", content: conversas_83, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_84 = <<~CHAT84
 [Customer]: Esse modelo é confortável pra usar o dia todo?
 [Support Agent]: Sim 😊
 [Customer]: Mesmo ficando muito tempo em pé?
@@ -1142,9 +1218,10 @@ CHAT
 [Support Agent]: Não costuma machucar.
 [Customer]: Que bom.
 [Support Agent]: Vai amar!
-CHAT
+CHAT84
+Conversation.create!(channel: "Whatsapp", content: conversas_84, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_85 = <<~CHAT85
 [Customer]: Qual a altura do salto?
 [Support Agent]: Esse modelo tem 6 cm.
 [Customer]: É estável?
@@ -1153,9 +1230,10 @@ CHAT
 [Support Agent]: Dá sim, é bem firme.
 [Customer]: Ótimo.
 [Support Agent]: Fico feliz em ajudar!
-CHAT
+CHAT85
+Conversation.create!(channel: "Whatsapp", content: conversas_85, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_86 = <<~CHAT86
 [Customer]: Esse sapato é impermeável?
 [Support Agent]: Ele é resistente à água.
 [Customer]: Dá pra usar na chuva?
@@ -1164,9 +1242,10 @@ CHAT
 [Support Agent]: Não, mas não é totalmente impermeável.
 [Customer]: Entendi.
 [Support Agent]: Qualquer dúvida, só chamar.
-CHAT
+CHAT86
+Conversation.create!(channel: "Whatsapp", content: conversas_86, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_87 = <<~CHAT87
 [Customer]: O tênis é pesado?
 [Support Agent]: Não, é bem leve.
 [Customer]: Dá pra caminhar bastante?
@@ -1175,9 +1254,10 @@ CHAT
 [Support Agent]: Vai servir muito bem!
 [Customer]: Obrigada.
 [Support Agent]: De nada 😊
-CHAT
+CHAT87
+Conversation.create!(channel: "Whatsapp", content: conversas_87, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_88 = <<~CHAT88
 [Customer]: Vocês enviam nota fiscal?
 [Support Agent]: Sim 😊
 [Customer]: Vai por e-mail?
@@ -1186,9 +1266,10 @@ CHAT
 [Support Agent]: Também vai na embalagem.
 [Customer]: Perfeito.
 [Support Agent]: Qualquer coisa, estamos aqui.
-CHAT
+CHAT88
+Conversation.create!(channel: "Whatsapp", content: conversas_88, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_89 = <<~CHAT89
 [Customer]: Posso cancelar um pedido?
 [Support Agent]: Pode sim.
 [Customer]: Mesmo depois de pagar?
@@ -1197,9 +1278,10 @@ CHAT
 [Support Agent]: É só informar o número do pedido.
 [Customer]: Entendi.
 [Support Agent]: Ficamos à disposição.
-CHAT
+CHAT89
+Conversation.create!(channel: "Whatsapp", content: conversas_89, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_90 = <<~CHAT90
 [Customer]: O número 39 está esgotado?
 [Support Agent]: No momento, sim.
 [Customer]: Vai voltar?
@@ -1208,9 +1290,10 @@ CHAT
 [Support Agent]: Sim, posso te cadastrar.
 [Customer]: Quero sim.
 [Support Agent]: Perfeito!
-CHAT
+CHAT90
+Conversation.create!(channel: "Whatsapp", content: conversas_90, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_91 = <<~CHAT91
 [Customer]: Qual a diferença entre Luna e Bella?
 [Support Agent]: O Luna é mais casual.
 [Customer]: E o Bella?
@@ -1219,9 +1302,10 @@ CHAT
 [Support Agent]: Não, é o mesmo.
 [Customer]: Entendi.
 [Support Agent]: Qualquer dúvida, me chama.
-CHAT
+CHAT91
+Conversation.create!(channel: "Whatsapp", content: conversas_91, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_92 = <<~CHAT92
 [Customer]: Os sapatos são nacionais?
 [Support Agent]: Sim 😊
 [Customer]: Fabricados onde?
@@ -1230,9 +1314,10 @@ CHAT
 [Support Agent]: Prezamos muito por isso.
 [Customer]: Gostei.
 [Support Agent]: Ficamos felizes!
-CHAT
+CHAT92
+Conversation.create!(channel: "Whatsapp", content: conversas_92, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_93 = <<~CHAT93
 [Customer]: Tem ajuste no tornozelo?
 [Support Agent]: Sim.
 [Customer]: Dá pra regular bem?
@@ -1241,9 +1326,10 @@ CHAT
 [Support Agent]: Não costuma.
 [Customer]: Ótimo.
 [Support Agent]: Qualquer dúvida, estou aqui.
-CHAT
+CHAT93
+Conversation.create!(channel: "Whatsapp", content: conversas_93, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_94 = <<~CHAT94
 [Customer]: Vocês têm frete grátis?
 [Support Agent]: Sim 😊
 [Customer]: A partir de quanto?
@@ -1252,9 +1338,10 @@ CHAT
 [Support Agent]: Sim.
 [Customer]: Perfeito.
 [Support Agent]: Aproveite!
-CHAT
+CHAT94
+Conversation.create!(channel: "Whatsapp", content: conversas_94, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_95 = <<~CHAT95
 [Customer]: E se vier com defeito?
 [Support Agent]: Fazemos a troca.
 [Customer]: Sem custo?
@@ -1263,9 +1350,10 @@ CHAT
 [Support Agent]: Se for defeito de fabricação, sim.
 [Customer]: Entendi.
 [Support Agent]: Qualquer problema, nos chame.
-CHAT
+CHAT95
+Conversation.create!(channel: "Whatsapp", content: conversas_95, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_96 = <<~CHAT96
 [Customer]: Vocês têm modelo pra pés sensíveis?
 [Support Agent]: Temos sim.
 [Customer]: Qual indica?
@@ -1274,9 +1362,10 @@ CHAT
 [Support Agent]: Comfort Soft.
 [Customer]: Obrigada.
 [Support Agent]: De nada 😊
-CHAT
+CHAT96
+Conversation.create!(channel: "Whatsapp", content: conversas_96, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_97 = <<~CHAT97
 [Customer]: Dá pra usar no trabalho?
 [Support Agent]: Sim.
 [Customer]: Mesmo o dia inteiro?
@@ -1285,9 +1374,10 @@ CHAT
 [Support Agent]: Não costuma.
 [Customer]: Ótimo.
 [Support Agent]: Vai atender bem!
-CHAT
+CHAT97
+Conversation.create!(channel: "Whatsapp", content: conversas_97, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_98 = <<~CHAT98
 [Customer]: Posso trocar por outra cor?
 [Support Agent]: Pode sim.
 [Customer]: Mesmo tamanho?
@@ -1296,9 +1386,10 @@ CHAT
 [Support Agent]: A primeira troca é gratuita.
 [Customer]: Que bom.
 [Support Agent]: Ficamos à disposição.
-CHAT
+CHAT98
+Conversation.create!(channel: "Whatsapp", content: conversas_98, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_99 = <<~CHAT99
 [Customer]: Tenho cupom de primeira compra?
 [Support Agent]: Sim 😊
 [Customer]: Como recebo?
@@ -1307,9 +1398,10 @@ CHAT
 [Support Agent]: Sim.
 [Customer]: Perfeito.
 [Support Agent]: Aproveite!
-CHAT
+CHAT99
+Conversation.create!(channel: "Whatsapp", content: conversas_99, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_100 = <<~CHAT100
 [Customer]: Demora pra separar o pedido?
 [Support Agent]: Não.
 [Customer]: Quanto tempo?
@@ -1318,9 +1410,10 @@ CHAT
 [Support Agent]: Isso mesmo.
 [Customer]: Entendi.
 [Support Agent]: Qualquer dúvida, só chamar.
-CHAT
+CHAT100
+Conversation.create!(channel: "Whatsapp", content: conversas_100, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_101 = <<~CHAT101
 [Customer]: A embalagem é discreta?
 [Support Agent]: Sim.
 [Customer]: Dá pra enviar como presente?
@@ -1329,9 +1422,10 @@ CHAT
 [Support Agent]: Não aparece valor externo.
 [Customer]: Ótimo.
 [Support Agent]: Vai ficar perfeito!
-CHAT
+CHAT101
+Conversation.create!(channel: "Whatsapp", content: conversas_101, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_102 = <<~CHAT102
 [Customer]: Vocês têm numeração grande?
 [Support Agent]: Temos até 42.
 [Customer]: E pequena?
@@ -1340,9 +1434,10 @@ CHAT
 [Support Agent]: Atendemos vários perfis.
 [Customer]: Gostei.
 [Support Agent]: Fico feliz!
-CHAT
+CHAT102
+Conversation.create!(channel: "Whatsapp", content: conversas_102, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_103 = <<~CHAT103
 [Customer]: Material sintético dura?
 [Support Agent]: Sim.
 [Customer]: Não descasca?
@@ -1351,20 +1446,22 @@ CHAT
 [Support Agent]: Apenas limpeza básica.
 [Customer]: Ok.
 [Support Agent]: Qualquer dúvida, estou aqui.
-CHAT
+CHAT103
+Conversation.create!(channel: "Whatsapp", content: conversas_103, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_104 = <<~CHAT104
 [Customer]: Precisa lacear?
 [Support Agent]: Um pouco.
 [Customer]: Machuca no começo?
 [Support Agent]: Normalmente não.
-[Customer]: Recomenda usar em casa?
+[Support Agent]: Recomenda usar em casa?
 [Support Agent]: Sim, ajuda a adaptar.
 [Customer]: Entendi.
 [Support Agent]: Boa escolha!
-CHAT
+CHAT104
+Conversation.create!(channel: "Whatsapp", content: conversas_104, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_105 = <<~CHAT105
 [Customer]: Vocês trabalham com estoque próprio?
 [Support Agent]: Sim.
 [Customer]: Não é marketplace?
@@ -1373,9 +1470,10 @@ CHAT
 [Support Agent]: Isso mesmo.
 [Customer]: Ótimo.
 [Support Agent]: Mais segurança 😊
-CHAT
+CHAT105
+Conversation.create!(channel: "Whatsapp", content: conversas_105, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-<<~CHAT,
+conversas_106 = <<~CHAT106
 [Customer]: Posso tirar dúvidas depois da compra?
 [Support Agent]: Claro!
 [Customer]: Por onde?
@@ -1384,14 +1482,191 @@ CHAT
 [Support Agent]: Sim.
 [Customer]: Perfeito.
 [Support Agent]: Sempre à disposição 💛
-CHAT
-]
+CHAT106
+Conversation.create!(channel: "Whatsapp", content: conversas_106, user_id: user.id, occurred_on: random_date(start_date, end_date))
 
-questions.each do |conversation|
-  Conversation.create!(
-    channel: "Whatsapp",
-    content: conversation,
-    user: user,
-    occurred_on: random_date(start_date, end_date)
-  )
-end
+conversas_107 = <<~CHAT107
+[Customer]: Oi, tudo bem? Meu pedido está atrasado 😕 Era pra ter chegado ontem e até agora nada.
+[Support Agent]: Oi! Tudo bem sim, e com você? Sinto muito por isso 😔 Vou te ajudar agora. Pode me informar o número do pedido, por favor?
+[Customer]: Claro, é o #84572. Eu comprei porque precisava do sapato pra um evento amanhã, por isso tô bem preocupada.
+[Support Agent]: Entendo totalmente a sua preocupação, de verdade. Já estou consultando aqui no sistema o status da entrega, só um minutinho.
+[Customer]: Tá bom… porque no rastreio só aparece “em rota” desde anteontem e não muda.
+[Support Agent]: Obrigada por aguardar. Verifiquei aqui e consta que houve um atraso operacional da transportadora na sua região, infelizmente. O pedido saiu para entrega, mas não foi finalizado no prazo previsto.
+[Customer]: Poxa… mas ninguém avisou nada 😞 Se eu soubesse antes, teria tentado outra solução.
+[Support Agent]: Você tem toda razão, Mariana, e peço desculpas por essa falha na comunicação. Já abri um chamado prioritário com a transportadora para confirmar se a entrega acontece ainda hoje.
+[Customer]: Mas se não chegar hoje, eu fico sem sapato pro evento… tem algo que vocês possam fazer?
+[Support Agent]: Entendo o impacto disso pra você. Como próximo passo, se a entrega não for concluída até o fim do dia, podemos oferecer o reenvio expresso ou o cancelamento com estorno integral. Também vou acompanhar pessoalmente seu caso e te retorno ainda hoje com uma atualização.
+[Customer]: Tá bom… fico no aguardo então. Espero mesmo que resolva.
+[Support Agent]: Combinado 💛 Obrigada pela paciência. Vou fazer o possível pra que isso se resolva o quanto antes e te aviso assim que tiver qualquer novidade.
+CHAT107
+
+Conversation.create!(channel: "Whatsapp", content: conversas_107, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+conversas_108 = <<~CHAT108
+[Customer]: Oi, bom dia. Meu pedido está atrasado e eu não recebi nenhuma atualização.
+[Support Agent]: Bom dia! Sinto muito por isso 😔 Vou verificar agora pra você. Pode me informar o número do pedido?
+[Customer]: É o 85103. Era pra ter chegado na sexta e hoje já é segunda…
+[Support Agent]: Entendo sua frustração, realmente foge do esperado. Já estou consultando o rastreio aqui.
+[Customer]: Porque no site só diz “em separação” desde semana passada.
+[Support Agent]: Obrigada por aguardar. Identifiquei um atraso na expedição por alta demanda no centro de distribuição.
+[Customer]: Nossa, mas ninguém avisou nada. Fiquei esperando em casa.
+[Support Agent]: Você está certa, peço desculpas pela falha. Posso priorizar o envio hoje ou, se preferir, cancelar com estorno imediato.
+[Customer]: Prioriza, por favor. Ainda tenho esperança de usar.
+[Support Agent]: Combinado 💛 Vou acompanhar de perto e te retorno ainda hoje com a confirmação.
+CHAT108
+
+Conversation.create!(channel: "Whatsapp", content: conversas_108, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_109 = <<~CHAT109
+[Customer]: Olá… meu pedido está atrasado e eu já estou começando a ficar preocupada.
+[Support Agent]: Oi! Sinto muito por isso 😞 Vamos resolver juntas. Pode me passar o número do pedido?
+[Customer]: #86211. Comprei há quase duas semanas.
+[Support Agent]: Obrigada. Estou verificando aqui no sistema.
+[Customer]: Eu precisava desse sapato pra trabalhar, não é só estética…
+[Support Agent]: Entendo totalmente. Aqui consta que a transportadora teve um problema de roteirização.
+[Customer]: Mas isso quer dizer o quê exatamente? Que não sabem onde está?
+[Support Agent]: O pedido está localizado, mas houve atraso na redistribuição. Já solicitei prioridade máxima.
+[Customer]: Tá, mas se não chegar essa semana, vai ser complicado.
+[Support Agent]: Caso não chegue até amanhã, podemos reenviar por Sedex sem custo ou cancelar, como preferir.
+[Customer]: Vamos tentar o reenvio então.
+[Support Agent]: Perfeito. Já deixei tudo registrado e te mantenho informada.
+CHAT109
+
+Conversation.create!(channel: "Whatsapp", content: conversas_109, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_110 = <<~CHAT110
+[Customer]: Boa tarde. Meu pedido está atrasado e ninguém responde no e-mail.
+[Support Agent]: Boa tarde! Peço desculpas pela demora no retorno 😔 Vou te ajudar agora. Qual o número do pedido?
+[Customer]: É o 87044.
+[Support Agent]: Obrigada, só um instante enquanto verifico.
+[Customer]: Já faz 3 dias que passou do prazo.
+[Support Agent]: Verifiquei aqui e houve uma falha operacional da transportadora na sua região.
+[Customer]: Sempre sobra pro cliente esperar, né…
+[Support Agent]: Entendo seu sentimento e você tem razão. Não era pra isso acontecer.
+[Customer]: E agora, como fica?
+[Support Agent]: Podemos abrir uma reclamação formal e oferecer um cupom de desconto pelo transtorno.
+[Customer]: Tá bom… pelo menos isso.
+[Support Agent]: Já deixei tudo registrado e sigo acompanhando até a entrega 💛
+CHAT110
+
+Conversation.create!(channel: "Whatsapp", content: conversas_110, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_111 = <<~CHAT111
+[Customer]: Oi, meu pedido está atrasado e o rastreio não atualiza.
+[Support Agent]: Oi! Sinto muito por isso 😕 Pode me informar o número do pedido?
+[Customer]: 87890.
+[Support Agent]: Obrigada! Estou consultando aqui.
+[Customer]: Porque eu fico entrando todo dia e nada muda.
+[Support Agent]: Identifiquei que o pedido ficou retido no hub logístico por excesso de volume.
+[Customer]: Isso quer dizer que vai demorar muito mais?
+[Support Agent]: Não necessariamente. Já pedi liberação prioritária.
+[Customer]: Tá… mas eu precisava dele pra essa semana.
+[Support Agent]: Se não chegar até amanhã, posso providenciar reenvio expresso.
+[Customer]: Ok, aguardo então.
+[Support Agent]: Combinado! Te aviso assim que tiver novidade 💛
+CHAT111
+
+Conversation.create!(channel: "Whatsapp", content: conversas_111, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_112 = <<~CHAT112
+[Customer]: Bom dia, meu pedido está atrasado e eu tô bem chateada.
+[Support Agent]: Bom dia! Sinto muito por isso 😔 Vamos resolver. Qual o número do pedido?
+[Customer]: 88102.
+[Support Agent]: Obrigada, verificando agora.
+[Customer]: Era presente, inclusive…
+[Support Agent]: Entendo, isso deixa tudo mais delicado. Aqui consta atraso da transportadora.
+[Customer]: Poxa, que situação.
+[Support Agent]: Peço desculpas pela experiência. Posso oferecer reenvio prioritário ou estorno.
+[Customer]: Vamos tentar o reenvio.
+[Support Agent]: Perfeito. Já deixei sinalizado como urgente.
+[Customer]: Obrigada pela atenção.
+[Support Agent]: Eu que agradeço a compreensão 💛
+CHAT112
+
+Conversation.create!(channel: "Whatsapp", content: conversas_112, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_113 = <<~CHAT113
+[Customer]: Oi, tudo bem? Meu pedido está atrasado 😕
+[Support Agent]: Oi! Sinto muito por isso. Pode me informar o número do pedido?
+[Customer]: 88977.
+[Support Agent]: Obrigada, só um momento.
+[Customer]: Já passou do prazo e não recebi aviso nenhum.
+[Support Agent]: Identifiquei um atraso na coleta pela transportadora.
+[Customer]: E agora?
+[Support Agent]: Já solicitei coleta urgente e acompanhamento especial.
+[Customer]: Tá, fico no aguardo.
+[Support Agent]: Qualquer atualização te aviso imediatamente 💛
+CHAT113
+
+Conversation.create!(channel: "Whatsapp", content: conversas_113, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_114 = <<~CHAT114
+[Customer]: Boa noite. Meu pedido está atrasado e estou sem retorno.
+[Support Agent]: Boa noite! Peço desculpas por isso 😔 Qual o número do pedido?
+[Customer]: 89210.
+[Support Agent]: Obrigada, verificando agora.
+[Customer]: Já era pra ter chegado semana passada.
+[Support Agent]: Aqui consta atraso por falha de roteirização.
+[Customer]: Sempre a mesma coisa…
+[Support Agent]: Entendo sua frustração. Vamos corrigir isso.
+[Customer]: O que vocês podem fazer?
+[Support Agent]: Reenvio expresso ou cancelamento com estorno imediato.
+[Customer]: Reenvio, por favor.
+[Support Agent]: Perfeito, já acionei 💛
+CHAT114
+
+Conversation.create!(channel: "Whatsapp", content: conversas_114, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_115 = <<~CHAT115
+[Customer]: Oi, meu pedido está atrasado e isso tá me atrapalhando bastante.
+[Support Agent]: Oi! Sinto muito por isso 😞 Pode me passar o número do pedido?
+[Customer]: 89901.
+[Support Agent]: Obrigada! Já estou verificando.
+[Customer]: Comprei achando que ia chegar a tempo…
+[Support Agent]: Entendo. Identifiquei atraso operacional no CD.
+[Customer]: Então não tem previsão?
+[Support Agent]: Temos previsão para amanhã, mas vou monitorar.
+[Customer]: Tá bom.
+[Support Agent]: Qualquer novidade, te aviso 💛
+CHAT115
+
+Conversation.create!(channel: "Whatsapp", content: conversas_115, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_116 = <<~CHAT116
+[Customer]: Bom dia. Meu pedido está atrasado e eu preciso de uma posição.
+[Support Agent]: Bom dia! Claro, vou te ajudar agora. Qual o número do pedido?
+[Customer]: 90334.
+[Support Agent]: Obrigada, consultando aqui.
+[Customer]: Já perdi a paciência, pra ser sincera.
+[Support Agent]: Entendo totalmente 😔 Houve atraso da transportadora.
+[Customer]: E como resolvemos isso?
+[Support Agent]: Posso priorizar a entrega e oferecer um cupom pelo transtorno.
+[Customer]: Ok, pode ser.
+[Support Agent]: Perfeito, já deixei tudo registrado 💛
+CHAT116
+
+Conversation.create!(channel: "Whatsapp", content: conversas_116, user_id: user.id, occurred_on: random_date(start_date, end_date))
+
+
+conversas_117 = <<~CHAT117
+[Customer]: Oi, meu pedido está atrasado e ninguém me explica nada.
+[Support Agent]: Oi! Peço desculpas por isso 😔 Vamos resolver agora. Número do pedido?
+[Customer]: 91088.
+[Support Agent]: Obrigada! Verificando neste momento.
+[Customer]: Eu tô bem decepcionada com a experiência.
+[Support Agent]: Entendo e sinto muito por isso. Houve atraso na etapa de entrega final.
+[Customer]: Isso vai demorar muito mais?
+[Support Agent]: Não. Já solicitei prioridade máxima.
+[Customer]: Tá bom, vou confiar.
+[Support Agent]: Obrigada pela confiança 💛 Te mantenho informada.
+CHAT117
+
+Conversation.create!(channel: "Whatsapp", content: conversas_117, user_id: user.id, occurred_on: random_date(start_date, end_date))

@@ -13,7 +13,7 @@ class Conversation < ApplicationRecord
   end
 
   def generate_classification_and_category
-    return if self.content.blank?
+    fallback = Classification.find_by(tag: "Outros")
 
     tags = Classification.pluck(:tag).join(", ")
 
@@ -29,9 +29,7 @@ class Conversation < ApplicationRecord
       Task:
       - Read the conversation content.
       - Choose ONLY ONE tag that represents the MAIN issue.
-      - Choose ONLY ONE category that represents the TYPE of the conversation.
-      - If the conversation is a suggestion, feedback, compliment, or does NOT clearly fit any problem,
-    choose the tag "Outros".
+      - Choose ONLY ONE category that represents the MAIN TYPE of the conversation.
 
       Available tags:
       #{tags}
@@ -58,7 +56,7 @@ class Conversation < ApplicationRecord
     tag_value      = data["tag"].to_s.strip
     category_value = data["category"].to_s.strip
 
-    classification = Classification.find_by(tag: tag_value)
+    classification = Classification.find_by(tag: tag_value) || fallback
     category       = Category.find_by(name: category_value)
 
     update(classification: classification, category: category)

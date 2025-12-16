@@ -1,10 +1,6 @@
-<%
-  customer_names = [
-    "Maria Silva", "Carlos Mendes", "João Santos",
-    "Ana Costa", "Aline K.", "Diego Z.",
-    "Eduardo N.", "Thiago B."
-  ]
-%>
+
+
+
 
 <div class="conversations-page">
 
@@ -24,26 +20,20 @@
       <!-- ESQUERDA -->
       <div class="conversation-left">
         <div class="conversation-avatar">
-          <%= customer_names[conversation.id % customer_names.size].first %>
+          <%= @customer_names[conversation.id % @customer_names.size].first %>
         </div>
 
         <div class="conversation-content">
 
           <!-- NOME -->
           <p class="conversation-name">
-            <%= customer_names[conversation.id % customer_names.size] %>
+            <%= @customer_names[conversation.id % @customer_names.size] %>
           </p>
 
           <!-- TÍTULO (VEM DO SEED / CLASSIFICATION) -->
           <p class="conversation-subtitle">
-            <% case conversation.classification&.tag %>
-            <% when "Dúvida de Produto", "Rastreamento", "Solicitação de NF" %>
-              Perguntas & FAQ
-            <% when "Pedido Errado", "Produto Danificado", "Erro no Cupom" %>
-              Product Insight
-            <% else %>
-              Outros
-            <% end %>
+            <%= conversation.classification&.tag || "Aguardando classificação"%>
+
           </p>
 
           <!-- PREVIEW -->
@@ -58,7 +48,7 @@
 
       <!-- DIREITA -->
       <div class="conversation-right">
-        <%= link_to product_insight_path(conversation),
+        <%= link_to  insight_conversation_path(conversation),
               class: "conversation-arrow" do %>
           <i class="fa-solid fa-arrow-right-long"></i>
         <% end %>

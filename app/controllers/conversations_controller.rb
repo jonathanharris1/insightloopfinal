@@ -7,7 +7,7 @@ class ConversationsController < ApplicationController
   def index
   conversations = Conversation
                     .includes(:classification)
-                    .order(created_at: :desc)
+                    .order(id: :desc)
                     .to_a
 
   grouped = conversations.group_by(&:classification_id)
@@ -29,4 +29,20 @@ class ConversationsController < ApplicationController
   def update
 
   end
+
+  def insight_list
+
+    @conversations = Conversation.order(occurred_on: :desc)
+    @customer_names = [
+      "Maria Silva", "Carlos Mendes", "João Santos",
+      "Ana Costa", "Aline K.", "Diego Z.",
+      "Eduardo N.", "Thiago B."
+    ]
+
+  end
+
+   def insight
+    @conversation = Conversation.find(params[:id])
+  end
+
 end
