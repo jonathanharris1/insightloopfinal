@@ -62,16 +62,20 @@ export default class extends Controller {
               boxHeight: 12
             }
           },
-          tooltip: {
-            backgroundColor: getComputedStyle(document.documentElement)
-              .getPropertyValue("--card"),
-            borderColor: getComputedStyle(document.documentElement)
-              .getPropertyValue("--border"),
-            borderWidth: 1,
-            cornerRadius: 8,
-            padding: 10,
-            displayColors: false
-          }
+            tooltip: {
+              backgroundColor: getComputedStyle(document.documentElement)
+                .getPropertyValue("--card"),
+              borderColor: getComputedStyle(document.documentElement)
+                .getPropertyValue("--border"),
+              borderWidth: 1,
+              cornerRadius: 8,
+              padding: 10,
+              displayColors: false,
+
+              // ✅ ADD THESE LINES
+              titleColor: "#000000",
+              bodyColor: "#000000"
+            }
         },
         scales: {
           x: {
@@ -87,15 +91,18 @@ export default class extends Controller {
           },
           y: {
             beginAtZero: true,
+            grace: 1,   // 👈 adds 20% space above tallest bar
             grid: {
               borderDash: [3, 3],
               color: "rgba(148, 163, 184, 0.3)"
             },
-            ticks: {
-              color: "hsl(var(--muted-foreground))",
-              font: { size: 11 },
-              stepSize: 40
-            }
+ticks: {
+  stepSize: 1,
+  precision: 0,
+  callback: (value) => Number.isInteger(value) ? value : null,
+  color: "hsl(var(--muted-foreground))",
+  font: { size: 11 }
+}
           }
         }
       }
