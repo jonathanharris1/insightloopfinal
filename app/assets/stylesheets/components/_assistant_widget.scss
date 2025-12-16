@@ -1,0 +1,250 @@
+/* =====================================
+   INSIGHT LOOP — IN-APP ASSISTANT
+   ===================================== */
+
+.il-assistant {
+  --il-bg: #ffffff;
+  --il-border: #e5e7eb;
+  --il-text: #0f172a;
+  --il-muted: #64748b;
+  --il-primary: #2563eb;
+  --il-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* =====================================
+   FLOATING BUTTON
+   ===================================== */
+
+.il-assistant__fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+
+  background: var(--il-primary);
+  color: #fff;
+
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: var(--il-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  z-index: 1200;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.il-assistant__fab-icon {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* =====================================
+   PANEL
+   ===================================== */
+
+.il-assistant__panel {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+
+  width: 360px;
+  max-height: 520px;
+
+  background: var(--il-bg);
+  border: 1px solid var(--il-border);
+  border-radius: 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: var(--il-shadow);
+
+  z-index: 1200;
+
+  /* hidden by default */
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+  pointer-events: none;
+
+  transition: all 0.25s ease;
+}
+
+.il-assistant--open .il-assistant__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* =====================================
+   HEADER
+   ===================================== */
+
+.il-assistant__header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--il-border);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.il-assistant__title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--il-text);
+}
+
+.il-assistant__subtitle {
+  font-size: 0.75rem;
+  color: var(--il-muted);
+}
+
+.il-assistant__close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--il-muted);
+
+  &:hover {
+    color: var(--il-text);
+  }
+}
+
+/* =====================================
+   MESSAGES AREA
+   ===================================== */
+
+.il-assistant__messages {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* USER MESSAGE */
+.il-assistant__msg--user {
+  align-self: flex-end;
+  max-width: 85%;
+
+  background: #e8f0ff;
+  color: #0b3aa6;
+
+  padding: 10px 14px;
+  border-radius: 14px 14px 4px 14px;
+
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* AI MESSAGE */
+.il-assistant__msg--ai {
+  align-self: flex-start;
+  max-width: 90%;
+
+  background: #f8fafc;
+  color: var(--il-text);
+
+  padding: 12px 14px;
+  border-radius: 14px 14px 14px 4px;
+
+  font-size: 0.85rem;
+  line-height: 1.45;
+
+  border: 1px solid var(--il-border);
+}
+
+/* =====================================
+   SUGGESTED QUESTIONS
+   ===================================== */
+
+.il-assistant__suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.il-assistant__suggestion {
+  background: #f1f5f9;
+  border: 1px solid var(--il-border);
+  border-radius: 999px;
+
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #334155;
+
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: #e2e8f0;
+  }
+}
+
+/* =====================================
+   INPUT AREA
+   ===================================== */
+
+.il-assistant__input {
+  border-top: 1px solid var(--il-border);
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.il-assistant__textarea {
+  flex: 1;
+  resize: none;
+  border-radius: 12px;
+  border: 1px solid var(--il-border);
+  padding: 10px 12px;
+
+  font-size: 0.85rem;
+  line-height: 1.4;
+
+  &:focus {
+    outline: none;
+    border-color: var(--il-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+}
+
+.il-assistant__send {
+  background: var(--il-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+
+  padding: 0 14px;
+  font-size: 0.85rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

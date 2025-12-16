@@ -1,2 +1,30 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="home-hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Transforme conversas de clientes em insights acionáveis com IA</h1>
+
+    <p class="hero-subtitle">
+      Assistente de IA que analisa interações e revela informações valiosas para decisões mais rápidas e estratégicas
+    </p>
+
+    <div class="how">
+      <div class="how-cards">
+        <div class="how-card">
+          <h4>Selecione uma conversa de cliente</h4>
+          <%= image_tag "customers2.jpg", alt: "Clientes", class: "how-img" %>
+        </div>
+
+        <div class="how-card">
+          <h4>Abra um IA chat</h4>
+          <%= image_tag "chatbot.jpg", alt: "Chatbot", class: "how-img" %>
+        </div>
+
+        <div class="how-card">
+          <h4>Gere insights</h4>
+          <%= image_tag "lightbulb.jpg", alt: "Insights", class: "how-img" %>
+        </div>
+      </div>
+    </div>
+
+    <%= link_to "Começar agora", dashboard_path, class: "btn btn-primary btn-lg hero-btn" %>
+  </div>
+</div>
