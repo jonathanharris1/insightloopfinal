@@ -167,24 +167,13 @@
     </p>
   </div>
 
-  <% labels = @chart_series.map { |p| p[:label] } %>
-  <% values = @chart_series.map { |p| p[:value] } %>
-
   <div
     class="panel__body"
     data-controller="weekly-conversation-chart"
-    data-weekly-conversation-chart-series-value='<%= {
-      labels: labels,
-      datasets: [
-        {
-          label: "Conversations",
-          data: values,
-          color: "--questions"
-        }
-      ]
-    }.to_json %>'
+    data-weekly-conversation-chart-series-value="<%= @chart_data.to_json %>"
   >
     <canvas data-weekly-conversation-chart-target="canvas"></canvas>
   </div>
 </section>
+
 </div>

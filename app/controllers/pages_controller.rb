@@ -13,14 +13,20 @@ class PagesController < ApplicationController
       params[:end_date]&.to_date ||
       Conversation.maximum(:occurred_on)
 
-    base_scope = Conversation.where(occurred_on: @start_date..@end_date)
-
+    base_scope = Conversation
+      .joins(:category)
+      .where(occurred_on: @start_date..@end_date)
     # --------------------------------------------------
     # 2️⃣ KPIs (still work exactly as before)
     # --------------------------------------------------
-    @conversation_questions_count  = base_scope.count
-    @conversation_complaints_count = base_scope.count
-    @conversation_insights_count   = base_scope.count
+    @conversation_questions_count =
+      base_scope.where(categories: { name: "questions" }).count
+
+    @conversation_complaints_count =
+      base_scope.where(categories: { name: "complaints" }).count
+
+    @conversation_insights_count =
+      base_scope.where(categories: { name: "product_insights" }).count
 
     # --------------------------------------------------
     # 3️⃣ Button state (UNCHANGED behavior)
@@ -49,20 +55,62 @@ class PagesController < ApplicationController
       label_format = "%b %Y"          # Jan 2025
     end
 
-    # --------------------------------------------------
-    # 5️⃣ Chart data (dynamic + grouped)
-    # --------------------------------------------------
-    @chart_series = Conversation
-      .where(occurred_on: @start_date..@end_date)
-      .group(Arel.sql(sql_group))
-      .order(Arel.sql(sql_group))
-      .count
-      .map do |period, count|
-        {
-          label: period.to_date.strftime(label_format),
-          value: count
-        }
-      end
+# --------------------------------------------------
+# Chart data (dynamic + grouped)
+# --------------------------------------------------
+
+range_days = (@end_date - @start_date).to_i
+
+if range_days <= 7
+  # Últimos 7 dias
+  group_sql    = "occurred_on::date"
+  label_format = "%d %b"
+
+elsif range_days <= 31
+  # Último mês
+  group_sql    = "DATE_TRUNC('week', occurred_on)::date"
+  label_format = "Week of %d %b"
+
+elsif range_days <= 92
+  # Último quarter
+  group_sql    = "DATE_TRUNC('month', occurred_on)::date"
+  label_format = "%b %Y"
+
+else
+  # Custom long range
+  group_sql    = "DATE_TRUNC('week', occurred_on)::date"
+  label_format = "Week of %d %b"
+end
+
+@chart_series = Conversation
+  .joins(:category)
+  .where(occurred_on: @start_date..@end_date)
+  .group(
+    Arel.sql(group_sql),
+    Arel.sql("categories.name")
+  )
+  .order(Arel.sql(group_sql))
+  .count
+
+periods = @chart_series.keys.map(&:first).uniq.sort
+categories = @chart_series.keys.map(&:last).uniq
+
+labels = periods.map { |p| p.strftime(label_format) }
+
+datasets = categories.map do |category|
+  {
+    label: category.to_s.humanize.titleize,
+    data: periods.map { |p| @chart_series[[p, category]] || 0 },
+    color: "--#{category.parameterize}"
+  }
+end
+
+@chart_data = {
+  labels: labels,
+  datasets: datasets
+}
+
+
   end
 
   def home

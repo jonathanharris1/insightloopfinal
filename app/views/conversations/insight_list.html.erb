@@ -32,14 +32,8 @@
 
           <!-- TÍTULO (VEM DO SEED / CLASSIFICATION) -->
           <p class="conversation-subtitle">
-            <% case conversation.classification&.tag %>
-            <% when "Dúvida de Produto", "Rastreamento", "Solicitação de NF" %>
-              Perguntas & FAQ
-            <% when "Pedido Errado", "Produto Danificado", "Erro no Cupom" %>
-              Product Insight
-            <% else %>
-              Outros
-            <% end %>
+            <%= conversation.classification&.tag || "Aguardando classificação"%>
+
           </p>
 
           <!-- PREVIEW -->
