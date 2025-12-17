@@ -1,0 +1,34 @@
+<div class="chat-show-page">
+
+  <!-- Breadcrumb / link de volta -->
+
+
+  <!-- Header do chat -->
+  <div class="card border-0 shadow-sm mb-3 chat-header-card">
+    <div class="card-body">
+      <h1 class="h4 mb-1" id="chat_title">
+        <%= @chat.title.presence || "Untitled chat" %>
+      </h1>
+      <p class="text-muted small mb-0">
+        Insight Loop · AI Assistant
+      </p>
+    </div>
+  </div>
+
+  <!-- Card com as mensagens -->
+  <div class="card border-0 shadow-sm mb-3 chat-messages-card">
+    <div class="card-body p-0">
+      <div id="messages" class="chat-messages-wrapper">
+        <%= render "messages/messages", messages: @chat.messages %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card com o formulário -->
+  <div class="card border-0 shadow-sm chat-form-card">
+    <div class="card-body">
+      <%= render "messages/form", chat: @chat, message: @message %>
+    </div>
+  </div>
+
+</div>

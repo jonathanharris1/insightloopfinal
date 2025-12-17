@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     get "insight", on: :member
   end
   resources :classifications, only: [:index, :show]
+  resources :chats, only: :show do
+    resources :messages, only: [:create]
+  end
 
   # Defines the root path route ("/")
   # root "posts#index"
