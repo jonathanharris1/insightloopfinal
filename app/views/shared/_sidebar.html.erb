@@ -52,8 +52,8 @@
     <h4 class="section-title">Intelligence</h4>
 
     <ul class="nav-list">
-      <li class="nav-item <%= 'active' if current_page?('/intelligence/questions') %>">
-        <%= link_to '/intelligence/questions' do %>
+      <li class="nav-item <%= 'active' if current_page?(conversations_path) %>">
+        <%= link_to conversations_path do %>
           <span class="nav-icon"><i class="fa fa-question-circle" aria-hidden="true"></i></span>
           <span class="nav-label">Perguntas & FAQ</span>
         <% end %>
@@ -66,8 +66,8 @@
         <% end %>
       </li>
 
-      <li class="nav-item <%= 'active' if current_page?('/intelligence/product') %>">
-        <%= link_to '/intelligence/product' do %>
+      <li class="nav-item <%= 'active' if current_page?(insight_list_conversations_path) %>">
+        <%= link_to insight_list_conversations_path do %>
           <span class="nav-icon"><i class="fa fa-cube" aria-hidden="true"></i></span>
           <span class="nav-label">Insights de Produto</span>
         <% end %>
