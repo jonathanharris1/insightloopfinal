@@ -35,7 +35,6 @@ class MessagesController < ApplicationController
   def create
     @chat = current_user.chats.find(params[:chat_id])
 
-
     @message = Message.new(message_params)
     @message.chat = @chat
     @message.role = "user"
@@ -76,6 +75,41 @@ class MessagesController < ApplicationController
     .count
    end
 
+# Testing pareto_classifications
+def pareto
+  rows = Conversation
+    .joins(:classification)
+    .select(
+      "classifications.tag AS tag,
+      COUNT(*) AS count,
+      ROUND(
+        100.0 * COUNT(*) / SUM(COUNT(*)) OVER ()
+      ) AS pct,
+      ROUND(
+        100.0 * SUM(COUNT(*)) OVER (
+          ORDER BY COUNT(*) DESC, classifications.tag ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        )
+        / SUM(COUNT(*)) OVER ()
+      ) AS cum_pct,
+      ROUND(
+        100.0 * SUM(COUNT(*)) OVER (
+          ORDER BY COUNT(*) DESC, classifications.tag ASC
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        )
+        / SUM(COUNT(*)) OVER (),
+      2
+      ) AS cum_pct_2"
+    )
+    .group("classifications.tag")
+    .order("count DESC, classifications.tag ASC")
+
+  # Keep only classifications contributing to the first 80%
+  rows.select { |r| r.cum_pct_2.to_f <= 80.00 }
+end
+
+# Testing pareto_classifications
+
    def generate_root_cause(conversations)
     texto = conversations.map { |c| c.content }.join("\n")
     prompt = <<~PROMPT
@@ -106,45 +140,38 @@ class MessagesController < ApplicationController
     resposta.content
   end
 
-  def pareto_classifications
-  rows = Conversation
-    .joins(:classification)
-    .select(
-      "classifications.tag AS tag,
-      COUNT(*) AS count,
-      ROUND(
-        100.0 * COUNT(*) / SUM(COUNT(*)) OVER ()
-      ) AS pct,
-      ROUND(
-        100.0 * SUM(COUNT(*)) OVER (
-          ORDER BY COUNT(*) DESC, classifications.tag ASC
-          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-        )
-        / SUM(COUNT(*)) OVER ()
-      ) AS cum_pct,
-      ROUND(
-        100.0 * SUM(COUNT(*)) OVER (
-          ORDER BY COUNT(*) DESC, classifications.tag ASC
-          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
-        )
-        / SUM(COUNT(*)) OVER (),
-      2
-      ) AS cum_pct_2"
-    )
-    .group("classifications.tag")
-    .order("count DESC, classifications.tag ASC")
-
-  # Keep only classifications contributing to the first 80%
-  rows.select { |r| r.cum_pct_2.to_f <= 80.00 }
+  def classification_and_improvements_dados
+    Classification
+    .joins(:improvements)
+    .pluck("classifications.tag", "improvements.content")
+    .to_h
+    .to_json
   end
 
-  def pareto_context
-    pareto_classifications.map do |r|
-      "- #{r.tag}: #{r.count} conversas (#{r.cum_pct_2}% acumulado)"
-    end.join("\n")
+  def classification_and_improvements_dados_and_context
+    "Segue um JSON com títulos curtos para ações de melhoria de curto prazo, médio prazo e longo prazo pra cada CLASSIFICATION (problema raiz encontrado):
+    ```
+    #{classification_and_improvements_dados}
+    ```
+    "
+  end
+
+  def pareto_json
+    pareto.map do |item|
+      {tag: item.tag, percentage: item.pct.to_i}
+    end
+  end
+
+
+  def pareto_and_context
+    "Segue um JSON com uma lista de CLASSIFICATION chaves e percentuais de ocorrência:
+    ```
+    #{pareto_json.to_json}
+    ```
+    "
   end
 
   def instructions
-    [SYSTEM_PROMPT, classifications_count, categories_count,  pareto_context].compact.join("\n\n")
+    [SYSTEM_PROMPT, classifications_count, categories_count, classification_and_improvements_dados_and_context, pareto_and_context].compact.join("\n\n")
   end
 end
