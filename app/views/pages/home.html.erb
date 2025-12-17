@@ -1,2 +1,62 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<section class="home-hero home-hero--lovable home-hero--fullbleed" aria-labelledby="home-hero-title">
+  <div class="home-hero__panel">
+    <div class="home-hero__container">
+      <header class="home-hero__header">
+        <h1 id="home-hero-title" class="home-hero__title">
+          Entenda seus clientes. Priorize melhor. Evolua mais rápido.
+        </h1>
+
+        <p class="home-hero__subtitle">
+          O Insight Loop centraliza, analisa e direciona suas decisões com base no que seus clientes realmente dizem.
+        </p>
+      </header>
+
+      <div class="home-hero__cards" role="list">
+        <!-- mantém teus 3 cards exatamente como estão -->
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="feature-card__svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path>
+              <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
+              <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Centralização Total</h3>
+          <p class="feature-card__text">Gestão centralizada dos incomings dos seus clientes em uma única fonte de verdade.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="feature-card__svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Diagnóstico Rápido</h3>
+          <p class="feature-card__text">Identifique gargalos e itere rapidamente nos principais problemas do produto.</p>
+        </article>
+
+        <article class="feature-card" role="listitem">
+          <div class="feature-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" class="feature-card__svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"></path>
+              <path d="M15 5.764v15"></path>
+              <path d="M9 3.236v15"></path>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Roadmap Inteligente</h3>
+          <p class="feature-card__text">Entenda a causa raiz e gere roadmaps personalizados para resolver dores reais.</p>
+        </article>
+      </div>
+
+      <div class="home-hero__cta">
+        <%= link_to dashboard_path, class: "btn-primary btn-primary--lovable" do %>
+          <span>Começar Agora</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="btn-primary__icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

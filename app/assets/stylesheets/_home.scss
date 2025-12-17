@@ -1,0 +1,244 @@
+// pages/_home.scss
+
+.home-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #0b1220 0%, #0f172a 45%, #111c33 100%);
+  color: #fff;
+}
+
+.home-hero__container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.home-hero__header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 56px;
+}
+
+.home-hero__title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  margin: 0 0 16px;
+}
+
+.home-hero__subtitle {
+  margin: 0 auto;
+  max-width: 720px;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.home-hero__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 0 auto 40px;
+  max-width: 1040px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.feature-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.22);
+}
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: #f1f5f9;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+}
+
+.feature-card__svg {
+  width: 28px;
+  height: 28px;
+}
+
+.feature-card__title {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.feature-card__text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.home-hero__cta {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 14px;
+  padding: 14px 22px;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.32);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.38);
+}
+
+.btn-primary__icon {
+  width: 18px;
+  height: 18px;
+}
+
+// pages/_home.scss
+
+.home-hero {
+  padding: 32px 0 56px; // não ocupa tela toda
+  background: transparent; // pq teu layout já tem fundo
+}
+
+.home-hero__container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.home-hero__header {
+  max-width: 860px;
+  margin: 0 0 24px;
+}
+
+.home-hero__title {
+  margin: 0 0 8px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.home-hero__subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+/* Grid dos cards */
+.home-hero__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 18px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Cards */
+.feature-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+.feature-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  overflow: hidden; // garante que nada “vaze”
+  color: #334155;
+}
+
+/* 🔥 IMPORTANTE: blindagem contra CSS global de svg */
+.home-hero svg {
+  width: 1em !important;
+  height: 1em !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.feature-card__svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.feature-card__title {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.feature-card__text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* CTA */
+.home-hero__cta {
+  margin-top: 18px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: #2563eb;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.btn-primary__icon {
+  width: 16px !important;
+  height: 16px !important;
+}

@@ -1,1 +1,197 @@
-// Specific CSS for your home-page
+// ======================================================
+// HOME – HERO (Lovable-style, clean)
+// ======================================================
+
+.home-hero {
+  padding: 24px;
+}
+
+.home-hero--fullbleed {
+  margin-top: -24px; // remove espaço do layout antes da topbar
+}
+
+/* Painel azul */
+.home-hero__panel {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 72px); // ajuste conforme altura real da topbar
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    #0b1220 0%,
+    #0f172a 55%,
+    #111c33 100%
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 48px;
+}
+
+/* Container central (eixo único) */
+.home-hero__container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; // 🔥 eixo central único
+}
+
+/* Header */
+.home-hero__header {
+  width: 100%;
+  max-width: 860px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+/* Título */
+.home-hero__title {
+  margin: 0 0 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+  color: #ffffff;
+}
+
+/* Subtítulo — AGORA 100% CENTRALIZADO */
+.home-hero__subtitle {
+  width: 100%;
+  max-width: 860px;
+
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  color: rgba(226, 232, 240, 0.82);
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  line-height: 1.6;
+
+  /* blindagem contra CSS global */
+  text-indent: 0 !important;
+  letter-spacing: normal !important;
+  transform: none !important;
+}
+
+/* Cards */
+.home-hero__cards {
+  width: 100%;
+  max-width: 1040px;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature-card {
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.26);
+}
+
+.feature-card__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  border-radius: 14px;
+  background: #f1f5f9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #334155;
+  overflow: hidden;
+}
+
+/* blindagem contra SVG global */
+.home-hero svg {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block;
+}
+
+.feature-card__svg {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+.feature-card__title {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.feature-card__text {
+  margin: 0;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* CTA */
+.home-hero__cta {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 14px 22px;
+  border-radius: 14px;
+
+  background: #2563eb;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+
+  white-space: nowrap;        // ✅ impede quebrar em 2 linhas
+  line-height: 1;             // ✅ evita altura estranha
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.34);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 34px rgba(37, 99, 235, 0.4);
+}
+
+.btn-primary__icon {
+  width: 18px !important;
+  height: 18px !important;
+  flex: 0 0 18px;             // ✅ não deixa o svg esticar/encolher
+}
+
+/* remove padding herdado do layout */
+main .home-hero {
+  padding: 0 !important;
+}

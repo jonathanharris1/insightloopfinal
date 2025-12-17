@@ -6,6 +6,44 @@ class ClassificationsController < ApplicationController
     # inserir aqui tags que foram elegidas pelo pareto -> montar gráfico de tendência
     pareto_tags = @pareto.map(&:tag)
     @trend_series = conversation_trends_for(pareto_tags)
+
+    days = 7
+      current_start  = (days - 1).days.ago.to_date
+      current_end    = Date.current
+      previous_start = (2 * days - 1).days.ago.to_date
+      previous_end   = days.days.ago.to_date
+
+      current_counts = Conversation
+        .joins(:classification)
+        .where(classifications: { tag: pareto_tags })
+        .where(occurred_on: current_start..current_end)
+        .group("classifications.tag")
+        .count
+
+      previous_counts = Conversation
+        .joins(:classification)
+        .where(classifications: { tag: pareto_tags })
+        .where(occurred_on: previous_start..previous_end)
+        .group("classifications.tag")
+        .count
+
+      @growth_by_tag = pareto_tags.index_with do |tag|
+        curr = current_counts[tag].to_i
+        prev = previous_counts[tag].to_i
+
+        if prev.zero?
+          0
+        else
+          (((curr - prev) / prev.to_f) * 100).round
+        end
+      end
+
+      # “cola” o growth em cada item do @pareto (pra funcionar item.growth no view)
+      @pareto.each do |item|
+        growth_value = @growth_by_tag[item.tag].to_i
+        item.define_singleton_method(:growth) { growth_value }
+      end
+
     # Get counts by tag, excluding blank tags (optional)
     counts_hash = Conversation
                     .joins(:classification)

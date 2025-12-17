@@ -20,6 +20,7 @@
 @import "config/fonts";
 @import "config/base";
 @import "pages/analytics";
+@import "pages/home";
 
 // @import "pages/classification_show";
 @import "pages/conversations";
@@ -29,6 +30,8 @@
 @import "components/carousel";
 @import "components/roadmap";
 @import "pages/strategic_plan";
+
+@import "components/ai_widget";
 
 .main {
   max-width: 1200px;
