@@ -1,21 +1,16 @@
-<%= simple_form_for [chat, message] do |f| %>
-  <div class="mb-3">
-    <label class="form-label small text-muted mb-1">
-      Ask a question *
-    </label>
+<%= simple_form_for [chat, message], html: {class: "ai-widget__composer"} do |f| %>
     <%= f.input :content,
-                as: :text,
+                as: :string,
                 label: false,
                 required: true,
+                wrapper: false,
                 input_html: {
-                  rows: 3,
-                  placeholder: "How can I improve my operation based on this conversation?"
+                  class: "ai-widget__input",
+                  autocomplete: "off",
+                  placeholder: "Type your question…",
+                  data: {ai_chat_target:"input"}
                 } %>
-  </div>
-
-  <div class="d-flex justify-content-end">
-    <%= f.button :submit,
-                 'Ask LLM',
-                 class: 'btn btn-primary px-4' %>
-  </div>
+      <button class="ai-widget__send" type="submit" aria-label="Send">
+        <i class="fa-solid fa-arrow-up"></i>
+      </button>
 <% end %>

@@ -1,10 +1,8 @@
 <div data-controller="ai-chat" class="ai-widget">
-  <button type="button"
-          class="ai-widget__fab"
-          data-action="click->ai-chat#toggle"
-          aria-label="Open AI Assistant">
-    <i class="fa-solid fa-wand-magic-sparkles"></i>
-  </button>
+
+  <%= button_to chats_path, class: "ai-widget__fab", aria_label: "Open AI Assistant", form: { data: { action: "click->ai-chat#toggle", turbo_frame: :insight_assistant } } do %>
+  <i class="fa-solid fa-wand-magic-sparkles"></i>
+  <% end %>
 
   <div class="ai-widget__panel" data-ai-chat-target="panel" aria-hidden="true">
     <div class="ai-widget__header">
@@ -18,7 +16,10 @@
       </button>
     </div>
 
-    <div class="ai-widget__body" data-ai-chat-target="messages">
+    <%= turbo_frame_tag :insight_assistant, class: "ai-widget__turbo-frame" %>
+
+
+    <%# <div class="ai-widget__body" data-ai-chat-target="messages">
       <div class="ai-bubble ai-bubble--assistant">
         Oi! Pergunte sobre volumes, tendências ou causas raiz 🙂
       </div>
@@ -32,6 +33,6 @@
       <button class="ai-widget__send" type="submit" aria-label="Send">
         <i class="fa-solid fa-arrow-up"></i>
       </button>
-    </form>
+    </form> %>
   </div>
 </div>
