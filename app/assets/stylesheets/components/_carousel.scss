@@ -29,35 +29,5 @@
   }
 }
 
-.voice-quote-wrapper {
-  position: relative; /* âncora da aspa */
-  padding-top: 24px;  /* espaço pro texto não colidir */
-}
 
-/* aspa decorativa */
-.quote-mark {
-  position: absolute;
-  top: -4px;
-  left: 0;
 
-  color: #e5e7eb;
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.quote-mark i {
-  font-size: 48px; /* Lovable-scale */
-  line-height: 1;
-}
-
-/* texto ignora a aspa */
-.voice-quote {
-  position: relative;
-  z-index: 1;
-
-  font-size: 1.2rem;
-  line-height: 1.65;
-  color: #0f172a;
-  max-width: 720px;
-  margin: 0;
-}

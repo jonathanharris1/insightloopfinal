@@ -35,7 +35,7 @@ export default class extends Controller {
     this.panelTarget.classList.toggle("is-open", this.open)
     this.panelTarget.setAttribute("aria-hidden", (!this.open).toString())
 
-    if (this.open) setTimeout(() => this.inputTarget.focus(), 50)
+    // if (this.open) setTimeout(() => this.inputTarget.focus(), 50)
   }
 
   send(e) {
@@ -43,15 +43,15 @@ export default class extends Controller {
     const text = (this.inputTarget.value || "").trim()
     if (!text) return
 
-    this.appendBubble("user", text)
-    this.inputTarget.value = ""
+    // this.appendBubble("user", text)
+    // this.inputTarget.value = ""
 
-    const loadingId = this.appendBubble("assistant", "Thinking…", true)
+    // const loadingId = this.appendBubble("assistant", "Thinking…", true)
 
-    setTimeout(() => {
-      this.removeBubble(loadingId)
-      this.appendBubble("assistant", this.mockReply(text))
-    }, 700)
+    // setTimeout(() => {
+    //   this.removeBubble(loadingId)
+    //   this.appendBubble("assistant", this.mockReply(text))
+    // }, 700)
   }
 
   appendBubble(role, text, isLoading = false) {
