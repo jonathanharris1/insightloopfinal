@@ -1,3 +1,26 @@
+// ===============================================
+// AI ASSISTANT COM FRONTEND APENAS!!! O BACK ESTÁ MOCKADO.
+// -----------------------------------------------
+// O widget já está pronto no front (UI/UX).
+//
+// IMPORTANTE PARA BACKEND:
+// - As respostas do chat estão MOCKADAS.
+// - NÃO existe chamada de API ainda.
+// - O método mockReply() deve ser removido
+//   quando o endpoint de AI estiver pronto.
+//
+// O que o backend precisa fazer:
+// - Criar um endpoint (ex: POST /ai/assistant)
+// - Receber: { message: "texto do usuário" }
+// - Retornar: { reply: "texto da resposta" }
+//
+// O front só precisa trocar:
+// mockReply(text) → fetch("/ai/assistant")
+//
+// NÃO mexer em HTML ou CSS DO AI_WIDGET, OK? HEHE
+// ===============================================
+
+
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
