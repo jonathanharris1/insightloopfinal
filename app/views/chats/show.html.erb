@@ -25,13 +25,11 @@
       </div>
 
       <!-- Card com as mensagens -->
-      <div class="card border-0 shadow-sm mb-3 chat-messages-card">
-        <div class="card-body p-0">
-          <div id="messages" class="chat-messages-wrapper">
+      <%# <div class="ai-bubble ai-bubble--user">
+        <div class="card-body p-0"> %>
             <%= render "messages/messages", messages: @chat.messages %>
-          </div>
-        </div>
-      </div>
+        <%# </div>
+      </div> %>
 
       <!-- Card com o formulário -->
     </div>

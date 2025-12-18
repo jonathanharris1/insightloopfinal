@@ -5,7 +5,7 @@ Category.destroy_all
 User.destroy_all
 
 
-user = User.create!(email: "saunier2@gmail.com", password: "123456")
+user = User.create!(email: "mariana@gmail.com", password: "123456")
 
 atraso_entrega = Classification.create!(
   tag: "Atraso na Entrega",

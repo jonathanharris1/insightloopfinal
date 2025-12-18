@@ -4,23 +4,23 @@
 <div class="strategic-plan">
   <div class="container strategic-plan__container">
 
-    <nav aria-label="breadcrumb" class="mb-3">
+   <!-- <nav aria-label="breadcrumb" class="mb-3">
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
         <li class="breadcrumb-item"><%= link_to "Análises", classifications_path, class: "breadcrumb-link" %></li>
         <li class="breadcrumb-item active" aria-current="page">Plano Estratégico</li>
       </ol>
-    </nav>
+    </nav>-->
 
     <div class="mb-4">
       <div class="d-flex align-items-center gap-3 mb-2">
-        <%= link_to classifications_path, class: "strategic-plan__back" do %>←<% end %>
+
 
         <div>
           <p class="strategic-plan__category">
-            <%= @classification.tag_category.presence || "Categoria" rescue "Categoria" %>
+            <!--<%= @classification.tag_category.presence || "Categoria" rescue "Categoria" %>-->
           </p>
-          <h1 class="strategic-plan__title"><%= @classification.tag %></h1>
+          <h1 class="strategic-plan__title ms-2"><%= @classification.tag %></h1>
         </div>
       </div>
 
@@ -30,15 +30,16 @@
           <%= volume_pct %>% do volume
         </div>
 
-        <div class="pill pill--neutral">
+        <div class="pill pill--neutral justify-content-center gap-1">
           <i class="bi bi-graph-up-arrow me-1"></i>
           <%= (@volume_change_pct.present? ? "+#{@volume_change_pct}%" : "+18%") %> vs. mês anterior
         </div>
 
-        <div class="pill pill--ai">
-          <i class="bi bi-stars me-1"></i>
-          Análise por IA
-        </div>
+         <div class="pill pill--ai d-flex align-items-center justify-content-center gap-1">
+            <i class="bi bi-stars"></i>
+            <span>Análise por IA</span>
+          </div>
+
       </div>
     </div>
 
@@ -99,7 +100,7 @@
                           %>
 
                           <div class="p-3 flex-grow-1 voice-quote-wrapper">
-                          <svg class="quote-svg" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                          <svg class="quote-svg" xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                               stroke-linecap="round" stroke-linejoin="round">
                             <path d="M16 3H8a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h2v-8H7V8a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h2a5 5 0 0 0 5-5V8a5 5 0 0 0-5-5Z"/>
@@ -215,7 +216,7 @@
             </div>
 
             <div class="d-flex flex-column gap-2">
-              <% curto.to_s.lines.each do |linha| %>
+              <% curto.to_s.lines.first(3).each do |linha| %>
                 <% next unless linha.start_with?("-", "✅") %>
                 <div class="roadmap-item">
                   <span class="roadmap-item__icon roadmap-icon--short"><i class="fa-solid fa-bolt"></i></span>
@@ -239,7 +240,7 @@
             </div>
 
             <div class="d-flex flex-column gap-2">
-              <% medio.to_s.lines.each do |linha| %>
+              <% medio.to_s.lines.first(3).each do |linha| %>
                 <% next unless linha.start_with?("-", "✅") %>
                 <div class="roadmap-item">
                   <span class="roadmap-item__icon roadmap-icon--mid"><i class="fa-solid fa-sync"></i></span>
@@ -263,7 +264,7 @@
             </div>
 
             <div class="d-flex flex-column gap-2">
-              <% longo.to_s.lines.each do |linha| %>
+              <% longo.to_s.lines.first(3).each do |linha| %>
                 <% next unless linha.start_with?("-", "✅") %>
                 <div class="roadmap-item">
                   <span class="roadmap-item__icon roadmap-icon--long"><i class="fa-solid fa-rocket"></i></span>
@@ -279,3 +280,5 @@
     </div>
   </section>
 <% end %>
+  <%= link_to classifications_path, class: "strategic-plan__back" do %>
+    <i class="fa-solid fa-arrow-left-long"></i><% end %>

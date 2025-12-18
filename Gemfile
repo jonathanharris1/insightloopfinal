@@ -10,6 +10,8 @@ gem "rails_charts"
 
 gem "ruby_llm", "~> 1.2.0"
 
+gem "redcarpet"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.6"
 

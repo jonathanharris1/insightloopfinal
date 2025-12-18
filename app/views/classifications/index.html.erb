@@ -103,8 +103,11 @@
     </div>
   </section>
 
-  <div class="page-footer">
-    <%= link_to "⬅ Back to Conversations", root_path, class: "back-link" %>
+   <div class="page-footer">
+  <!--   <%= link_to "⬅", root_path, class: "back-link" %>-->
+    <%= link_to root_path, class: "strategic-plan__back" do %>
+      <i class="fa-solid fa-arrow-left-long"></i>
+    <% end %>
   </div>
   </div>
 </main>
