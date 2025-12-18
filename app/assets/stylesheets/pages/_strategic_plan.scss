@@ -170,52 +170,81 @@
 .badge-difficulty--mid { background: #e7f0ff; color: #0d6efd; }
 .badge-difficulty--hard { background: #ffecec; color: #d64545; }
 
+
 .voice-quote-wrapper {
-  position: relative; /* âncora da aspa */
-  padding-top: 40px;  /* espaço pro texto não colidir */
+  position: relative !important;
+  padding-top: 72px !important; /* espaço real para a aspa */
 }
 
-.voice-quote-wrapper .quote-icon {
-  position: absolute;
-  top: 10px;
-  left: 12px;
+/* aspa decorativa – ÚNICA */
+.voice-quote-wrapper svg.quote-svg {
+  position: absolute !important;
+  top: 18px !important;
+  left: 18px !important;
+
+  width: 40px;
+  height: 40px;
+
+  color: #e5e7eb;
   opacity: 0.25;
-}
-
-.voice-quote-wrapper .quote-icon i {
-  font-size: 42px;
-  line-height: 1;
-}
-
-/* aspa decorativa */
-.quote-mark {
-  position: absolute;
-  top: -4px;
-  left: 0;
-
-  color: #e5e7eb;
-  opacity: 0.9;
   pointer-events: none;
 }
 
-.quote-mark i {
-  font-size: 48px; /* Lovable-scale */
-  line-height: 1;
-}
-
-.quote-svg {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-
-  width: 28px;
-  height: 28px;
-
-  color: #e5e7eb;
-  opacity: 0.9;
-  pointer-events: none;
-}
-
+/* texto */
 .voice-quote {
   margin: 0;
+  line-height: 1.65;
+  color: #0f172a;
 }
+
+// .voice-quote-wrapper {
+//   position: relative !important;
+//   padding-top: 64px !important;
+// }
+
+// .voice-quote-wrapper .quote-icon {
+//   position: absolute;
+//   top: 10px;
+//   left: 12px;
+//   opacity: 0.25;
+// }
+
+// .voice-quote-wrapper .quote-icon i {
+//   font-size: 42px;
+//   line-height: 1;
+// }
+
+// /* aspa decorativa */
+// .quote-mark {
+//   position: absolute;
+//   top: -4px;
+//   left: 0;
+
+//   color: #e5e7eb;
+//   opacity: 0.9;
+//   pointer-events: none;
+// }
+
+// .quote-mark i {
+//   font-size: 48px; /* Lovable-scale */
+//   line-height: 1;
+// }
+
+// .quote-svg {
+//   position: absolute;
+//   top: 16px;
+//   left: 16px;
+
+//   width: 36px;
+//   height: 36px;
+
+//   color: #e5e7eb;
+//   opacity: 0.9;
+//   pointer-events: none;
+// }
+
+// .voice-quote {
+//   margin: 0;
+//   line-height: 1.65;
+//   color: #0f172a;
+// }

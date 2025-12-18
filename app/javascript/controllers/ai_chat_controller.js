@@ -24,7 +24,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["panel", "messages", "input"]
+  static targets = ["panel", "messages", "input", "body"]
 
   connect() {
     this.open = false
@@ -69,6 +69,7 @@ export default class extends Controller {
     const el = this.messagesTarget.querySelector(`[data-message-id="${id}"]`)
     if (el) el.remove()
   }
+
 
   mockReply(text) {
     const t = text.toLowerCase()
