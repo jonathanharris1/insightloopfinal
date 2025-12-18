@@ -4,15 +4,15 @@ function initDateFilter() {
   const presetButtons = document.querySelectorAll("[data-range]");
   const startInput = document.getElementById("startDate");
   const endInput = document.getElementById("endDate");
-  const applyBtn = document.getElementById("applyCustomRange");
+  // const applyBtn = document.getElementById("applyCustomRange");
 
-  if (!presetButtons.length || !applyBtn) {
+  if (!presetButtons.length) {
     return;
   }
 
   // Prevent double-binding (important)
-  if (applyBtn.dataset.initialized === "true") return;
-  applyBtn.dataset.initialized = "true";
+  // if (applyBtn.dataset.initialized === "true") return;
+  // applyBtn.dataset.initialized = "true";
 
   // --- PRESET BUTTONS ---
   presetButtons.forEach(button => {
@@ -23,14 +23,19 @@ function initDateFilter() {
   });
 
   // --- APPLY CUSTOM RANGE ---
-  applyBtn.addEventListener("click", () => {
-    if (!startInput.value || !endInput.value) return;
+//  applyBtn.addEventListener("click", () => {
+//    if (!startInput.value || !endInput.value) return;
+//
+//    const start = new Date(startInput.value);
+//    const end = new Date(endInput.value);
+//
+//    applyDateRange(start, end, "custom");
+ //  });
 
-    const start = new Date(startInput.value);
-    const end = new Date(endInput.value);
+//
+  // --- AUTO APPLY CUSTOM RANGE ---
 
-    applyDateRange(start, end, "custom");
-  });
+
 }
 
 // 🔵 Normal page load

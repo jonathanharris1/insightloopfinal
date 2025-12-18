@@ -37,25 +37,47 @@
         <div class="date-filter__divider"></div>
 
         <div class="date-filter__custom">
-          <label>
-            Início
-            <input
-              type="date"
-              id="startDate"
-              value="<%= @start_date&.strftime('%Y-%m-%d') %>">
-          </label>
+
+<!-- <label>
+  Início
+  <input
+    type="text"
+    id="startDate"
+    value="<%= @start_date&.strftime('%Y-%m-%d') %>">
+</label>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    flatpickr("#startDate", {
+      dateFormat: "Y-m-d"
+    });
+  });
+</script>
+
           <label>
             Fim
             <input
               type="date"
               id="endDate"
               value="<%= @end_date&.strftime('%Y-%m-%d') %>">
-          </label>
-            <button
-              id="applyCustomRange"
-              class="apply-btn <%= 'active' if @custom_range_active %>">
-              Aplicar
-            </button>
+          </label>  -->
+
+<label>
+  Período
+  <input
+    type="text"
+    id="dateRange"
+    class="date-input"
+    placeholder="Selecione um período"
+    autocomplete="off"
+    value="<%= @start_date && @end_date ? "#{@start_date} → #{@end_date}" : "" %>">
+</label>
+
+<input type="hidden" name="start_date" id="startDate" value="<%= @start_date %>">
+<input type="hidden" name="end_date" id="endDate" value="<%= @end_date %>">
+
+
+
         </div>
       </div>
     </div>
@@ -177,3 +199,49 @@
 </section>
 
 </div>
+
+
+<script>
+document.addEventListener("turbo:load", function () {
+
+flatpickr("#dateRange", {
+  mode: "range",
+  showMonths: 2,
+
+  dateFormat: "Y-m-d",
+
+  altInput: true,
+  altFormat: "d M",
+
+  // 🔥 THIS IS THE FIX
+  locale: {
+    ...flatpickr.l10ns.pt,
+    rangeSeparator: " - "
+  },
+
+  closeOnSelect: false,
+  disableMobile: true,
+
+  defaultDate: [
+    "<%= @start_date %>",
+    "<%= @end_date %>"
+  ],
+
+  onChange(selectedDates) {
+    if (selectedDates.length !== 2) return;
+
+    const start = selectedDates[0];
+    const end   = selectedDates[1];
+
+    document.getElementById("startDate").value =
+      start.toISOString().slice(0, 10);
+
+    document.getElementById("endDate").value =
+      end.toISOString().slice(0, 10);
+
+    applyDateRange(start, end, "custom");
+  }
+});
+
+});
+</script>

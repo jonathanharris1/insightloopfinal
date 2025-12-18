@@ -120,6 +120,61 @@
 }
 
 
+/* Only affect the calendar input */
+.date-filter__custom .flatpickr-input-alt {
+  font-family: inherit;     /* 👈 critical */
+  font-size: 28px !important;        /* match button text size */
+  font-weight: 500;      /* match button weight */
+  line-height: 1.2;
+  color: #111827;           /* same as buttons text */
+  letter-spacing: normal;
+  text-transform: none;
+
+  /* background: transparent; */
+  background-color: #ffffff;   /* 👈 white box */
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.flatpickr-input-alt {
+  font-size: 40px !important;
+}
+
+/* Label above the calendar input */
+.date-filter__custom label {
+  font-size: 14px;        /* same as buttons */
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 0;
+}
+
+/* Remove default input focus styles */
+.date-filter__custom .flatpickr-input-alt:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.date-filter__custom label input[type="text"][readonly] {
+  width: auto !important;              /* 👈 stop stretching */
+  min-width: 0;
+  max-width: fit-content;
+
+  font-family: inherit;
+  font-size: 0.875rem;   /* same as preset buttons */
+  font-weight: 500;
+  color: #111827;
+
+  background: transparent;
+  border: none;
+  padding: 0;               /* remove form-control padding */
+
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+
 
 /*1 .dashboard-header__date-filter {
   position: relative;
