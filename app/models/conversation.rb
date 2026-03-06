@@ -2,6 +2,7 @@ class Conversation < ApplicationRecord
   belongs_to :user
   belongs_to :classification, optional: true
   belongs_to :category, optional: true
+  belongs_to :customer, optional: true
 
   before_validation :set_default_occurred_on, on: :create
   after_create :generate_classification_and_category
