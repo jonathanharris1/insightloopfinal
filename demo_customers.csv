@@ -1,0 +1,41 @@
+external_id,name,email,mrr,plan,status,churned_at
+CUST-001,Loja Virtual Express,contato@lojavirtualexpress.com.br,1200.00,Professional,churned,2025-10-15
+CUST-002,AutoPeças Online,suporte@autopecasonline.com.br,3500.00,Enterprise,churned,2025-11-02
+CUST-003,Clínica Bem Estar,admin@clinicabemestar.com.br,800.00,Starter,churned,2025-10-28
+CUST-004,Educação Conecta,financeiro@educacaoconecta.com.br,5000.00,Enterprise,churned,2025-12-10
+CUST-005,Moda Casa Design,contato@modacasadesign.com.br,500.00,Starter,churned,2025-11-20
+CUST-006,Distribuidora Norte Sul,ti@distribuidoranortesul.com.br,7800.00,Enterprise,churned,2025-12-01
+CUST-007,Petshop Amigo Fiel,atendimento@petshopamigofiel.com.br,650.00,Starter,churned,2025-12-31
+CUST-008,Construtora Horizonte,contato@construtorahorizonte.com.br,2200.00,Professional,churned,2025-11-15
+CUST-009,TechSolutions Brasil,suporte@techsolutionsbrasil.com.br,4500.00,Enterprise,at_risk,
+CUST-010,Gráfica Impressão Total,admin@graficaimpressaototal.com.br,1800.00,Professional,at_risk,
+CUST-011,Farmácia Popular Plus,ti@farmaciapopularplus.com.br,800.00,Starter,at_risk,
+CUST-012,Imobiliária Lar Novo,contato@imobiliarialarnovo.com.br,6000.00,Enterprise,at_risk,
+CUST-013,Restaurante Sabor da Terra,financeiro@sabordaterra.com.br,1200.00,Professional,at_risk,
+CUST-014,Transportes Rápido Log,suporte@rapidolog.com.br,12000.00,Enterprise,at_risk,
+CUST-015,Academia Corpo em Forma,admin@corpoemforma.com.br,950.00,Starter,at_risk,
+CUST-016,Escola Digital Plus,contato@escoladigitalplus.com.br,3200.00,Professional,active,
+CUST-017,Contabilidade Segura,financeiro@contabilidadesegura.com.br,1500.00,Professional,active,
+CUST-018,Ótica Visão Clara,atendimento@oticavisaoclara.com.br,400.00,Starter,active,
+CUST-019,Agência Criativa Hub,contato@criativahub.com.br,7500.00,Enterprise,active,
+CUST-020,Supermercado Bom Preço,ti@superbompreco.com.br,2800.00,Professional,active,
+CUST-021,Consultório Dr. Saúde,admin@consultoriodrsaude.com.br,600.00,Starter,active,
+CUST-022,Papelaria Central,contato@papelariacentral.com.br,350.00,Starter,active,
+CUST-023,Escritório Advocacia Lima,suporte@advocacialima.com.br,2000.00,Professional,active,
+CUST-024,Floricultura Jardim Verde,atendimento@jardimverde.com.br,250.00,Starter,active,
+CUST-025,Padaria Pão Quente,contato@padaripaoquente.com.br,200.00,Starter,active,
+CUST-026,Mecânica Auto Center,admin@mecanicaautocenter.com.br,1100.00,Professional,active,
+CUST-027,Hotel Recanto do Sol,reservas@hotelrecantodosol.com.br,9500.00,Enterprise,active,
+CUST-028,Laboratório Vida Análises,ti@labvidaanalises.com.br,4200.00,Enterprise,active,
+CUST-029,Boutique Elegância,contato@boutiqueelegancia.com.br,500.00,Starter,active,
+CUST-030,Corretora Prime Seguros,financeiro@primeseguros.com.br,6800.00,Enterprise,active,
+CUST-031,Salão Beleza Pura,atendimento@belezapura.com.br,300.00,Starter,active,
+CUST-032,Cervejaria Artesanal do Vale,contato@cervejariadovale.com.br,1800.00,Professional,active,
+CUST-033,Instituto Línguas Vivas,admin@linguasvivas.com.br,1400.00,Professional,active,
+CUST-034,Clínica Veterinária PetCare,suporte@clinicapetcare.com.br,700.00,Starter,active,
+CUST-035,Empresa de Eventos Festa Boa,contato@festaboa.com.br,2500.00,Professional,active,
+CUST-036,Coworking Espaço Livre,ti@coworkingespaco.com.br,3800.00,Enterprise,active,
+CUST-037,Lavanderia Brilho Clean,atendimento@brilhoclean.com.br,450.00,Starter,active,
+CUST-038,Studio Fitness Pro,contato@studiofitnesspro.com.br,1600.00,Professional,active,
+CUST-039,Drogaria Saúde Total,admin@drogariasaudetotal.com.br,15000.00,Enterprise,active,
+CUST-040,Marcenaria Arte em Madeira,contato@arteemmadeira.com.br,900.00,Starter,active,
